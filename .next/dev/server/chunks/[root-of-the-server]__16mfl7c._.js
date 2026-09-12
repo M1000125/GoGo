@@ -72,6 +72,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$googleMaps
 ;
 ;
 ;
+let _routingModeLogged = false;
 async function POST(req) {
     const { from, to, departureTime } = await req.json();
     if (!from || !to) {
@@ -82,12 +83,18 @@ async function POST(req) {
         });
     }
     const mapsKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!_routingModeLogged) {
+        _routingModeLogged = true;
+        if (mapsKey) {
+            console.log("🗺️  [routing] Google Maps API key detected — using traffic-aware routing");
+        } else {
+            console.log("🗺️  [routing] No GOOGLE_MAPS_API_KEY — using OSRM (no live traffic)");
+        }
+    }
     // Use Google Maps (with simulated-time traffic) when the key is configured
     if (mapsKey) {
         try {
             const route = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$googleMaps$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchRouteWithTraffic"])(from, to, mapsKey, departureTime);
-            const timeLabel = departureTime ? new Date(departureTime * 1000).toISOString() : "now";
-            console.log(`✅ [routing] Google Maps — ${route.km} km, ${route.minutes} min @ ${timeLabel}`);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 ...route,
                 source: "google"
@@ -95,8 +102,6 @@ async function POST(req) {
         } catch (err) {
             console.warn(`⚠️  [routing] Google Maps failed (${err.message}) — falling back to OSRM`);
         }
-    } else {
-        console.log("ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM");
     }
     // Fallback: OSRM (no traffic, always free)
     const route = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$osrm$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchRoute"])(from, to);
@@ -181,15 +186,23 @@ async function fetchRouteWithTraffic(from, to, apiKey, /** Unix seconds for the 
     const coords = decodePolyline(polyline);
     const km = Math.round(leg.distance.value / 1000 * 10) / 10;
     // Prefer traffic-aware duration when available
-    const durationSeconds = leg.duration_in_traffic?.value ?? leg.duration.value;
+    const hasLiveTraffic = leg.duration_in_traffic !== undefined;
+    const durationSeconds = hasLiveTraffic ? leg.duration_in_traffic.value : leg.duration.value;
     const minutes = Math.round(durationSeconds / 60);
+    const deptLabel = deptParam === "now" ? "now" : new Date(departureTime * 1000).toLocaleString("en-US", {
+        timeZone: "America/Monterrey",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+    const trafficTag = hasLiveTraffic ? "🚦 live traffic" : "⚠️  no traffic data";
+    console.log(`✅ [googleMaps] ${km} km · ${minutes} min · ${trafficTag} · departs ${deptLabel}`);
     const result = {
         coords,
         km,
         minutes
     };
     routeCache.set(key, result);
-    console.log(`✅ [googleMaps] ${km} km, ${minutes} min — departure ${deptParam === "now" ? "now" : new Date(departureTime * 1000).toISOString()}`);
     return result;
 }
 }),

@@ -467,12 +467,14 @@ export function useShift() {
         const cur = shiftRef.current;
         if (!cur || cur.status !== "running") return;
 
-        const busted = cur.activeSurgeZones.length > 0;
-        let burstCount = 1;
-        if (busted) {
-          const r = Math.random();
-          burstCount = r < 0.35 ? 2 : r < 0.8 ? 1 : 3;
-        }
+        // Always present 2–4 simultaneous offers so the smart agent can choose
+        // the best ROI order while the baseline blindly takes the first one.
+        // Surge bumps the ceiling to 5 for extra chaos.
+        const surging = cur.activeSurgeZones.length > 0;
+        const r = Math.random();
+        const burstCount = surging
+          ? (r < 0.2 ? 3 : r < 0.6 ? 4 : 5)
+          : (r < 0.3 ? 2 : r < 0.75 ? 3 : 4);
 
         const orders: Order[] = [];
         for (let i = 0; i < burstCount; i++) {

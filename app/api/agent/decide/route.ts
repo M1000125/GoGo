@@ -43,23 +43,36 @@ export async function POST(req: NextRequest) {
     order.estimatedMinutes + order.prepMinutes + (deadKm / 25) * 60;
   const efficiency = order.payout / Math.max(totalMinutes, 1);
 
-  // Accept if efficient enough AND enough shift time remains.
-  // Threshold calibrated to real MXN courier pay: ~$2.5–4 MXN/min is a good
-  // shift; anything above 3 MXN/min is worth taking.
-  const accept = efficiency > 3 && remainingSeconds > order.estimatedMinutes * 60;
+  // Smart agent is selective: only takes Tier B/C orders (payout ≥ $85 MXN)
+  // with decent efficiency. Since 2–4 offers arrive simultaneously, it can
+  // afford to skip cheap Tier A orders and wait for premium ones.
+  // Batching gives an extra $15 MXN bonus per stacked order, so the smart
+  // agent stacks 2–3 premium orders per run instead of filling up on cheap ones.
+  const MIN_PAYOUT = 85; // MXN — skip Tier A (cheap fast food, avg ~$60 payout)
+  const MIN_EFFICIENCY = 4.5; // MXN/min
 
-  // Surge orders: lower bar to 2 MXN/min — extra volume beats selectivity.
+  const shiftEndingSoon = remainingSeconds < 20 * 60; // last 20 sim-min: lower bar
+  const accept =
+    order.payout >= (shiftEndingSoon ? 55 : MIN_PAYOUT) &&
+    efficiency > (shiftEndingSoon ? 2.5 : MIN_EFFICIENCY) &&
+    remainingSeconds > order.estimatedMinutes * 60;
+
+  // Surge orders: accept anything decent — surge multiplier already inflates payout.
   const acceptSurge =
-    order.isSurge && efficiency > 2 && remainingSeconds > order.estimatedMinutes * 60;
+    order.isSurge &&
+    order.payout >= 65 &&
+    efficiency > 3 &&
+    remainingSeconds > order.estimatedMinutes * 60;
 
+  const decided = accept || acceptSurge;
   return NextResponse.json(
     baseDecision(
       order,
-      accept || acceptSurge ? "accept" : "skip",
-      accept || acceptSurge
-        ? `Efficiency $${efficiency.toFixed(1)} MXN/min (${order.orderSizeMxn} MXN order, ${order.slots} slot${order.slots > 1 ? "s" : ""})${order.isSurge ? " (surge bonus)" : ""} — ${accept || acceptSurge ? "accepted" : "skipped"}.`
-        : `Efficiency $${efficiency.toFixed(1)} MXN/min too low or shift ending — skipped.`,
-      0.7,
+      decided ? "accept" : "skip",
+      decided
+        ? `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min · ${order.slots} slot${order.slots > 1 ? "s" : ""}${order.isSurge ? " ⚡ surge" : ""} — accepted.`
+        : `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min — below threshold ($${MIN_PAYOUT} / ${MIN_EFFICIENCY} MXN/min), waiting for better offer.`,
+      0.75,
       agentState
     )
   );
