@@ -1388,6 +1388,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
     const [timeLeft, setTimeLeft] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
+    // Capture total window at mount so the progress bar scales correctly
+    // regardless of how long the expiry is (speed-scaled from 2s to 15s).
+    const totalSecondsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(Math.max(1, (expiresAt - Date.now()) / 1000));
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const interval = setInterval(()=>{
             const remaining = Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
@@ -1410,7 +1413,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         children: "📦 New Order Ping"
                     }, void 0, false, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 37,
+                        lineNumber: 40,
                         columnNumber: 9
                     }, this),
                     carriedSlots > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1424,7 +1427,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 41,
+                        lineNumber: 44,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1435,13 +1438,13 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 45,
+                        lineNumber: 48,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 36,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1455,7 +1458,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                                 children: "▲"
                             }, void 0, false, {
                                 fileName: "[project]/components/OrderPing.tsx",
-                                lineNumber: 56,
+                                lineNumber: 59,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1463,13 +1466,13 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                                 children: order.pickupLabel
                             }, void 0, false, {
                                 fileName: "[project]/components/OrderPing.tsx",
-                                lineNumber: 57,
+                                lineNumber: 60,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 55,
+                        lineNumber: 58,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1480,7 +1483,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                                 children: "▼"
                             }, void 0, false, {
                                 fileName: "[project]/components/OrderPing.tsx",
-                                lineNumber: 60,
+                                lineNumber: 63,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1488,19 +1491,19 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                                 children: order.dropoffLabel
                             }, void 0, false, {
                                 fileName: "[project]/components/OrderPing.tsx",
-                                lineNumber: 61,
+                                lineNumber: 64,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 59,
+                        lineNumber: 62,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 54,
+                lineNumber: 57,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1517,13 +1520,13 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                                 children: "⚡ SURGE"
                             }, void 0, false, {
                                 fileName: "[project]/components/OrderPing.tsx",
-                                lineNumber: 71,
+                                lineNumber: 74,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 66,
+                        lineNumber: 69,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1536,13 +1539,13 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 74,
+                        lineNumber: 77,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 65,
+                lineNumber: 68,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1556,7 +1559,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 80,
+                        lineNumber: 83,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1568,7 +1571,7 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 81,
+                        lineNumber: 84,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1579,13 +1582,13 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
-                        lineNumber: 82,
+                        lineNumber: 85,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 79,
+                lineNumber: 82,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1593,22 +1596,22 @@ function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "h-full bg-amber-400 rounded-full transition-all duration-250",
                     style: {
-                        width: `${timeLeft / 15 * 100}%`
+                        width: `${timeLeft / totalSecondsRef.current * 100}%`
                     }
                 }, void 0, false, {
                     fileName: "[project]/components/OrderPing.tsx",
-                    lineNumber: 86,
+                    lineNumber: 89,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 85,
+                lineNumber: 88,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/OrderPing.tsx",
-        lineNumber: 33,
+        lineNumber: 36,
         columnNumber: 5
     }, this);
 }
@@ -2365,9 +2368,16 @@ function useShift() {
     // Speed: simulated-seconds that advance per real second
     const [speed, _setSpeed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(60); // default 60× → 4h shift in 4 real minutes
     const speedRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(60);
+    // Holds the inner schedule() fn from spawnLoop so setSpeed can reschedule
+    // the order timer immediately when the user changes speed mid-shift.
+    const rescheduleSpawnRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(()=>{});
     const setSpeed = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])((n)=>{
         speedRef.current = n;
         _setSpeed(n);
+        // Re-arm the spawn timer at the new rate if a shift is running.
+        if (shiftRef.current?.status === "running") {
+            rescheduleSpawnRef.current();
+        }
     }, []);
     const tickRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
     const spawnTimerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -2388,6 +2398,9 @@ function useShift() {
     // ── Derived simulated time ─────────────────────────────────────────────
     const simulatedNow = shift.simShiftStart + shift.elapsedSeconds * 1000;
     // ── Fetch helpers ──────────────────────────────────────────────────────
+    // Orders expire after 15 simulated minutes — converted to real ms at current speed.
+    // Clamped: min 2s (readable at 300×), max 15s (sane at 1×).
+    const ORDER_EXPIRY_SIM_S = 15 * 60;
     const fetchOrder = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (activeSurgeZones)=>{
         const res = await fetch("/api/simulation", {
             method: "POST",
@@ -2398,7 +2411,12 @@ function useShift() {
                 activeSurgeZones
             })
         });
-        return res.json();
+        const order = await res.json();
+        const expiryMs = Math.max(2_000, Math.min(15_000, ORDER_EXPIRY_SIM_S / speedRef.current * 1000));
+        return {
+            ...order,
+            expiresAt: Date.now() + expiryMs
+        };
     }, []);
     const fetchRoute = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(async (from, to, departureTime)=>{
         try {
@@ -2709,6 +2727,8 @@ function useShift() {
     const spawnLoop = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(()=>{
         const schedule = ()=>{
             if (spawnTimerRef.current) clearTimeout(spawnTimerRef.current);
+            // Always expose the latest schedule fn so setSpeed can re-arm the timer.
+            rescheduleSpawnRef.current = schedule;
             const s = shiftRef.current;
             if (!s || s.status !== "running") return;
             const first = firstSpawnRef.current;
@@ -3165,18 +3185,18 @@ function vehicleLabelForCapacity(capacity) {
             return "Courier";
     }
 }
-const BATCH_BONUS_PER_EXTRA = 8; // MXN per extra order in a run (>= 2 orders)
+const BATCH_BONUS_PER_EXTRA = 15; // MXN per extra stacked order (>= 2 orders)
 const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
 const SLOT_VALUE_MXN = 100;
-const MIN_PAYOUT_FLOOR = 25; // MXN formula floor
-const BASE_FEE = 18; // MXN flat delivery fee
-const PER_KM_FEE = 6; // MXN per estimated km
-const COMMISSION_RATE = 0.07; // share of consumer order spend paid to courier
-const MAX_PAYOUT_BASE = 120; // clamp on distance+base component (pre-surge)
-const TIP_PCT_MIN = 0.06; // tip as share of order spend
+const MIN_PAYOUT_FLOOR = 40; // MXN formula floor — minimum any order pays
+const BASE_FEE = 35; // MXN flat per-delivery fee (was 18)
+const PER_KM_FEE = 10; // MXN per estimated km (was 6)
+const COMMISSION_RATE = 0.08; // 8% of consumer spend paid to courier (was 7%)
+const MAX_PAYOUT_BASE = 220; // cap before surge (was 120)
+const TIP_PCT_MIN = 0.05; // tip as share of order spend
 const TIP_PCT_MAX = 0.12;
-const TIP_MIN = 5; // MXN realised tip floor
-const TIP_MAX = 40; // MXN realised tip cap
+const TIP_MIN = 8; // MXN realised tip floor (was 5)
+const TIP_MAX = 60; // MXN realised tip cap (was 40)
 function quotePayout(orderSizeMxn, km) {
     const sizeComponent = Math.round(orderSizeMxn * COMMISSION_RATE);
     const distComponent = Math.round(BASE_FEE + PER_KM_FEE * km);
