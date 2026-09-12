@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background-color: #0a0a14;
+    color: #ffffff;
+    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+
+  /* Display font for headings and large labels */
+  h1, h2, .font-display {
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-once {
+    animation: pulse-once 0.4s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slide-down 0.35s ease-out;
+  }
+}
+
+@keyframes pulse-once {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Landing page entrance animations */
+@keyframes land-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes land-scale {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scooter-float {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-10px) rotate(1deg); }
+}
+
+.land-item {
+  opacity: 0;
+  animation: land-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.land-item-scale {
+  opacity: 0;
+  animation: land-scale 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.land-d0  { animation-delay: 0ms; }
+.land-d1  { animation-delay: 120ms; }
+.land-d2  { animation-delay: 240ms; }
+.land-d3  { animation-delay: 360ms; }
+.land-d4  { animation-delay: 430ms; }
+.land-d5  { animation-delay: 500ms; }
+.land-d6  { animation-delay: 640ms; }
+.land-d7  { animation-delay: 760ms; }
+
+.scooter-float {
+  display: inline-block;
+  animation: scooter-float 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .land-item,
+  .land-item-scale {
+    opacity: 1;
+    animation: none;
+  }
+  .scooter-float {
+    animation: none;
+  }
+}
+
+/* Thin scrollbar for history panel */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  background: #1a1a2e;
+  border-radius: 12px;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
