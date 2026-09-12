@@ -60,8 +60,11 @@ export const BATCH_BONUS_PER_EXTRA = 15; // MXN per extra stacked order (>= 2 or
 export const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
 
 // --- Price pattern → capacity slot model ---
-// Anchor: one capacity slot ≈ one medium meal ≈ $100 MXN consumer spend.
-export const SLOT_VALUE_MXN = 100;
+// Anchor: one capacity slot ≈ a large meal / stackable bag (~$250 MXN).
+// One slot ≈ a large meal / small stackable bag — cap so a 4-slot vehicle
+// can still carry 1–2 premium (Tier C) orders.
+export const SLOT_VALUE_MXN = 250;
+export const MAX_ORDER_SLOTS = 3;
 export const MIN_PAYOUT_FLOOR = 40;  // MXN formula floor — minimum any order pays
 export const BASE_FEE = 35;          // MXN flat per-delivery fee (was 18)
 export const PER_KM_FEE = 10;        // MXN per estimated km (was 6)
@@ -86,7 +89,10 @@ export function quoteTip(orderSizeMxn: number): number {
 }
 
 export function orderSlots(orderSizeMxn: number): number {
-  return Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN));
+  return Math.min(
+    MAX_ORDER_SLOTS,
+    Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN))
+  );
 }
 
 /** Total capacity slots used by a carried load. */

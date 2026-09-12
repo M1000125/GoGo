@@ -1,5 +1,4 @@
 {
-  "/api/agent/decide/route": "app/api/agent/decide/route.js",
   "/api/routing/route": "app/api/routing/route.js",
   "/api/simulation/route": "app/api/simulation/route.js",
   "/page": "app/page.js"

@@ -8,7 +8,6 @@ import type {
   AgentDecision,
   AgentState,
   SurgeZone,
-  RoadClosure,
   CarriedOrder,
 } from "@/lib/types";
 import {
@@ -18,14 +17,17 @@ import {
 } from "@/lib/simulation/shiftEngine";
 import { baselineDecide } from "@/lib/agents/baselineAgent";
 import { SURGE_ZONES, ROAD_CLOSURES } from "@/lib/simulation/surgeZones";
+import { DISTRITO_TEC_CENTER } from "@/lib/simulation/mapBounds";
 import { solveRoutePlan } from "@/lib/routing/routeSolver";
 import {
   carriedSlots,
   fuelCostMxn,
   fuelLitersForKm,
+  haversineKm,
   maintenanceCostMxn,
   BATCH_BONUS_PER_EXTRA,
 } from "@/lib/simulation/economics";
+import { decideSmartBurst, DEFAULT_SMART_KNOBS, type OfferTimes } from "@/lib/agents/smartPolicy";
 
 type AgentKey = "smartAgent" | "baselineAgent";
 
@@ -122,47 +124,6 @@ export function useShift() {
     []
   );
 
-  // ── Smart agent API call ───────────────────────────────────────────────
-  const smartDecide = useCallback(
-    async (
-      order: Order,
-      agentState: AgentState,
-      remainingSeconds: number,
-      activeSurgeZones: SurgeZone[],
-      activeClosures: RoadClosure[],
-      recentDecisions: AgentDecision[]
-    ): Promise<AgentDecision> => {
-      try {
-        const res = await fetch("/api/agent/decide", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            order,
-            agentState,
-            remainingSeconds,
-            activeSurgeZones,
-            activeClosures,
-            recentDecisions,
-          }),
-        });
-        return res.json() as Promise<AgentDecision>;
-      } catch {
-        return {
-          orderId: order.id,
-          decision: "skip",
-          reason: "Network error — defaulting to skip.",
-          confidence: 0.1,
-          timestamp: Date.now(),
-          pickupLabel: order.pickupLabel,
-          dropoffLabel: order.dropoffLabel,
-          payout: order.payout,
-          estimatedMinutes: order.estimatedMinutes,
-        };
-      }
-    },
-    []
-  );
-
   const enrichDecision = useCallback(
     (decision: AgentDecision, order: Order): AgentDecision => ({
       ...decision,
@@ -243,6 +204,75 @@ export function useShift() {
     },
     [commitShift]
   );
+
+  const repositionSmartHome = useCallback(async () => {
+    const s = shiftRef.current;
+    if (!s || s.status !== "running") return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const from = s.smartAgent.position;
+    if (haversineKm(from, DISTRITO_TEC_CENTER) < 0.35) return;
+
+    const epoch = ++epochRef.current.smartAgent;
+    const departureTime = Math.floor(
+      (s.simShiftStart + s.elapsedSeconds * 1000) / 1000
+    );
+    const route = await fetchRoute(from, DISTRITO_TEC_CENTER, departureTime);
+    if (epochRef.current.smartAgent !== epoch) return;
+    if (shiftRef.current.status !== "running") return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const travelMs = Math.min(
+      Math.max(600, (route.minutes * 60_000) / speedRef.current),
+      8_000
+    );
+
+    commitShift((p) => ({
+      ...p,
+      smartAgent: {
+        ...p.smartAgent,
+        currentRoute: route.coords.length ? route.coords : [from, DISTRITO_TEC_CENTER],
+        currentRouteMeta: {
+          startedAt: Date.now(),
+          durationMs: travelMs,
+          pickupIndex: Math.max(1, route.coords.length),
+        },
+        isMoving: true,
+      },
+    }));
+
+    await sleep(travelMs);
+    if (epochRef.current.smartAgent !== epoch) return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const km = route.km;
+    const cap = shiftRef.current.smartAgent.capacity;
+    const fuelUse = fuelLitersForKm(km, cap);
+    const fuelMxn = fuelCostMxn(km, cap);
+    const maint = maintenanceCostMxn(km);
+
+    commitShift((p) => {
+      const a = p.smartAgent;
+      return {
+        ...p,
+        smartAgent: {
+          ...a,
+          position: { ...DISTRITO_TEC_CENTER },
+          kmDriven: Math.round((a.kmDriven + km) * 10) / 10,
+          deadMilesKm: Math.round((a.deadMilesKm + km) * 10) / 10,
+          netEarnings: Math.round((a.netEarnings - fuelMxn - maint) * 10) / 10,
+          expenses: {
+            fuelLiters: Math.round((a.expenses.fuelLiters + fuelUse) * 10) / 10,
+            fuelMxn: Math.round((a.expenses.fuelMxn + fuelMxn) * 10) / 10,
+            maintenanceMxn: Math.round((a.expenses.maintenanceMxn + maint) * 10) / 10,
+          },
+          currentRoute: [],
+          currentRouteMeta: null,
+          isMoving: false,
+        },
+      };
+    });
+  }, [fetchRoute, commitShift]);
 
   // ── Deliver an accepted order (start or stack) through the full run ─────
   const runDelivery = useCallback(
@@ -335,8 +365,16 @@ export function useShift() {
           }
         }
       }
+
+      if (
+        agentKey === "smartAgent" &&
+        epochRef.current.smartAgent === epoch &&
+        queueRef.current.smartAgent.length === 0
+      ) {
+        void repositionSmartHome();
+      }
     },
-    [fetchRoute, settleDropoff, commitShift]
+    [fetchRoute, settleDropoff, commitShift, repositionSmartHome]
   );
 
   // ── Record a decision for one agent; accept → start a delivery ──────────
@@ -392,30 +430,14 @@ export function useShift() {
     [commitShift, runDelivery]
   );
 
-  const decideSmartFor = useCallback(
-    (order: Order, remainingSeconds: number) => {
-      const s = shiftRef.current;
-      setIsSmartDeciding(true);
-      smartDecide(
-        order,
-        s.smartAgent,
-        remainingSeconds,
-        s.activeSurgeZones,
-        s.activeClosures,
-        s.smartAgent.decisionHistory
-      ).then((raw) => {
-        setIsSmartDeciding(false);
-        if (shiftRef.current.status !== "running") return;
-        recordDecision("smartAgent", enrichDecision(raw, order), order);
-      });
-    },
-    [smartDecide, enrichDecision, recordDecision]
-  );
-
   const decideBaselineFor = useCallback(
     (order: Order) => {
       if (shiftRef.current.status !== "running") return;
-      const raw = baselineDecide(order, shiftRef.current.baselineAgent);
+      const agent: AgentState = {
+        ...shiftRef.current.baselineAgent,
+        carriedOrders: queueRef.current.baselineAgent,
+      };
+      const raw = baselineDecide(order, agent);
       recordDecision("baselineAgent", enrichDecision(raw, order), order);
     },
     [enrichDecision, recordDecision]
@@ -423,7 +445,7 @@ export function useShift() {
 
   // ── Present one or more simultaneous offers to both agents ──────────────
   const presentOrders = useCallback(
-    (incoming: Order[]) => {
+    async (incoming: Order[]) => {
       if (!incoming.length) return;
       const s = shiftRef.current;
       if (!s || s.status !== "running") return;
@@ -435,13 +457,53 @@ export function useShift() {
           .slice(-MAX_SIMULTANEOUS_OFFERS)
       );
 
-      const remainingSeconds = SHIFT_DURATION_SECONDS - s.elapsedSeconds;
+      // Baseline: first-come, first-served until the slot budget is full.
       for (const order of incoming) {
-        decideSmartFor(order, remainingSeconds);
         decideBaselineFor(order);
       }
+
+      setIsSmartDeciding(true);
+      const departureTime = Math.floor(
+        (s.simShiftStart + s.elapsedSeconds * 1000) / 1000
+      );
+      const startPos = shiftRef.current.smartAgent.position;
+      const timed = await Promise.all(
+        incoming.map(async (order) => {
+          const [dead, trip] = await Promise.all([
+            fetchRoute(startPos, order.pickupCoords, departureTime),
+            fetchRoute(order.pickupCoords, order.dropoffCoords, departureTime),
+          ]);
+          const times: OfferTimes = {
+            deadheadMinutes: Math.max(0.4, dead.minutes),
+            tripMinutes: Math.max(1, trip.minutes),
+          };
+          return [order.id, times] as const;
+        })
+      );
+      if (shiftRef.current.status !== "running") {
+        setIsSmartDeciding(false);
+        return;
+      }
+
+      const smartAgent: AgentState = {
+        ...shiftRef.current.smartAgent,
+        carriedOrders: queueRef.current.smartAgent,
+      };
+      const remainingSeconds = SHIFT_DURATION_SECONDS - shiftRef.current.elapsedSeconds;
+      const timesById = new Map<string, OfferTimes>(timed);
+      const smartDecisions = decideSmartBurst(
+        incoming,
+        smartAgent,
+        remainingSeconds,
+        DEFAULT_SMART_KNOBS,
+        timesById
+      );
+      for (let i = 0; i < incoming.length; i++) {
+        recordDecision("smartAgent", enrichDecision(smartDecisions[i], incoming[i]), incoming[i]);
+      }
+      setIsSmartDeciding(false);
     },
-    [decideSmartFor, decideBaselineFor]
+    [decideBaselineFor, enrichDecision, recordDecision, fetchRoute]
   );
 
   // ── Spawn loop: surge-aware cadence + bursts of simultaneous orders ─────

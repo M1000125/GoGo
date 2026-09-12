@@ -40,7 +40,7 @@ function pickProducer(
 /**
  * Generate a single realistic order from a producer + consumer sourced from the
  * Places catalog. Payout/tip/slots follow the price->capacity economy:
- * orderSize ~ tier range × consumer multiplier; 1 slot ≈ $100 MXN.
+ * orderSize ~ tier range × consumer multiplier; 1 slot ≈ $250 MXN.
  */
 export function generateOrder(
   activeSurgeZones: SurgeZone[] = [],

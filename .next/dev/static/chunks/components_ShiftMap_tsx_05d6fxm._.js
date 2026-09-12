@@ -81,11 +81,11 @@ function ShiftMap({ agentState, activeSurgeZones, activeClosures, agentColor, ma
                         shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
                     });
                     const bounds = L.latLngBounds([
-                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISTRITO_TEC_BOUNDS"].south,
-                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISTRITO_TEC_BOUNDS"].west
+                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISPLAY_BOUNDS"].south,
+                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISPLAY_BOUNDS"].west
                     ], [
-                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISTRITO_TEC_BOUNDS"].north,
-                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISTRITO_TEC_BOUNDS"].east
+                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISPLAY_BOUNDS"].north,
+                        __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISPLAY_BOUNDS"].east
                     ]);
                     const map = L.map(mapId, {
                         center: [
@@ -93,10 +93,10 @@ function ShiftMap({ agentState, activeSurgeZones, activeClosures, agentColor, ma
                             __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$mapBounds$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DISTRITO_TEC_CENTER"].lng
                         ],
                         zoom: 15,
-                        minZoom: 14,
+                        minZoom: 13,
                         maxZoom: 18,
                         maxBounds: bounds,
-                        maxBoundsViscosity: 1.0,
+                        maxBoundsViscosity: 0.7,
                         zoomControl: true,
                         attributionControl: false
                     });
