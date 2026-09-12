@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+:root {
+  --gogo-red: #e23d28;
+  --gogo-orange: #f46a1f;
+  --gogo-bg: #fff5ef;
+  --gogo-wash: #ffece3;
+  --gogo-ink: #2a1a14;
+  --gogo-muted: #8a6f63;
+  --gogo-line: #f0ddd3;
+  --font-display: var(--font-brand);
+}
+
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
@@ -10,15 +21,22 @@
   }
 
   body {
-    background-color: #0a0a14;
-    color: #ffffff;
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background-color: var(--gogo-bg);
+    background-image:
+      radial-gradient(ellipse 900px 520px at 8% -8%, rgba(244, 106, 31, 0.14), transparent 58%),
+      radial-gradient(ellipse 820px 480px at 96% 4%, rgba(226, 61, 40, 0.09), transparent 52%),
+      linear-gradient(180deg, #fff8f4 0%, #fff5ef 46%, #fff 100%);
+    color: var(--gogo-ink);
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   }
 
-  /* Display font for headings and large labels */
   h1, h2, .font-display {
-    font-family: var(--font-display), system-ui, sans-serif;
+    font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
     letter-spacing: -0.01em;
+  }
+
+  .font-brand {
+    font-family: var(--font-brand), var(--font-body), ui-sans-serif, system-ui, sans-serif;
   }
 }
 
@@ -28,11 +46,11 @@
   }
 
   .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
+    animation: fade-in 0.2s ease-out;
   }
 
   .animate-slide-down {
-    animation: slide-down 0.35s ease-out;
+    animation: slide-down 0.25s ease-out;
   }
 }
 
@@ -51,7 +69,6 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Landing page entrance animations */
 @keyframes land-up {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -100,10 +117,9 @@
   }
 }
 
-/* Thin scrollbar for history panel */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.15) transparent;
+  scrollbar-color: rgba(226, 61, 40, 0.28) transparent;
 }
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
@@ -112,14 +128,13 @@
   background: transparent;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
+  background: rgba(226, 61, 40, 0.28);
   border-radius: 2px;
 }
 
-/* Leaflet overrides */
 .leaflet-container {
-  background: #1a1a2e;
-  border-radius: 12px;
+  background: #fff5ef;
+  border-radius: 1.25rem;
 }
 
 .leaflet-control-attribution {

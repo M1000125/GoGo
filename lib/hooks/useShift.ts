@@ -14,7 +14,7 @@ import { baselineDecide } from "@/lib/agents/baselineAgent";
 import { SURGE_ZONES, ROAD_CLOSURES } from "@/lib/simulation/surgeZones";
 
 /** One order every ~10 simulated minutes (600 sim-seconds). */
-const ORDER_INTERVAL_SIM_S = 10 * 60;
+export const ORDER_INTERVAL_SIM_S = 10 * 60;
 
 export function useShift() {
   const [shift, setShift] = useState<ShiftState>(() => createInitialShiftState());

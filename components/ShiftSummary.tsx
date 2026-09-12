@@ -130,118 +130,113 @@ export default function ShiftSummary({ shift, onReset }: ShiftSummaryProps) {
   return (
     <div className="max-w-3xl mx-auto space-y-8 py-8 px-4">
       <div className="text-center">
-        <h1 className="text-3xl font-black text-white mb-2">Shift Complete</h1>
-        <p className="text-white/50">
+        <h1 className="text-3xl font-black text-[var(--gogo-ink)] mb-2">Shift complete</h1>
+        <p className="text-[var(--gogo-muted)]">
           {Math.round(shift.durationSeconds / 60)}-minute shift · capacity{" "}
           {shift.capacity}
         </p>
       </div>
 
-      {/* Winner banner (net) */}
       <div
-        className={`rounded-2xl p-6 text-center border ${
+        className={`rounded-[1.65rem] p-6 text-center border shadow-[0_8px_24px_rgba(42,26,20,0.06)] ${
           smartNet >= baselineNet
-            ? "bg-blue-950/50 border-blue-500/30"
-            : "bg-white/5 border-white/10"
+            ? "bg-orange-50 border-orange-200"
+            : "bg-white border-[var(--gogo-line)]"
         }`}
       >
         {smartNet > baselineNet ? (
           <>
-            <p className="text-blue-300 font-semibold text-lg mb-1">🏆 Smart Agent wins</p>
-            <p className="text-white/70">
+            <p className="text-[var(--gogo-red)] font-semibold text-lg mb-1">Smart Agent wins</p>
+            <p className="text-[var(--gogo-muted)]">
               +{netImprovement}% more net earnings (${(smartNet - baselineNet).toFixed(0)} MXN extra)
             </p>
           </>
         ) : smartNet === baselineNet ? (
-          <p className="text-white/70 font-semibold text-lg">Tie — equal net this shift</p>
+          <p className="text-[var(--gogo-muted)] font-semibold text-lg">Tie — equal net this shift</p>
         ) : (
           <>
-            <p className="text-amber-300 font-semibold text-lg mb-1">Baseline wins this shift</p>
-            <p className="text-white/70">Smart Agent is still learning this route pattern.</p>
+            <p className="text-[var(--gogo-orange)] font-semibold text-lg mb-1">Baseline wins this shift</p>
+            <p className="text-[var(--gogo-muted)]">Smart Agent is still learning this route pattern.</p>
           </>
         )}
       </div>
 
-      {/* Stats comparison */}
       <div className="grid grid-cols-2 gap-4">
         {stats.map((row) => (
-          <div key={row.label} className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <p className="text-xs text-white/40 uppercase tracking-wider mb-3">{row.label}</p>
+          <div key={row.label} className="bg-white border border-[var(--gogo-line)] rounded-xl p-4 shadow-[0_6px_18px_rgba(42,26,20,0.05)]">
+            <p className="text-xs text-[var(--gogo-muted)] uppercase tracking-wider mb-3">{row.label}</p>
             <div className="flex justify-between">
               <div>
-                <p className="text-xs text-blue-400 mb-1">Smart</p>
-                <p className="text-xl font-bold text-white">{row.smart}</p>
+                <p className="text-xs text-[var(--gogo-red)] mb-1">Smart</p>
+                <p className="text-xl font-bold text-[var(--gogo-ink)]">{row.smart}</p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-white/40 mb-1">Baseline</p>
-                <p className="text-xl font-bold text-white/60">{row.baseline}</p>
+                <p className="text-xs text-[var(--gogo-muted)] mb-1">Baseline</p>
+                <p className="text-xl font-bold text-[var(--gogo-muted)]">{row.baseline}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Bar chart */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-        <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">
+      <div className="bg-white border border-[var(--gogo-line)] rounded-[1.65rem] p-6 shadow-[0_8px_24px_rgba(42,26,20,0.06)]">
+        <h3 className="text-sm font-semibold text-[var(--gogo-muted)] uppercase tracking-wider mb-4">
           Performance Comparison
         </h3>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={chartData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
-            <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} />
-            <YAxis tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,26,20,0.08)" />
+            <XAxis dataKey="name" tick={{ fill: "#8a6f63", fontSize: 11 }} />
+            <YAxis tick={{ fill: "#8a6f63", fontSize: 11 }} />
             <Tooltip
               contentStyle={{
-                background: "#1a1a2e",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: "#fff",
+                border: "1px solid #f0ddd3",
                 borderRadius: "8px",
-                color: "white",
+                color: "#2a1a14",
               }}
             />
-            <Legend wrapperStyle={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }} />
-            <Bar dataKey="Smart Agent" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="Baseline" fill="rgba(255,255,255,0.2)" radius={[4, 4, 0, 0]} />
+            <Legend wrapperStyle={{ color: "#8a6f63", fontSize: 12 }} />
+            <Bar dataKey="Smart Agent" fill="#E23D28" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="Baseline" fill="#C47A54" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Cumulative net earnings line chart */}
       {historyData.length > 1 && (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">
+        <div className="bg-white border border-[var(--gogo-line)] rounded-[1.65rem] p-6 shadow-[0_8px_24px_rgba(42,26,20,0.06)]">
+          <h3 className="text-sm font-semibold text-[var(--gogo-muted)] uppercase tracking-wider mb-4">
             Cumulative Net Earnings Over Time
           </h3>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={historyData} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,26,20,0.08)" />
               <XAxis
                 dataKey="t"
-                tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+                tick={{ fill: "#8a6f63", fontSize: 11 }}
                 tickFormatter={(v) => `${Math.floor(v / 60)}m`}
               />
-              <YAxis tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} />
+              <YAxis tick={{ fill: "#8a6f63", fontSize: 11 }} />
               <Tooltip
                 contentStyle={{
-                  background: "#1a1a2e",
-                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: "#fff",
+                  border: "1px solid #f0ddd3",
                   borderRadius: "8px",
-                  color: "white",
+                  color: "#2a1a14",
                 }}
                 labelFormatter={(v) => `t+${v}s`}
               />
-              <Legend wrapperStyle={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }} />
-              <Line type="monotone" dataKey="smart" name="Smart Agent" stroke="#3b82f6" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="baseline" name="Baseline" stroke="rgba(255,255,255,0.4)" strokeWidth={2} dot={false} />
+              <Legend wrapperStyle={{ color: "#8a6f63", fontSize: 12 }} />
+              <Line type="monotone" dataKey="smart" name="Smart Agent" stroke="#E23D28" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="baseline" name="Baseline" stroke="#C47A54" strokeWidth={2} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>
       )}
 
-      {/* Event log */}
       {shift.eventLog.filter((e) => e.type !== "order").length > 0 && (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">
+        <div className="bg-white border border-[var(--gogo-line)] rounded-[1.65rem] p-6 shadow-[0_8px_24px_rgba(42,26,20,0.06)]">
+          <h3 className="text-sm font-semibold text-[var(--gogo-muted)] uppercase tracking-wider mb-4">
             Shift Events
           </h3>
           <div className="space-y-2">
@@ -249,8 +244,7 @@ export default function ShiftSummary({ shift, onReset }: ShiftSummaryProps) {
               .filter((e) => e.type !== "order")
               .map((e, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm">
-                  <span>{e.type === "surge" ? "⚡" : "🚧"}</span>
-                  <span className="text-white/70">{e.label}</span>
+                  <span className="text-[var(--gogo-ink)]">{e.label}</span>
                 </div>
               ))}
           </div>
@@ -260,7 +254,7 @@ export default function ShiftSummary({ shift, onReset }: ShiftSummaryProps) {
       <div className="flex justify-center">
         <button
           onClick={onReset}
-          className="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-colors"
+          className="px-8 py-3 bg-[var(--gogo-red)] text-white font-bold rounded-xl hover:bg-[var(--gogo-orange)] transition-colors duration-200"
         >
           Run Another Shift
         </button>

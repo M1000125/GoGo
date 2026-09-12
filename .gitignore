@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+
+# Environment variables / secrets
+.env
+.env.local
+.env*.local
+
+# TypeScript build cache
+*.tsbuildinfo

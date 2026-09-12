@@ -10,6 +10,8 @@ interface ShiftMapProps {
   activeClosures: RoadClosure[];
   agentColor: string;
   mapId: string;
+  previewMode?: boolean;
+  className?: string;
 }
 
 // Haversine distance in km between two coords
@@ -58,6 +60,8 @@ export default function ShiftMap({
   activeClosures,
   agentColor,
   mapId,
+  previewMode = false,
+  className,
 }: ShiftMapProps) {
   const mapRef = useRef<unknown>(null);
   const markerRef = useRef<unknown>(null);
@@ -201,7 +205,7 @@ export default function ShiftMap({
       const pickupCoord = route[meta.pickupIndex] ?? route[0];
       pickupMarkerRef.current = L.circleMarker(
         [pickupCoord.lat, pickupCoord.lng],
-        { radius: 9, color: "#22c55e", fillColor: "#22c55e", fillOpacity: 1, weight: 2 }
+        { radius: 9, color: "#F46A1F", fillColor: "#F46A1F", fillOpacity: 1, weight: 2 }
       ).addTo(map).bindTooltip(`📦 ${agentState.lastDecision?.pickupLabel ?? "Pickup"}`);
 
       // Dropoff marker (red dot)
@@ -210,6 +214,13 @@ export default function ShiftMap({
         [dropoffCoord.lat, dropoffCoord.lng],
         { radius: 9, color: "#ef4444", fillColor: "#ef4444", fillOpacity: 1, weight: 2 }
       ).addTo(map).bindTooltip(`🏠 ${agentState.lastDecision?.dropoffLabel ?? "Dropoff"}`);
+
+      map.fitBounds(
+        L.latLngBounds(route.map((c) => [c.lat, c.lng] as [number, number])),
+        { padding: [28, 28], maxZoom: 16 }
+      );
+
+      if (previewMode) return;
 
       // Start the rAF animation
       const { startedAt, durationMs } = meta;
@@ -264,7 +275,7 @@ export default function ShiftMap({
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [agentState.currentRoute, agentState.currentRouteMeta]);
+  }, [agentState.currentRoute, agentState.currentRouteMeta, previewMode]);
 
   // ── Surge zones ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -307,7 +318,7 @@ export default function ShiftMap({
   return (
     <div
       id={mapId}
-      className="w-full h-96 rounded-xl overflow-hidden border border-white/10"
+      className={className ?? "w-full h-72 sm:h-96 rounded-[1.25rem] overflow-hidden"}
     />
   );
 }

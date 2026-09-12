@@ -34,14 +34,14 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }: {
     : "delivering";
 
   return (
-    <div className="border border-white/10 bg-white/5 rounded-xl p-4 text-sm">
+    <div className="border border-[var(--gogo-line)] bg-[var(--gogo-wash)] rounded-xl p-4 text-sm">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-white/60 font-medium">
-          🛵 {phase === "heading to pickup" ? `To pickup: ${pickupLabel}` : `Delivering to ${dropoffLabel}`}
+        <span className="text-[var(--gogo-muted)] font-medium">
+          {phase === "heading to pickup" ? `To pickup: ${pickupLabel}` : `Delivering to ${dropoffLabel}`}
         </span>
-        <span className="text-white/40 tabular-nums">{Math.round(pct)}%</span>
+        <span className="text-[var(--gogo-muted)] tabular-nums">{Math.round(pct)}%</span>
       </div>
-      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+      <div className="h-2 bg-white rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-none"
           style={{ width: `${pct}%`, backgroundColor: accentColor }}
@@ -92,43 +92,43 @@ export default function AgentPanel({
       {/* Header */}
       <div className="flex items-center gap-3">
         <div
-          className="w-3 h-3 rounded-full ring-2 ring-white/20"
+          className="w-3 h-3 rounded-full ring-2 ring-black/10"
           style={{ backgroundColor: accentColor }}
         />
-        <h2 className="font-display text-xl font-black text-white uppercase tracking-wide">{label}</h2>
+        <h2 className="text-xl font-extrabold text-[var(--gogo-ink)]">{label}</h2>
         {isDeciding && (
-          <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full flex items-center gap-1">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping" />
+          <span className="text-xs bg-[var(--gogo-wash)] text-[var(--gogo-orange)] px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--gogo-orange)] animate-ping" />
             thinking…
           </span>
         )}
         {!isDeciding && agentState.isMoving && (
-          <span className="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full animate-pulse">
+          <span className="text-xs bg-[var(--gogo-wash)] text-[var(--gogo-muted)] px-2 py-0.5 rounded-full animate-pulse">
             on route…
           </span>
         )}
       </div>
 
       {/* Earnings ticker */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-        <p className="text-xs text-white/50 uppercase tracking-wider mb-1">
+      <div className="bg-[var(--gogo-wash)] border border-[var(--gogo-line)] rounded-xl p-4">
+        <p className="text-xs text-[var(--gogo-muted)] uppercase tracking-wider mb-1">
           Net Earnings
         </p>
         <EarningsTicker
           value={agentState.netEarnings}
-          className="font-display text-4xl font-black text-white tabular-nums"
+          className="text-4xl font-black text-[var(--gogo-ink)] tabular-nums"
         />
-        <p className="text-xs text-white/40 mt-1">
+        <p className="text-xs text-[var(--gogo-muted)] mt-1">
           Gross ${agentState.earnings} · {vehicle} ({agentState.capacity} cap) ·{" "}
           {agentState.expenses.fuelLiters.toFixed(1)} L fuel
         </p>
-        <div className="mt-2 flex gap-4 text-sm text-white/60">
+        <div className="mt-2 flex gap-4 text-sm text-[var(--gogo-muted)]">
           <span>{agentState.ordersCompleted} orders</span>
           <span>{agentState.kmDriven} km</span>
           <span>${netPerMin.toFixed(1)}/min</span>
           <span>{acceptRate}% accept</span>
         </div>
-        <div className="mt-2 flex gap-4 text-xs text-white/40">
+        <div className="mt-2 flex gap-4 text-xs text-[var(--gogo-muted)]">
           <span>Fuel ${agentState.expenses.fuelMxn.toFixed(1)}</span>
           <span>Maint ${agentState.expenses.maintenanceMxn.toFixed(1)}</span>
           <span>Tips ${agentState.tipsEarned}</span>
@@ -138,12 +138,12 @@ export default function AgentPanel({
 
       {/* Carried load chips */}
       {agentState.carriedOrders.length > 0 && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+        <div className="bg-[var(--gogo-wash)] border border-[var(--gogo-line)] rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-white/50 uppercase tracking-wider">
+            <p className="text-xs text-[var(--gogo-muted)] uppercase tracking-wider">
               Carried load
             </p>
-            <span className="text-xs text-white/40">
+            <span className="text-xs text-[var(--gogo-muted)]">
               {agentState.carriedOrders.length}/{agentState.capacity} capacity
             </span>
           </div>
@@ -151,7 +151,7 @@ export default function AgentPanel({
             {agentState.carriedOrders.map((c) => (
               <div
                 key={c.order.id}
-                className="flex items-center gap-2 text-xs text-white/70"
+                className="flex items-center gap-2 text-xs text-[var(--gogo-ink)]"
               >
                 <span
                   className={
@@ -168,7 +168,7 @@ export default function AgentPanel({
             ))}
           </div>
           {(agentState.expenses.fuelMxn + agentState.expenses.maintenanceMxn) > 0 && (
-            <p className="mt-2 text-xs text-white/40">
+            <p className="mt-2 text-xs text-[var(--gogo-muted)]">
               Total expenses ${(agentState.expenses.fuelMxn + agentState.expenses.maintenanceMxn).toFixed(1)} MXN
             </p>
           )}
@@ -199,30 +199,30 @@ export default function AgentPanel({
         <div
           className={`border rounded-xl p-4 text-sm ${
             lastDecision.decision === "accept"
-              ? "border-green-500/30 bg-green-950/30"
-              : "border-white/10 bg-white/5"
+              ? "border-orange-200 bg-orange-50"
+              : "border-[var(--gogo-line)] bg-[var(--gogo-wash)]"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span
               className={`font-bold text-xs uppercase tracking-wider ${
-                lastDecision.decision === "accept" ? "text-green-400" : "text-white/50"
+                lastDecision.decision === "accept" ? "text-[var(--gogo-orange)]" : "text-[var(--gogo-muted)]"
               }`}
             >
               {lastDecision.decision === "accept" ? "✓ Accepted" : "✗ Skipped"}
             </span>
-            <span className="text-xs text-white/30">
+            <span className="text-xs text-[var(--gogo-muted)]">
               {Math.round(lastDecision.confidence * 100)}% confidence
             </span>
           </div>
-          <p className="text-white/80 leading-snug">{lastDecision.reason}</p>
+          <p className="text-[var(--gogo-ink)] leading-snug">{lastDecision.reason}</p>
         </div>
       )}
 
       {/* Full scrollable decision history */}
       {fullHistory.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-xs text-white/30 uppercase tracking-wider">
+          <p className="text-xs text-[var(--gogo-muted)] uppercase tracking-wider">
             Decision history ({fullHistory.length})
           </p>
           {/* Scrollable container — shows all decisions from newest to oldest */}
@@ -232,40 +232,37 @@ export default function AgentPanel({
                 key={`${d.orderId}-${i}`}
                 className={`rounded-lg p-3 text-xs border ${
                   d.decision === "accept"
-                    ? "border-green-500/20 bg-green-950/20"
-                    : "border-white/5 bg-white/3"
+                    ? "border-orange-200 bg-orange-50"
+                    : "border-[var(--gogo-line)] bg-white"
                 }`}
               >
-                {/* Top row: badge + route */}
                 <div className="flex items-start gap-2">
                   <span
                     className={`mt-0.5 shrink-0 font-bold ${
-                      d.decision === "accept" ? "text-green-400" : "text-white/30"
+                      d.decision === "accept" ? "text-[var(--gogo-orange)]" : "text-[var(--gogo-muted)]"
                     }`}
                   >
                     {d.decision === "accept" ? "✓" : "✗"}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white/80 font-medium truncate">{d.pickupLabel}</p>
-                    <p className="text-white/40 truncate">→ {d.dropoffLabel}</p>
+                    <p className="text-[var(--gogo-ink)] font-medium truncate">{d.pickupLabel}</p>
+                    <p className="text-[var(--gogo-muted)] truncate">→ {d.dropoffLabel}</p>
                   </div>
                 </div>
 
-                {/* Bottom row: time + earnings (only for accepted) */}
                 {d.decision === "accept" && (
                   <div className="mt-2 flex items-center gap-3 pl-5">
-                    <span className="text-white/40">
+                    <span className="text-[var(--gogo-muted)]">
                       ~{d.estimatedMinutes} min
                     </span>
-                    <span className="text-green-400 font-semibold">
+                    <span className="text-[var(--gogo-red)] font-semibold">
                       +${d.payout} MXN
                     </span>
                   </div>
                 )}
 
-                {/* Reason — show for skipped orders */}
                 {d.decision === "skip" && (
-                  <p className="mt-1.5 pl-5 text-white/30 italic leading-snug">
+                  <p className="mt-1.5 pl-5 text-[var(--gogo-muted)] italic leading-snug">
                     {d.reason}
                   </p>
                 )}
