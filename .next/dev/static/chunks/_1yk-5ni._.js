@@ -22,7 +22,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 function Home() {
     _s();
-    const { shift, currentOrder, orderExpiry, isSmartDeciding, speed, setSpeed, simulatedNow, startShift, resetShift } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$hooks$2f$useShift$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useShift"])();
+    const { shift, offers, isSmartDeciding, speed, setSpeed, simulatedNow, startShift, resetShift } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$hooks$2f$useShift$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useShift"])();
     const [capacity, setCapacity] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_CAPACITY"]);
     if (shift.status === "ended") {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -93,7 +93,7 @@ function Home() {
                                 columnNumber: 13
                             }, this),
                             shift.status === "idle" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>startShift(),
+                                onClick: ()=>startShift(capacity),
                                 className: "px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl transition-colors",
                                 children: "Start Shift"
                             }, void 0, false, {
@@ -116,7 +116,7 @@ function Home() {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "max-w-6xl mx-auto px-4 py-6",
                 children: shift.status === "idle" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IdleScreen, {
-                    onStart: ()=>startShift(),
+                    onStart: ()=>startShift(capacity),
                     capacity: capacity,
                     onCapacityChange: setCapacity
                 }, void 0, false, {
@@ -125,8 +125,7 @@ function Home() {
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$DualAgentView$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                     shift: shift,
-                    currentOrder: currentOrder,
-                    orderExpiry: orderExpiry,
+                    offers: offers,
                     isSmartDeciding: isSmartDeciding,
                     speed: speed,
                     setSpeed: setSpeed,
@@ -148,7 +147,7 @@ function Home() {
         columnNumber: 5
     }, this);
 }
-_s(Home, "uKonjaR+DuusSPq4rGMoriEaKY8=", false, function() {
+_s(Home, "1DA3QtkX0OxNBGEIoNPHnxvxuSc=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$hooks$2f$useShift$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useShift"]
     ];
@@ -170,12 +169,12 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                     children: "🛵"
                 }, void 0, false, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 99,
+                    lineNumber: 98,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 98,
+                lineNumber: 97,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -187,7 +186,7 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                             "Can AI beat a",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 107,
+                                lineNumber: 106,
                                 columnNumber: 24
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -195,27 +194,27 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                                 children: "Monterrey courier?"
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 108,
+                                lineNumber: 107,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 106,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "land-item land-d2 text-white/50 text-lg max-w-[44ch] mx-auto leading-relaxed",
-                        children: "Two agents. One 4-hour shift. Real Distrito Tec streets. Crisis hits at mid-shift — watch who adapts and who doesn't."
+                        children: "Two agents. One 4-hour shift. Real Distrito Tec streets from the Google Places API. Orders are quoted on a “1 slot ≈ $100 MXN meal” economy — crisis hits at mid-shift, watch who adapts."
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 110,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 105,
+                lineNumber: 104,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -223,15 +222,19 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                 children: [
                     {
                         icon: "⚡",
-                        label: "Surge zones at mid-shift (T+2h)"
+                        label: "Surge bursts at mid-shift (T+2h)"
                     },
                     {
                         icon: "🚧",
                         label: "Road closure at T+2h 10min"
                     },
                     {
+                        icon: "📍",
+                        label: "Live Places API generators"
+                    },
+                    {
                         icon: "📦",
-                        label: "500 real Distrito Tec orders"
+                        label: "Stack orders up to 8 slots"
                     },
                     {
                         icon: "🎛️",
@@ -244,14 +247,14 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                                 children: item.icon
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 128,
+                                lineNumber: 129,
                                 columnNumber: 13
                             }, this),
                             item.label
                         ]
                     }, item.label, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 124,
+                        lineNumber: 125,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
@@ -269,11 +272,11 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                             (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["vehicleLabelForCapacity"])(capacity),
                             " (",
                             capacity,
-                            " packages)"
+                            " slots)"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 136,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -284,30 +287,30 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                                 children: c
                             }, c, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 141,
+                                lineNumber: 142,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 139,
+                        lineNumber: 140,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-[11px] text-white/30 mt-3",
                         children: [
-                            "Higher capacity = more orders per run, higher fuel costs. Default: ",
+                            "Higher capacity = more orders per run, higher fuel costs. 1 slot ≈ $100 MXN consumer order. Default: ",
                             __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_CAPACITY"],
                             "."
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 154,
+                        lineNumber: 155,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 135,
+                lineNumber: 136,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -325,18 +328,18 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                                     children: "→"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 176,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 172,
+                            lineNumber: 174,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 161,
+                        lineNumber: 163,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -344,19 +347,19 @@ function IdleScreen({ onStart, capacity, onCapacityChange }) {
                         children: "Infosys Challenge Track · HackMTY 2026 · Monterrey, NL"
                     }, void 0, false, {
                         fileName: "[project]/app/page.tsx",
-                        lineNumber: 177,
+                        lineNumber: 179,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/page.tsx",
-                lineNumber: 160,
+                lineNumber: 162,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 95,
+        lineNumber: 94,
         columnNumber: 5
     }, this);
 }
@@ -398,7 +401,7 @@ const ShiftMap = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_module
 });
 _c = ShiftMap;
 // Live progress bar driven by rAF — no React state updates on every frame
-function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }) {
+function DeliveryProgress({ meta, routeLength, pickupLabel, dropoffLabel, accentColor }) {
     _s();
     const [pct, setPct] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const rafRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -422,7 +425,9 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }) {
     }["DeliveryProgress.useEffect"], [
         meta
     ]);
-    const phase = pct < meta.pickupIndex / Math.max(1, 100) * 100 ? "heading to pickup" : "delivering";
+    // For a pickup leg the pickup sits at the very end of the polyline, so the
+    // whole leg counts as "heading to pickup"; dropoff legs are "delivering".
+    const phase = meta.pickupIndex >= routeLength ? "heading to pickup" : "delivering";
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "border border-white/10 bg-white/5 rounded-xl p-4 text-sm",
         children: [
@@ -437,7 +442,7 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 39,
+                        lineNumber: 40,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -448,13 +453,13 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 42,
+                        lineNumber: 43,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 38,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -467,18 +472,18 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }) {
                     }
                 }, void 0, false, {
                     fileName: "[project]/components/AgentPanel.tsx",
-                    lineNumber: 45,
+                    lineNumber: 46,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 44,
+                lineNumber: 45,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/AgentPanel.tsx",
-        lineNumber: 37,
+        lineNumber: 38,
         columnNumber: 5
     }, this);
 }
@@ -507,7 +512,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 94,
+                        lineNumber: 95,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -515,7 +520,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 98,
+                        lineNumber: 99,
                         columnNumber: 9
                     }, this),
                     isDeciding && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -525,14 +530,14 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 className: "inline-block w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"
                             }, void 0, false, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 101,
+                                lineNumber: 102,
                                 columnNumber: 13
                             }, this),
                             "thinking…"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 100,
+                        lineNumber: 101,
                         columnNumber: 11
                     }, this),
                     !isDeciding && agentState.isMoving && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -540,13 +545,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         children: "on route…"
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 106,
+                        lineNumber: 107,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 93,
+                lineNumber: 94,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -557,7 +562,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         children: "Net Earnings"
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 114,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$EarningsTicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -565,7 +570,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         className: "font-display text-4xl font-black text-white tabular-nums"
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 117,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -584,7 +589,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 121,
+                        lineNumber: 122,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -597,7 +602,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 126,
+                                lineNumber: 127,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -607,7 +612,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 127,
+                                lineNumber: 128,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -618,7 +623,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 128,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -628,13 +633,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 129,
+                                lineNumber: 130,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 125,
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -647,7 +652,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 132,
+                                lineNumber: 133,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -657,7 +662,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 133,
+                                lineNumber: 134,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -667,7 +672,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 134,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -677,19 +682,19 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 135,
+                                lineNumber: 136,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 131,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 113,
+                lineNumber: 114,
                 columnNumber: 7
             }, this),
             agentState.carriedOrders.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -703,26 +708,26 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 children: "Carried load"
                             }, void 0, false, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 143,
+                                lineNumber: 144,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "text-xs text-white/40",
                                 children: [
-                                    agentState.carriedOrders.length,
+                                    (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(agentState.carriedOrders),
                                     "/",
                                     agentState.capacity,
-                                    " capacity"
+                                    " slots"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 146,
+                                lineNumber: 147,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 142,
+                        lineNumber: 143,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -734,7 +739,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                         className: c.pickedUp ? "w-1.5 h-1.5 rounded-full bg-green-400" : "w-1.5 h-1.5 rounded-full bg-amber-400"
                                     }, void 0, false, {
                                         fileName: "[project]/components/AgentPanel.tsx",
-                                        lineNumber: 156,
+                                        lineNumber: 157,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -744,22 +749,26 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                             " ",
                                             c.order.dropoffLabel,
                                             " · $",
-                                            c.order.payout
+                                            c.order.payout,
+                                            " · ",
+                                            c.order.slots,
+                                            " slot",
+                                            c.order.slots > 1 ? "s" : ""
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/AgentPanel.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 164,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, c.order.id, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 152,
+                                lineNumber: 153,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 150,
+                        lineNumber: 151,
                         columnNumber: 11
                     }, this),
                     agentState.expenses.fuelMxn + agentState.expenses.maintenanceMxn > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -771,13 +780,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 171,
+                        lineNumber: 172,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 141,
+                lineNumber: 142,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ShiftMap, {
@@ -788,17 +797,18 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                 mapId: mapId
             }, void 0, false, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 179,
+                lineNumber: 180,
                 columnNumber: 7
             }, this),
             agentState.currentRouteMeta && lastDecision?.decision === "accept" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DeliveryProgress, {
                 meta: agentState.currentRouteMeta,
+                routeLength: agentState.currentRoute.length,
                 pickupLabel: lastDecision.pickupLabel,
                 dropoffLabel: lastDecision.dropoffLabel,
                 accentColor: accentColor
             }, void 0, false, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 189,
+                lineNumber: 190,
                 columnNumber: 9
             }, this),
             lastDecision && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -812,7 +822,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 children: lastDecision.decision === "accept" ? "✓ Accepted" : "✗ Skipped"
                             }, void 0, false, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 207,
+                                lineNumber: 209,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -823,13 +833,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 214,
+                                lineNumber: 216,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 206,
+                        lineNumber: 208,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -837,13 +847,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         children: lastDecision.reason
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 218,
+                        lineNumber: 220,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 199,
+                lineNumber: 201,
                 columnNumber: 9
             }, this),
             fullHistory.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -858,7 +868,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 225,
+                        lineNumber: 227,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -874,7 +884,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                                 children: d.decision === "accept" ? "✓" : "✗"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/AgentPanel.tsx",
-                                                lineNumber: 241,
+                                                lineNumber: 243,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -885,7 +895,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                                         children: d.pickupLabel
                                                     }, void 0, false, {
                                                         fileName: "[project]/components/AgentPanel.tsx",
-                                                        lineNumber: 249,
+                                                        lineNumber: 251,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -896,19 +906,19 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/components/AgentPanel.tsx",
-                                                        lineNumber: 250,
+                                                        lineNumber: 252,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/AgentPanel.tsx",
-                                                lineNumber: 248,
+                                                lineNumber: 250,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/AgentPanel.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 242,
                                         columnNumber: 17
                                     }, this),
                                     d.decision === "accept" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -923,7 +933,7 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/AgentPanel.tsx",
-                                                lineNumber: 257,
+                                                lineNumber: 259,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -935,13 +945,13 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/AgentPanel.tsx",
-                                                lineNumber: 260,
+                                                lineNumber: 262,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/AgentPanel.tsx",
-                                        lineNumber: 256,
+                                        lineNumber: 258,
                                         columnNumber: 19
                                     }, this),
                                     d.decision === "skip" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -949,30 +959,30 @@ function AgentPanel({ agentState, activeSurgeZones, activeClosures, label, accen
                                         children: d.reason
                                     }, void 0, false, {
                                         fileName: "[project]/components/AgentPanel.tsx",
-                                        lineNumber: 268,
+                                        lineNumber: 270,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, `${d.orderId}-${i}`, true, {
                                 fileName: "[project]/components/AgentPanel.tsx",
-                                lineNumber: 231,
+                                lineNumber: 233,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/components/AgentPanel.tsx",
-                        lineNumber: 229,
+                        lineNumber: 231,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/AgentPanel.tsx",
-                lineNumber: 224,
+                lineNumber: 226,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/AgentPanel.tsx",
-        lineNumber: 91,
+        lineNumber: 92,
         columnNumber: 5
     }, this);
 }
@@ -993,10 +1003,12 @@ __turbopack_context__.s([
     ()=>DualAgentView
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/simulation/economics.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AgentPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/AgentPanel.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$OrderPing$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/OrderPing.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$EventAlert$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/EventAlert.tsx [app-client] (ecmascript)");
 "use client";
+;
 ;
 ;
 ;
@@ -1022,7 +1034,7 @@ const SPEED_OPTIONS = [
         minute: "2-digit"
     });
 }
-function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = false, speed, setSpeed, simulatedNow }) {
+function DualAgentView({ shift, offers, isSmartDeciding = false, speed, setSpeed, simulatedNow }) {
     const elapsed = shift.elapsedSeconds;
     const remaining = shift.durationSeconds - elapsed;
     const progress = elapsed / shift.durationSeconds * 100;
@@ -1045,7 +1057,7 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                 className: "w-2 h-2 rounded-full bg-green-400 animate-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/DualAgentView.tsx",
-                                                lineNumber: 61,
+                                                lineNumber: 60,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1053,13 +1065,13 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                 children: "Live Shift"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/DualAgentView.tsx",
-                                                lineNumber: 62,
+                                                lineNumber: 61,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DualAgentView.tsx",
-                                        lineNumber: 60,
+                                        lineNumber: 59,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1070,13 +1082,13 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DualAgentView.tsx",
-                                        lineNumber: 66,
+                                        lineNumber: 65,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/DualAgentView.tsx",
-                                lineNumber: 59,
+                                lineNumber: 58,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1090,7 +1102,7 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                 children: formatSimTime(remaining)
                                             }, void 0, false, {
                                                 fileName: "[project]/components/DualAgentView.tsx",
-                                                lineNumber: 75,
+                                                lineNumber: 74,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1098,13 +1110,13 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                 children: "remaining"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/DualAgentView.tsx",
-                                                lineNumber: 78,
+                                                lineNumber: 77,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DualAgentView.tsx",
-                                        lineNumber: 74,
+                                        lineNumber: 73,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1115,7 +1127,7 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                 children: "Speed"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/DualAgentView.tsx",
-                                                lineNumber: 83,
+                                                lineNumber: 82,
                                                 columnNumber: 15
                                             }, this),
                                             SPEED_OPTIONS.map((s)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1127,25 +1139,25 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                                     ]
                                                 }, s, true, {
                                                     fileName: "[project]/components/DualAgentView.tsx",
-                                                    lineNumber: 85,
+                                                    lineNumber: 84,
                                                     columnNumber: 17
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/DualAgentView.tsx",
-                                        lineNumber: 82,
+                                        lineNumber: 81,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/DualAgentView.tsx",
-                                lineNumber: 72,
+                                lineNumber: 71,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/DualAgentView.tsx",
-                        lineNumber: 56,
+                        lineNumber: 55,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1157,12 +1169,12 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                             }
                         }, void 0, false, {
                             fileName: "[project]/components/DualAgentView.tsx",
-                            lineNumber: 103,
+                            lineNumber: 102,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/DualAgentView.tsx",
-                        lineNumber: 102,
+                        lineNumber: 101,
                         columnNumber: 9
                     }, this),
                     (shift.activeSurgeZones.length > 0 || shift.activeClosures.length > 0) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1176,7 +1188,7 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                     ]
                                 }, z.id, true, {
                                     fileName: "[project]/components/DualAgentView.tsx",
-                                    lineNumber: 113,
+                                    lineNumber: 112,
                                     columnNumber: 15
                                 }, this)),
                             shift.activeClosures.map((c)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1187,36 +1199,43 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                                     ]
                                 }, c.id, true, {
                                     fileName: "[project]/components/DualAgentView.tsx",
-                                    lineNumber: 121,
+                                    lineNumber: 120,
                                     columnNumber: 15
                                 }, this))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/DualAgentView.tsx",
-                        lineNumber: 111,
+                        lineNumber: 110,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/DualAgentView.tsx",
-                lineNumber: 55,
+                lineNumber: 54,
                 columnNumber: 7
             }, this),
-            currentOrder && orderExpiry && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$OrderPing$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                order: currentOrder,
-                expiresAt: orderExpiry,
-                carriedCount: shift.smartAgent.carriedOrders.length,
-                capacity: shift.capacity
+            offers.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "space-y-2",
+                children: offers.map((o)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$OrderPing$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        order: o.order,
+                        expiresAt: o.expiresAt,
+                        carriedSlots: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(shift.smartAgent.carriedOrders),
+                        capacity: shift.capacity
+                    }, o.order.id, false, {
+                        fileName: "[project]/components/DualAgentView.tsx",
+                        lineNumber: 135,
+                        columnNumber: 13
+                    }, this))
             }, void 0, false, {
                 fileName: "[project]/components/DualAgentView.tsx",
-                lineNumber: 134,
+                lineNumber: 133,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$EventAlert$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 events: shift.eventLog
             }, void 0, false, {
                 fileName: "[project]/components/DualAgentView.tsx",
-                lineNumber: 143,
+                lineNumber: 147,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1235,12 +1254,12 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                             isDeciding: isSmartDeciding
                         }, void 0, false, {
                             fileName: "[project]/components/DualAgentView.tsx",
-                            lineNumber: 148,
+                            lineNumber: 152,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/DualAgentView.tsx",
-                        lineNumber: 147,
+                        lineNumber: 151,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1255,24 +1274,24 @@ function DualAgentView({ shift, currentOrder, orderExpiry, isSmartDeciding = fal
                             elapsedSeconds: elapsed
                         }, void 0, false, {
                             fileName: "[project]/components/DualAgentView.tsx",
-                            lineNumber: 160,
+                            lineNumber: 164,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/components/DualAgentView.tsx",
-                        lineNumber: 159,
+                        lineNumber: 163,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/DualAgentView.tsx",
-                lineNumber: 146,
+                lineNumber: 150,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/DualAgentView.tsx",
-        lineNumber: 53,
+        lineNumber: 52,
         columnNumber: 5
     }, this);
 }
@@ -1429,7 +1448,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var _s = __turbopack_context__.k.signature();
 "use client";
 ;
-function OrderPing({ order, expiresAt, carriedCount = 0, capacity = 4 }) {
+function OrderPing({ order, expiresAt, carriedSlots = 0, capacity = 4 }) {
     _s();
     const [timeLeft, setTimeLeft] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -1463,14 +1482,14 @@ function OrderPing({ order, expiresAt, carriedCount = 0, capacity = 4 }) {
                         lineNumber: 37,
                         columnNumber: 9
                     }, this),
-                    carriedCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                    carriedSlots > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         className: "text-[10px] bg-white/10 text-white/60 px-2 py-0.5 rounded-full",
                         children: [
                             "stackable · ",
-                            carriedCount,
+                            carriedSlots,
                             "/",
                             capacity,
-                            " carried"
+                            " slots carried"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/OrderPing.tsx",
@@ -1596,6 +1615,49 @@ function OrderPing({ order, expiresAt, carriedCount = 0, capacity = 4 }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "mt-2 flex items-center gap-3 text-xs text-white/40",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "🍱 ",
+                            order.orderSizeMxn,
+                            " MXN order"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/OrderPing.tsx",
+                        lineNumber: 80,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "· ",
+                            order.slots,
+                            " slot",
+                            order.slots > 1 ? "s" : ""
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/OrderPing.tsx",
+                        lineNumber: 81,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        children: [
+                            "· 💵 tip ~$",
+                            order.tip,
+                            " MXN"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/OrderPing.tsx",
+                        lineNumber: 82,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/OrderPing.tsx",
+                lineNumber: 79,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "mt-2 h-1 bg-white/10 rounded-full overflow-hidden",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "h-full bg-amber-400 rounded-full transition-all duration-250",
@@ -1604,12 +1666,12 @@ function OrderPing({ order, expiresAt, carriedCount = 0, capacity = 4 }) {
                     }
                 }, void 0, false, {
                     fileName: "[project]/components/OrderPing.tsx",
-                    lineNumber: 80,
+                    lineNumber: 86,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/OrderPing.tsx",
-                lineNumber: 79,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
@@ -2245,7 +2307,9 @@ __turbopack_context__.s([
     "baselineDecide",
     ()=>baselineDecide
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/simulation/economics.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$scoring$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/agents/scoring.ts [app-client] (ecmascript)");
+;
 ;
 const MINIMUM_PAYOUT = 30; // MXN
 function baselineDecide(order, agent) {
@@ -2264,6 +2328,22 @@ function baselineDecide(order, agent) {
             estimatedMinutes: order.estimatedMinutes
         };
     }
+    // Capacity is a SLOT budget — hard ceiling before any stacking economics.
+    const usedSlots = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(agent.carriedOrders);
+    const neededSlots = order.slots;
+    if (usedSlots + neededSlots > agent.capacity) {
+        return {
+            orderId: order.id,
+            decision: "skip",
+            reason: `No room — ${usedSlots + neededSlots} slots needed vs ${agent.capacity} capacity (${usedSlots} in use).`,
+            confidence: 0.95,
+            timestamp: Date.now(),
+            pickupLabel: order.pickupLabel,
+            dropoffLabel: order.dropoffLabel,
+            payout: order.payout,
+            estimatedMinutes: order.estimatedMinutes
+        };
+    }
     const candidate = [
         ...agent.carriedOrders,
         {
@@ -2271,12 +2351,12 @@ function baselineDecide(order, agent) {
             pickedUp: false
         }
     ];
-    const { current, candidate: cand, deltaMxnMin, accept } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$scoring$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["scoreAddon"])(agent.carriedOrders, candidate, agent.position, agent.capacity);
+    const { current, candidate: cand, deltaMxnMin, reason, accept } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$scoring$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["scoreAddon"])(agent.carriedOrders, candidate, agent.position, agent.capacity);
     const candNet = cand.totalMinutes > 0 ? cand.netMxnMin : 0;
     return {
         orderId: order.id,
         decision: accept ? "accept" : "skip",
-        reason: accept ? `Add-on lifts route to ${candNet.toFixed(1)} MXN/min (+${deltaMxnMin.toFixed(1)}) — stacking.` : `Add-on only ${candNet.toFixed(1)} vs ${current.netMxnMin.toFixed(1)} MXN/min — not worth it.`,
+        reason: reason ? reason : accept ? `Add-on lifts route to ${candNet.toFixed(1)} MXN/min (+${deltaMxnMin.toFixed(1)}) — stacking.` : `Add-on only ${candNet.toFixed(1)} vs ${current.netMxnMin.toFixed(1)} MXN/min — not worth it.`,
         confidence: 0.5,
         timestamp: Date.now(),
         pickupLabel: order.pickupLabel,
@@ -2301,6 +2381,18 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economi
 ;
 ;
 function scoreAddon(carried, candidate, position, capacity) {
+    const candidateSlots = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(candidate);
+    const currentSlots = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(carried);
+    if (candidateSlots > capacity) {
+        const current = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$routeSolver$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["planEfficiency"])(carried, position, capacity);
+        return {
+            current,
+            candidate: current,
+            deltaMxnMin: 0,
+            reason: `No room — ${candidateSlots} slots needed vs ${capacity} capacity (${currentSlots} in use).`,
+            accept: false
+        };
+    }
     const current = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$routeSolver$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["planEfficiency"])(carried, position, capacity);
     const candidateEff = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$routeSolver$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["planEfficiency"])(candidate, position, capacity);
     const deltaMxnMin = round1(candidateEff.netMxnMin - current.netMxnMin);
@@ -2329,20 +2421,42 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/simulation/shiftEngine.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$baselineAgent$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/agents/baselineAgent.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$surgeZones$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/simulation/surgeZones.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$routeSolver$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/routing/routeSolver.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/simulation/economics.ts [app-client] (ecmascript)");
 var _s = __turbopack_context__.k.signature();
 "use client";
 ;
 ;
 ;
 ;
-/** One order every ~10 simulated minutes (600 sim-seconds). */ const ORDER_INTERVAL_SIM_S = 10 * 60;
+;
+;
+/** Orders offered while no surge is active (simulated seconds between spawns). */ const ORDER_INTERVAL_SIM_S = 10 * 60;
+/** Interval while at least one surge zone is active (rush traffic). */ const SURGE_INTERVAL_SIM_S = 4 * 60;
+/** Surge jitter, simulated seconds. */ const SPAWN_JITTER_S = 4 * 60;
+const MAX_SIMULTANEOUS_OFFERS = 8;
+function sleep(ms) {
+    return new Promise((r)=>setTimeout(r, ms));
+}
 function useShift() {
     _s();
-    const [shift, setShift] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+    const [shift, setShiftState] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         "useShift.useState": ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createInitialShiftState"])()
     }["useShift.useState"]);
-    const [currentOrder, setCurrentOrder] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [orderExpiry, setOrderExpiry] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const shiftRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(shift);
+    /** Single write path: updates React state AND keeps shiftRef in sync so
+   *  async delivery loops always read the freshest carried/position state. */ const commitShift = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[commitShift]": (updater)=>{
+            setShiftState({
+                "useShift.useCallback[commitShift]": (prev)=>{
+                    const next = updater(prev);
+                    shiftRef.current = next;
+                    return next;
+                }
+            }["useShift.useCallback[commitShift]"]);
+        }
+    }["useShift.useCallback[commitShift]"], []);
+    const [offers, setOffers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [isSmartDeciding, setIsSmartDeciding] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     // Speed: simulated-seconds that advance per real second
     const [speed, _setSpeed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(60); // default 60× → 4h shift in 4 real minutes
@@ -2354,10 +2468,22 @@ function useShift() {
         }
     }["useShift.useCallback[setSpeed]"], []);
     const tickRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const orderTimerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const spawnTimerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const prevElapsedRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    // An animation epoch per agent: a new accept mid-run bumps the epoch, which
+    // cancels the previous delivery loop so the new stack re-plans from scratch.
+    const epochRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])({
+        smartAgent: 0,
+        baselineAgent: 0
+    });
+    // Synchronous carry ledger shared by the planning + settlement code paths.
+    // React state updates are deferred to the next render, but a second accept can
+    // land before the first one commits — this ref keeps stacking deterministic.
+    const queueRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])({
+        smartAgent: [],
+        baselineAgent: []
+    });
     // ── Derived simulated time ─────────────────────────────────────────────
-    // Unix ms: what "now" is in the simulated world
     const simulatedNow = shift.simShiftStart + shift.elapsedSeconds * 1000;
     // ── Fetch helpers ──────────────────────────────────────────────────────
     const fetchOrder = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
@@ -2375,8 +2501,7 @@ function useShift() {
         }
     }["useShift.useCallback[fetchOrder]"], []);
     const fetchRoute = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useShift.useCallback[fetchRoute]": async (from, to, departureTime // unix seconds for the simulated time
-        )=>{
+        "useShift.useCallback[fetchRoute]": async (from, to, departureTime)=>{
             try {
                 const res = await fetch("/api/routing", {
                     method: "POST",
@@ -2445,163 +2570,365 @@ function useShift() {
                 estimatedMinutes: order.estimatedMinutes
             })
     }["useShift.useCallback[enrichDecision]"], []);
-    // ── Apply a decision: fetch routes, animate courier, settle earnings ───
-    const applyDecision = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useShift.useCallback[applyDecision]": async (agentKey, decision, order, currentShift)=>{
-            if (decision.decision !== "accept") return;
-            // Simulated departure timestamp (unix seconds) for traffic-aware routing
-            const departureTime = Math.floor((currentShift.simShiftStart + currentShift.elapsedSeconds * 1000) / 1000);
-            const agent = currentShift[agentKey];
-            const [routeToPickup, routeToDropoff] = await Promise.all([
-                fetchRoute(agent.position, order.pickupCoords, departureTime),
-                fetchRoute(order.pickupCoords, order.dropoffCoords, departureTime)
-            ]);
-            const totalKm = routeToPickup.km + routeToDropoff.km;
-            const pickupIndex = routeToPickup.coords.length;
-            const fullRoute = [
-                ...routeToPickup.coords,
-                ...routeToDropoff.coords
-            ];
-            // Real-time animation duration: scale inversely with speed, cap at 20s
-            const travelMs = Math.min(order.estimatedMinutes * 60_000 / speedRef.current, 20_000);
-            setShift({
-                "useShift.useCallback[applyDecision]": (prev)=>({
-                        ...prev,
-                        [agentKey]: {
-                            ...prev[agentKey],
-                            earnings: prev[agentKey].earnings + order.payout,
-                            ordersCompleted: prev[agentKey].ordersCompleted + 1,
-                            kmDriven: Math.round((prev[agentKey].kmDriven + totalKm) * 10) / 10,
-                            currentRoute: fullRoute,
-                            currentRouteMeta: {
-                                startedAt: Date.now(),
-                                durationMs: travelMs,
-                                pickupIndex
-                            },
-                            currentOrder: order,
-                            isMoving: true,
-                            lastDecision: decision,
-                            decisionHistory: [
-                                ...prev[agentKey].decisionHistory,
-                                decision
-                            ]
-                        }
-                    })
-            }["useShift.useCallback[applyDecision]"]);
-            // Snap position to dropoff when delivery animation completes
-            setTimeout({
-                "useShift.useCallback[applyDecision]": ()=>{
-                    setShift({
-                        "useShift.useCallback[applyDecision]": (prev)=>({
-                                ...prev,
-                                [agentKey]: {
-                                    ...prev[agentKey],
-                                    currentOrder: null,
-                                    currentRoute: [],
-                                    currentRouteMeta: null,
-                                    isMoving: false,
-                                    position: order.dropoffCoords
-                                }
-                            })
-                    }["useShift.useCallback[applyDecision]"]);
-                }
-            }["useShift.useCallback[applyDecision]"], travelMs);
-        }
-    }["useShift.useCallback[applyDecision]"], [
-        fetchRoute
-    ]);
-    // ── Present a new order to both agents ────────────────────────────────
-    const presentOrder = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useShift.useCallback[presentOrder]": async (order, currentShift)=>{
-            setCurrentOrder(order);
-            setOrderExpiry(order.expiresAt);
-            const remainingSeconds = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SHIFT_DURATION_SECONDS"] - currentShift.elapsedSeconds;
-            // Smart agent — async
-            setIsSmartDeciding(true);
-            smartDecide(order, currentShift.smartAgent, remainingSeconds, currentShift.activeSurgeZones, currentShift.activeClosures, currentShift.smartAgent.decisionHistory).then({
-                "useShift.useCallback[presentOrder]": (rawDecision)=>{
-                    setIsSmartDeciding(false);
-                    const decision = enrichDecision(rawDecision, order);
-                    setShift({
-                        "useShift.useCallback[presentOrder]": (prev)=>{
-                            applyDecision("smartAgent", decision, order, prev);
-                            return {
-                                ...prev,
-                                smartAgent: {
-                                    ...prev.smartAgent,
-                                    lastDecision: decision,
-                                    decisionHistory: [
-                                        ...prev.smartAgent.decisionHistory,
-                                        decision
-                                    ]
-                                },
-                                eventLog: [
-                                    {
-                                        type: "order",
-                                        label: `Smart: ${decision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
-                                        timestamp: Date.now(),
-                                        agentType: "smart"
-                                    },
-                                    ...prev.eventLog.slice(0, 29)
-                                ]
-                            };
-                        }
-                    }["useShift.useCallback[presentOrder]"]);
-                }
-            }["useShift.useCallback[presentOrder]"]);
-            // Baseline agent — sync
-            const baseDecision = enrichDecision((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$baselineAgent$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["baselineDecide"])(order, currentShift.baselineAgent), order);
-            setShift({
-                "useShift.useCallback[presentOrder]": (prev)=>{
-                    applyDecision("baselineAgent", baseDecision, order, prev);
+    // ── Settle a single dropoff: earnings, fuel, maintenance, bonus ─────────
+    const settleDropoff = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[settleDropoff]": (agentKey, order, legKm, legMinutes, legIndex, remainingCarried, dropoffCoord)=>{
+            void remainingCarried;
+            const s = shiftRef.current;
+            const agent = s[agentKey];
+            const capacity = agent.capacity;
+            const fuelUse = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fuelLitersForKm"])(legKm, capacity);
+            const fuelMxn = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fuelCostMxn"])(legKm, capacity);
+            const maint = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["maintenanceCostMxn"])(legKm);
+            const bonus = legIndex > 0 ? __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BATCH_BONUS_PER_EXTRA"] : 0;
+            const gross = order.payout + order.tip + bonus;
+            const net = gross - fuelMxn - maint;
+            // Keep the planning ledger in sync so late-arriving accepts re-plan from
+            // the true remaining load.
+            queueRef.current[agentKey] = queueRef.current[agentKey].filter({
+                "useShift.useCallback[settleDropoff]": (c)=>c.order.id !== order.id
+            }["useShift.useCallback[settleDropoff]"]);
+            commitShift({
+                "useShift.useCallback[settleDropoff]": (prev)=>{
+                    const a = prev[agentKey];
+                    const newCarried = a.carriedOrders.filter({
+                        "useShift.useCallback[settleDropoff].newCarried": (c)=>c.order.id !== order.id
+                    }["useShift.useCallback[settleDropoff].newCarried"]);
+                    const runDone = newCarried.length === 0;
+                    const grossE = a.earnings + gross;
+                    const netE = a.netEarnings + net;
                     return {
                         ...prev,
-                        baselineAgent: {
-                            ...prev.baselineAgent,
-                            lastDecision: baseDecision,
-                            decisionHistory: [
-                                ...prev.baselineAgent.decisionHistory,
-                                baseDecision
+                        [agentKey]: {
+                            ...a,
+                            position: dropoffCoord,
+                            earnings: grossE,
+                            netEarnings: netE,
+                            ordersCompleted: a.ordersCompleted + 1,
+                            kmDriven: Math.round((a.kmDriven + legKm) * 10) / 10,
+                            deadMilesKm: a.deadMilesKm,
+                            carriedOrders: newCarried,
+                            runOrderCount: runDone ? 0 : newCarried.length,
+                            currentRoute: runDone ? [] : prev[agentKey].currentRoute,
+                            currentRouteMeta: runDone ? null : prev[agentKey].currentRouteMeta,
+                            isMoving: runDone ? false : prev[agentKey].isMoving,
+                            batchBonusEarned: a.batchBonusEarned + bonus,
+                            tipsEarned: a.tipsEarned + order.tip,
+                            expenses: {
+                                fuelLiters: Math.round((a.expenses.fuelLiters + fuelUse) * 10) / 10,
+                                fuelMxn: Math.round((a.expenses.fuelMxn + fuelMxn) * 10) / 10,
+                                maintenanceMxn: Math.round((a.expenses.maintenanceMxn + maint) * 10) / 10
+                            },
+                            earningsHistory: [
+                                ...a.earningsHistory,
+                                {
+                                    at: prev.elapsedSeconds,
+                                    gross: grossE,
+                                    net: netE
+                                }
                             ]
-                        },
+                        }
+                    };
+                }
+            }["useShift.useCallback[settleDropoff]"]);
+        }
+    }["useShift.useCallback[settleDropoff]"], [
+        commitShift
+    ]);
+    // ── Deliver an accepted order (start or stack) through the full run ─────
+    const runDelivery = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[runDelivery]": async (agentKey, order)=>{
+            const s = shiftRef.current;
+            if (!s || s.status !== "running") return;
+            // Queued ledger is the authoritative carry state for planning (accepts
+            // serialize synchronously here even while React state lags a render).
+            const carried = [
+                ...queueRef.current[agentKey]
+            ];
+            if (!carried.some({
+                "useShift.useCallback[runDelivery]": (c)=>c.order.id === order.id
+            }["useShift.useCallback[runDelivery]"])) return; // not accepted
+            if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(carried) > s[agentKey].capacity) return;
+            const plan = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$routing$2f$routeSolver$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["solveRoutePlan"])(carried, s[agentKey].position);
+            if (plan.stops.length === 0) return;
+            const epoch = ++epochRef.current[agentKey];
+            const departureTime = Math.floor((s.simShiftStart + s.elapsedSeconds * 1000) / 1000);
+            // Fetch every leg of the re-solved route (parallel).
+            const fromPos = s[agentKey].position;
+            let prev = fromPos;
+            const legTargets = plan.stops.map({
+                "useShift.useCallback[runDelivery].legTargets": (stop)=>{
+                    const leg = {
+                        from: prev,
+                        to: stop.coord
+                    };
+                    prev = stop.coord;
+                    return leg;
+                }
+            }["useShift.useCallback[runDelivery].legTargets"]);
+            const legs = await Promise.all(legTargets.map({
+                "useShift.useCallback[runDelivery]": (l)=>fetchRoute(l.from, l.to, departureTime)
+            }["useShift.useCallback[runDelivery]"]));
+            const totalMinutes = Math.max(1, legs.reduce({
+                "useShift.useCallback[runDelivery].totalMinutes": (acc, l)=>acc + l.minutes
+            }["useShift.useCallback[runDelivery].totalMinutes"], 0));
+            const totalTravelMs = Math.min(totalMinutes * 60_000 / speedRef.current, 22_000);
+            let delivered = 0;
+            for(let i = 0; i < plan.stops.length; i++){
+                if (epochRef.current[agentKey] !== epoch) return; // superseded by a new stack
+                if (shiftRef.current.status !== "running") return;
+                const stop = plan.stops[i];
+                const leg = legs[i];
+                const legRoute = leg.coords;
+                const pickupIndex = stop.kind === "pickup" ? legRoute.length : 0;
+                const durMs = Math.max(450, Math.round(leg.minutes / totalMinutes * totalTravelMs));
+                // Animate this leg.
+                commitShift({
+                    "useShift.useCallback[runDelivery]": (p)=>({
+                            ...p,
+                            [agentKey]: {
+                                ...p[agentKey],
+                                currentRoute: legRoute,
+                                currentRouteMeta: {
+                                    startedAt: Date.now(),
+                                    durationMs: durMs,
+                                    pickupIndex
+                                },
+                                isMoving: true,
+                                stops: plan.stops
+                            }
+                        })
+                }["useShift.useCallback[runDelivery]"]);
+                await sleep(durMs);
+                if (epochRef.current[agentKey] !== epoch) return;
+                if (stop.kind === "pickup") {
+                    // Courier reaches the producer: mark the order as picked up (repo arrives later).
+                    commitShift({
+                        "useShift.useCallback[runDelivery]": (p)=>({
+                                ...p,
+                                [agentKey]: {
+                                    ...p[agentKey],
+                                    position: stop.coord,
+                                    carriedOrders: p[agentKey].carriedOrders.map({
+                                        "useShift.useCallback[runDelivery]": (c)=>c.order.id === stop.orderId ? {
+                                                ...c,
+                                                pickedUp: true
+                                            } : c
+                                    }["useShift.useCallback[runDelivery]"])
+                                }
+                            })
+                    }["useShift.useCallback[runDelivery]"]);
+                } else {
+                    const carriedOrder = carried.find({
+                        "useShift.useCallback[runDelivery].carriedOrder": (c)=>c.order.id === stop.orderId
+                    }["useShift.useCallback[runDelivery].carriedOrder"]);
+                    if (carriedOrder) {
+                        const remainingCarried = Math.max(0, carried.length - 1 - delivered);
+                        settleDropoff(agentKey, carriedOrder.order, leg.km, leg.minutes, delivered, remainingCarried, stop.coord);
+                        delivered += 1;
+                    }
+                }
+            }
+        }
+    }["useShift.useCallback[runDelivery]"], [
+        fetchRoute,
+        settleDropoff,
+        commitShift
+    ]);
+    // ── Record a decision for one agent; accept → start a delivery ──────────
+    const recordDecision = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[recordDecision]": (agentKey, decision, order)=>{
+            if (shiftRef.current.status !== "running") return;
+            const queued = queueRef.current[agentKey];
+            const accepted = decision.decision === "accept" && (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$economics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["carriedSlots"])(queued) + order.slots <= shiftRef.current[agentKey].capacity;
+            if (accepted) {
+                // Queue synchronously so a same-tick second accept sees this order.
+                queueRef.current[agentKey] = [
+                    ...queued,
+                    {
+                        order,
+                        pickedUp: false
+                    }
+                ];
+            }
+            commitShift({
+                "useShift.useCallback[recordDecision]": (prev)=>{
+                    const a = prev[agentKey];
+                    const nextAgent = {
+                        ...a,
+                        lastDecision: decision,
+                        decisionHistory: [
+                            ...a.decisionHistory,
+                            decision
+                        ],
+                        acceptCount: a.acceptCount + (accepted ? 1 : 0),
+                        skipCount: a.skipCount + (accepted ? 0 : 1),
+                        surgeOrdersAccepted: a.surgeOrdersAccepted + (accepted && order.isSurge ? 1 : 0),
+                        ...accepted ? {
+                            carriedOrders: [
+                                ...a.carriedOrders,
+                                {
+                                    order,
+                                    pickedUp: false
+                                }
+                            ],
+                            runOrderCount: a.carriedOrders.length + 1,
+                            isMoving: true
+                        } : {}
+                    };
+                    return {
+                        ...prev,
+                        [agentKey]: nextAgent,
                         eventLog: [
                             {
                                 type: "order",
-                                label: `Baseline: ${baseDecision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
+                                label: `${agentKey === "smartAgent" ? "Smart" : "Baseline"}: ${accepted ? "ACCEPT" : "SKIP"} — ${order.pickupLabel} → ${order.dropoffLabel} (${order.slots} slot${order.slots > 1 ? "s" : ""}${order.isSurge ? " ⚡" : ""})`,
                                 timestamp: Date.now(),
-                                agentType: "baseline"
+                                agentType: agentKey === "smartAgent" ? "smart" : "baseline"
                             },
                             ...prev.eventLog.slice(0, 29)
                         ]
                     };
                 }
-            }["useShift.useCallback[presentOrder]"]);
-            // Clear order ping
-            setTimeout({
-                "useShift.useCallback[presentOrder]": ()=>setCurrentOrder(null)
-            }["useShift.useCallback[presentOrder]"], 15_000);
+            }["useShift.useCallback[recordDecision]"]);
+            if (accepted) void runDelivery(agentKey, order);
         }
-    }["useShift.useCallback[presentOrder]"], [
+    }["useShift.useCallback[recordDecision]"], [
+        commitShift,
+        runDelivery
+    ]);
+    const decideSmartFor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[decideSmartFor]": (order, remainingSeconds)=>{
+            const s = shiftRef.current;
+            setIsSmartDeciding(true);
+            smartDecide(order, s.smartAgent, remainingSeconds, s.activeSurgeZones, s.activeClosures, s.smartAgent.decisionHistory).then({
+                "useShift.useCallback[decideSmartFor]": (raw)=>{
+                    setIsSmartDeciding(false);
+                    if (shiftRef.current.status !== "running") return;
+                    recordDecision("smartAgent", enrichDecision(raw, order), order);
+                }
+            }["useShift.useCallback[decideSmartFor]"]);
+        }
+    }["useShift.useCallback[decideSmartFor]"], [
         smartDecide,
-        applyDecision,
-        enrichDecision
+        enrichDecision,
+        recordDecision
+    ]);
+    const decideBaselineFor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[decideBaselineFor]": (order)=>{
+            if (shiftRef.current.status !== "running") return;
+            const raw = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$agents$2f$baselineAgent$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["baselineDecide"])(order, shiftRef.current.baselineAgent);
+            recordDecision("baselineAgent", enrichDecision(raw, order), order);
+        }
+    }["useShift.useCallback[decideBaselineFor]"], [
+        enrichDecision,
+        recordDecision
+    ]);
+    // ── Present one or more simultaneous offers to both agents ──────────────
+    const presentOrders = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[presentOrders]": (incoming)=>{
+            if (!incoming.length) return;
+            const s = shiftRef.current;
+            if (!s || s.status !== "running") return;
+            const now = Date.now();
+            setOffers({
+                "useShift.useCallback[presentOrders]": (prev)=>[
+                        ...prev,
+                        ...incoming.map({
+                            "useShift.useCallback[presentOrders]": (order)=>({
+                                    order,
+                                    expiresAt: order.expiresAt
+                                })
+                        }["useShift.useCallback[presentOrders]"])
+                    ].filter({
+                        "useShift.useCallback[presentOrders]": (o)=>o.expiresAt > now
+                    }["useShift.useCallback[presentOrders]"]).slice(-MAX_SIMULTANEOUS_OFFERS)
+            }["useShift.useCallback[presentOrders]"]);
+            const remainingSeconds = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SHIFT_DURATION_SECONDS"] - s.elapsedSeconds;
+            for (const order of incoming){
+                decideSmartFor(order, remainingSeconds);
+                decideBaselineFor(order);
+            }
+        }
+    }["useShift.useCallback[presentOrders]"], [
+        decideSmartFor,
+        decideBaselineFor
+    ]);
+    // ── Spawn loop: surge-aware cadence + bursts of simultaneous orders ─────
+    const firstSpawnRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(true);
+    const spawnLoop = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useShift.useCallback[spawnLoop]": ()=>{
+            const schedule = {
+                "useShift.useCallback[spawnLoop].schedule": ()=>{
+                    if (spawnTimerRef.current) clearTimeout(spawnTimerRef.current);
+                    const s = shiftRef.current;
+                    if (!s || s.status !== "running") return;
+                    const first = firstSpawnRef.current;
+                    firstSpawnRef.current = false;
+                    const surgeActive = s.activeSurgeZones.length > 0;
+                    const base = surgeActive ? SURGE_INTERVAL_SIM_S : ORDER_INTERVAL_SIM_S;
+                    const delaySim = base + Math.random() * SPAWN_JITTER_S;
+                    const delayMs = first ? 1500 : delaySim / speedRef.current * 1000;
+                    spawnTimerRef.current = setTimeout({
+                        "useShift.useCallback[spawnLoop].schedule": async ()=>{
+                            const cur = shiftRef.current;
+                            if (!cur || cur.status !== "running") return;
+                            const busted = cur.activeSurgeZones.length > 0;
+                            let burstCount = 1;
+                            if (busted) {
+                                const r = Math.random();
+                                burstCount = r < 0.35 ? 2 : r < 0.8 ? 1 : 3;
+                            }
+                            const orders = [];
+                            for(let i = 0; i < burstCount; i++){
+                                try {
+                                    orders.push(await fetchOrder(cur.activeSurgeZones));
+                                } catch  {
+                                // transient generator failure — skip this offer
+                                }
+                            }
+                            presentOrders(orders);
+                            schedule();
+                        }
+                    }["useShift.useCallback[spawnLoop].schedule"], delayMs);
+                }
+            }["useShift.useCallback[spawnLoop].schedule"];
+            schedule();
+        }
+    }["useShift.useCallback[spawnLoop]"], [
+        fetchOrder,
+        presentOrders
     ]);
     // ── Start shift ────────────────────────────────────────────────────────
     const startShift = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "useShift.useCallback[startShift]": ()=>{
+        "useShift.useCallback[startShift]": (capacity)=>{
             prevElapsedRef.current = 0;
-            setShift({
-                "useShift.useCallback[startShift]": (prev)=>({
-                        ...prev,
-                        status: "running",
-                        startedAt: Date.now(),
-                        elapsedSeconds: 0
-                    })
-            }["useShift.useCallback[startShift]"]);
+            epochRef.current = {
+                smartAgent: 0,
+                baselineAgent: 0
+            };
+            queueRef.current = {
+                smartAgent: [],
+                baselineAgent: []
+            };
+            setOffers([]);
+            // Build the initial running state and write it to shiftRef *synchronously*
+            // before starting the spawn loop. commitShift queues a setShiftState updater
+            // that runs asynchronously — if we called spawnLoop() after commitShift()
+            // the spawn loop's status guard would still see "idle" and exit immediately.
+            const fresh = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createInitialShiftState"])(capacity);
+            const initialState = {
+                ...fresh,
+                status: "running",
+                startedAt: Date.now(),
+                elapsedSeconds: 0
+            };
+            shiftRef.current = initialState;
+            setShiftState(initialState);
             // Counter-based clock: advance simulated time by `speed` each real second
             tickRef.current = setInterval({
                 "useShift.useCallback[startShift]": ()=>{
-                    setShift({
+                    commitShift({
                         "useShift.useCallback[startShift]": (prev)=>{
                             if (prev.status !== "running") return prev;
                             const newElapsed = Math.min(prev.elapsedSeconds + speedRef.current, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SHIFT_DURATION_SECONDS"]);
@@ -2646,7 +2973,9 @@ function useShift() {
                             ].slice(0, 30);
                             if (newElapsed >= __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SHIFT_DURATION_SECONDS"]) {
                                 clearInterval(tickRef.current);
-                                clearTimeout(orderTimerRef.current);
+                                clearTimeout(spawnTimerRef.current);
+                                spawnTimerRef.current = null;
+                                setOffers([]);
                                 return {
                                     ...prev,
                                     status: "ended",
@@ -2665,70 +2994,48 @@ function useShift() {
                             };
                         }
                     }["useShift.useCallback[startShift]"]);
+                    // Purge expired offers once per real second.
+                    setOffers({
+                        "useShift.useCallback[startShift]": (prev)=>prev.filter({
+                                "useShift.useCallback[startShift]": (o)=>o.expiresAt > Date.now()
+                            }["useShift.useCallback[startShift]"])
+                    }["useShift.useCallback[startShift]"]);
                 }
             }["useShift.useCallback[startShift]"], 1000);
-            // Order generator: one order every ORDER_INTERVAL_SIM_S simulated seconds
-            // Real delay = (sim interval / speed) × 1000 ms
-            let firstOrder = true;
-            const scheduleNextOrder = {
-                "useShift.useCallback[startShift].scheduleNextOrder": ()=>{
-                    const simJitterS = Math.random() * 5 * 60; // ±0–5 simulated minutes jitter
-                    const realDelayMs = firstOrder ? 2_000 : (ORDER_INTERVAL_SIM_S + simJitterS) / speedRef.current * 1000;
-                    firstOrder = false;
-                    orderTimerRef.current = setTimeout({
-                        "useShift.useCallback[startShift].scheduleNextOrder": ()=>{
-                            setShift({
-                                "useShift.useCallback[startShift].scheduleNextOrder": (prev)=>{
-                                    if (prev.status !== "running") return prev;
-                                    fetchOrder(prev.activeSurgeZones).then({
-                                        "useShift.useCallback[startShift].scheduleNextOrder": (order)=>{
-                                            setShift({
-                                                "useShift.useCallback[startShift].scheduleNextOrder": (s)=>{
-                                                    if (s.status === "running") presentOrder(order, s);
-                                                    return s;
-                                                }
-                                            }["useShift.useCallback[startShift].scheduleNextOrder"]);
-                                        }
-                                    }["useShift.useCallback[startShift].scheduleNextOrder"]);
-                                    return prev;
-                                }
-                            }["useShift.useCallback[startShift].scheduleNextOrder"]);
-                            scheduleNextOrder();
-                        }
-                    }["useShift.useCallback[startShift].scheduleNextOrder"], realDelayMs);
-                }
-            }["useShift.useCallback[startShift].scheduleNextOrder"];
-            scheduleNextOrder();
+            // Spawn loop handles the first order (1.5s) then enters surge-aware cadence.
+            firstSpawnRef.current = true;
+            spawnLoop();
         }
     }["useShift.useCallback[startShift]"], [
-        fetchOrder,
-        presentOrder
+        commitShift,
+        spawnLoop
     ]);
     // ── Reset ──────────────────────────────────────────────────────────────
     const resetShift = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "useShift.useCallback[resetShift]": ()=>{
             clearInterval(tickRef.current);
-            clearTimeout(orderTimerRef.current);
+            clearTimeout(spawnTimerRef.current);
+            spawnTimerRef.current = null;
             prevElapsedRef.current = 0;
-            setCurrentOrder(null);
-            setOrderExpiry(null);
-            setShift((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createInitialShiftState"])());
+            epochRef.current = {
+                smartAgent: 0,
+                baselineAgent: 0
+            };
+            queueRef.current = {
+                smartAgent: [],
+                baselineAgent: []
+            };
+            setOffers([]);
+            commitShift({
+                "useShift.useCallback[resetShift]": ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$simulation$2f$shiftEngine$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createInitialShiftState"])(shiftRef.current.capacity)
+            }["useShift.useCallback[resetShift]"]);
         }
-    }["useShift.useCallback[resetShift]"], []);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "useShift.useEffect": ()=>{
-            return ({
-                "useShift.useEffect": ()=>{
-                    clearInterval(tickRef.current);
-                    clearTimeout(orderTimerRef.current);
-                }
-            })["useShift.useEffect"];
-        }
-    }["useShift.useEffect"], []);
+    }["useShift.useCallback[resetShift]"], [
+        commitShift
+    ]);
     return {
         shift,
-        currentOrder,
-        orderExpiry,
+        offers,
         isSmartDeciding,
         speed,
         setSpeed,
@@ -2737,7 +3044,7 @@ function useShift() {
         resetShift
     };
 }
-_s(useShift, "/KCtFb0DAHJv8OTNLPiwRbHKIJI=");
+_s(useShift, "5Xt11lG0fSqkmjTT/7a4wTvDviI=");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -2937,6 +3244,8 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 __turbopack_context__.s([
     "AVG_SPEED_KMH",
     ()=>AVG_SPEED_KMH,
+    "BASE_FEE",
+    ()=>BASE_FEE,
     "BASE_KM_PER_LITER",
     ()=>BASE_KM_PER_LITER,
     "BATCH_BONUS_PER_EXTRA",
@@ -2945,6 +3254,8 @@ __turbopack_context__.s([
     ()=>CAPACITY_MAX,
     "CAPACITY_MIN",
     ()=>CAPACITY_MIN,
+    "COMMISSION_RATE",
+    ()=>COMMISSION_RATE,
     "DEFAULT_CAPACITY",
     ()=>DEFAULT_CAPACITY,
     "EFFICIENCY_GATE_MXN_MIN",
@@ -2955,18 +3266,30 @@ __turbopack_context__.s([
     ()=>FUEL_PRICE_PER_LITER,
     "MAINTENANCE_PER_KM",
     ()=>MAINTENANCE_PER_KM,
+    "MAX_PAYOUT_BASE",
+    ()=>MAX_PAYOUT_BASE,
+    "MIN_PAYOUT_FLOOR",
+    ()=>MIN_PAYOUT_FLOOR,
+    "PER_KM_FEE",
+    ()=>PER_KM_FEE,
     "PREP_MIN_MAX",
     ()=>PREP_MIN_MAX,
     "PREP_MIN_MIN",
     ()=>PREP_MIN_MIN,
     "ROAD_FACTOR",
     ()=>ROAD_FACTOR,
-    "TIP_CHANCE",
-    ()=>TIP_CHANCE,
+    "SLOT_VALUE_MXN",
+    ()=>SLOT_VALUE_MXN,
     "TIP_MAX",
     ()=>TIP_MAX,
     "TIP_MIN",
     ()=>TIP_MIN,
+    "TIP_PCT_MAX",
+    ()=>TIP_PCT_MAX,
+    "TIP_PCT_MIN",
+    ()=>TIP_PCT_MIN,
+    "carriedSlots",
+    ()=>carriedSlots,
     "clampCapacity",
     ()=>clampCapacity,
     "estimateKm",
@@ -2983,6 +3306,12 @@ __turbopack_context__.s([
     ()=>kmPerLiterForCapacity,
     "maintenanceCostMxn",
     ()=>maintenanceCostMxn,
+    "orderSlots",
+    ()=>orderSlots,
+    "quotePayout",
+    ()=>quotePayout,
+    "quoteTip",
+    ()=>quoteTip,
     "vehicleLabelForCapacity",
     ()=>vehicleLabelForCapacity
 ]);
@@ -3030,10 +3359,33 @@ function vehicleLabelForCapacity(capacity) {
     }
 }
 const BATCH_BONUS_PER_EXTRA = 8; // MXN per extra order in a run (>= 2 orders)
-const EFFICIENCY_GATE_MXN_MIN = 0.5; // min net MXN/min gain to justify an add-on
-const TIP_CHANCE = 0.4;
-const TIP_MIN = 5;
-const TIP_MAX = 15;
+const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
+const SLOT_VALUE_MXN = 100;
+const MIN_PAYOUT_FLOOR = 25; // MXN formula floor
+const BASE_FEE = 18; // MXN flat delivery fee
+const PER_KM_FEE = 6; // MXN per estimated km
+const COMMISSION_RATE = 0.07; // share of consumer order spend paid to courier
+const MAX_PAYOUT_BASE = 120; // clamp on distance+base component (pre-surge)
+const TIP_PCT_MIN = 0.06; // tip as share of order spend
+const TIP_PCT_MAX = 0.12;
+const TIP_MIN = 5; // MXN realised tip floor
+const TIP_MAX = 40; // MXN realised tip cap
+function quotePayout(orderSizeMxn, km) {
+    const sizeComponent = Math.round(orderSizeMxn * COMMISSION_RATE);
+    const distComponent = Math.round(BASE_FEE + PER_KM_FEE * km);
+    const raw = Math.min(sizeComponent + distComponent, MAX_PAYOUT_BASE);
+    return Math.max(MIN_PAYOUT_FLOOR, raw);
+}
+function quoteTip(orderSizeMxn) {
+    const pct = TIP_PCT_MIN + Math.random() * (TIP_PCT_MAX - TIP_PCT_MIN);
+    return Math.min(TIP_MAX, Math.max(TIP_MIN, Math.round(orderSizeMxn * pct)));
+}
+function orderSlots(orderSizeMxn) {
+    return Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN));
+}
+function carriedSlots(orders) {
+    return orders.reduce((s, c)=>s + c.order.slots, 0);
+}
 const PREP_MIN_MIN = 0;
 const PREP_MIN_MAX = 6;
 const AVG_SPEED_KMH = 25;

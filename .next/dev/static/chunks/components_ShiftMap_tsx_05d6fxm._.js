@@ -26,10 +26,11 @@ function distKm(a, b) {
 }
 // Interpolate a point at `progress` (0–1) along a route array
 function interpolateRoute(route, progress) {
-    if (!route.length) return {
+    if (route.length === 0) return {
         lat: 0,
         lng: 0
     };
+    if (route.length === 1) return route[0]; // single-point leg — no interpolation possible
     if (progress <= 0) return route[0];
     if (progress >= 1) return route[route.length - 1];
     // Precompute cumulative distances
@@ -40,9 +41,12 @@ function interpolateRoute(route, progress) {
         dists.push(dists[i - 1] + distKm(route[i - 1], route[i]));
     }
     const total = dists[dists.length - 1];
+    if (total === 0) return route[0]; // all points coincident — avoid division by zero
     const target = total * progress;
     let seg = 0;
-    while(seg < dists.length - 2 && dists[seg + 1] < target)seg++;
+    while(seg < route.length - 2 && dists[seg + 1] < target)seg++;
+    // Safety: seg+1 must be a valid index
+    if (seg + 1 >= route.length) return route[route.length - 1];
     const segLen = dists[seg + 1] - dists[seg];
     const t = segLen > 0 ? (target - dists[seg]) / segLen : 0;
     return {
@@ -152,7 +156,7 @@ function ShiftMap({ agentState, activeSurgeZones, activeClosures, agentColor, ma
                 }
                 // Clear route lines
                 __turbopack_context__.A("[project]/node_modules/leaflet/dist/leaflet-src.js [app-client] (ecmascript, async loader)").then({
-                    "ShiftMap.useEffect": (L)=>{
+                    "ShiftMap.useEffect": ()=>{
                         const map = mapRef.current;
                         if (!map) return;
                         if (traveledLayerRef.current) {
@@ -212,8 +216,9 @@ function ShiftMap({ agentState, activeSurgeZones, activeClosures, agentColor, ma
                         opacity: 0.25,
                         dashArray: "4 4"
                     }).addTo(map);
-                    // Pickup marker (green dot)
-                    const pickupCoord = route[meta.pickupIndex] ?? route[0];
+                    // Pickup marker (green dot) — for stacked runs pickupIndex = end of a
+                    // pickup leg, so clamp to the last point.
+                    const pickupCoord = route[Math.min(meta.pickupIndex, route.length - 1)] ?? route[0];
                     pickupMarkerRef.current = L.circleMarker([
                         pickupCoord.lat,
                         pickupCoord.lng
@@ -379,7 +384,7 @@ function ShiftMap({ agentState, activeSurgeZones, activeClosures, agentColor, ma
         className: "w-full h-96 rounded-xl overflow-hidden border border-white/10"
     }, void 0, false, {
         fileName: "[project]/components/ShiftMap.tsx",
-        lineNumber: 308,
+        lineNumber: 315,
         columnNumber: 5
     }, this);
 }

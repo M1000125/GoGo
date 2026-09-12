@@ -1,114 +1,175 @@
-{"timestamp":"00:00:00.914","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:22.569","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:00:31.710","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:31.719","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:31.727","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:31.783","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:31.801","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:31.809","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.454","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.457","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.461","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.464","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.466","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.470","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.500","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.507","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.513","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.519","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.532","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.532","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.541","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.542","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.553","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.553","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.561","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.562","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.572","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.573","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.580","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.580","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.591","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.592","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:32.598","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.599","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.7 km, 3 min"}
-{"timestamp":"00:00:32.609","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.615","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.658","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.665","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:32.673","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.673","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.680","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.684","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:32.690","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.691","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:32.698","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.699","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.710","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.710","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:32.718","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.719","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.725","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:32.726","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:32.769","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:32.775","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 4.9 km, 6 min"}
-{"timestamp":"00:00:49.360","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.378","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.388","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.403","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.422","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.429","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.862","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.864","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.869","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.876","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.877","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.882","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.882","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.893","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.894","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.899","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.900","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.906","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.906","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.918","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.923","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2 km, 3 min"}
-{"timestamp":"00:00:49.927","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.936","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.937","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.7 km, 3 min"}
-{"timestamp":"00:00:49.945","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.952","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.970","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.975","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.980","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:49.984","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:50.124","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.6 km, 3 min"}
-{"timestamp":"00:00:50.125","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.5 km, 3 min"}
-{"timestamp":"00:00:50.132","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.6 km, 3 min"}
-{"timestamp":"00:00:50.136","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.5 km, 3 min"}
-{"timestamp":"00:00:50.142","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:50.142","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.6 km, 3 min"}
-{"timestamp":"00:00:50.149","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:00:50.149","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.5 km, 3 min"}
-{"timestamp":"00:00:50.154","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 1.6 km, 3 min"}
-{"timestamp":"00:00:50.157","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 2.5 km, 3 min"}
-{"timestamp":"00:01:03.109","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.126","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.134","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.144","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.152","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.161","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.670","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 6.8 km, 8 min"}
-{"timestamp":"00:01:03.679","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 6.8 km, 8 min"}
-{"timestamp":"00:01:03.697","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 0.9 km, 2 min"}
-{"timestamp":"00:01:03.701","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 6.8 km, 8 min"}
-{"timestamp":"00:01:03.704","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 0.9 km, 2 min"}
-{"timestamp":"00:01:03.717","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.720","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 0.9 km, 2 min"}
-{"timestamp":"00:01:03.727","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.735","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.740","source":"Server","level":"LOG","message":"ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM"}
-{"timestamp":"00:01:03.884","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 0.8 km, 1 min"}
-{"timestamp":"00:01:03.887","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 5.5 km, 7 min"}
-{"timestamp":"00:01:03.891","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 0.8 km, 1 min"}
-{"timestamp":"00:01:03.896","source":"Server","level":"LOG","message":"🗺️  [routing] OSRM — 5.5 km, 7 min"}
+{"timestamp":"00:00:01.056","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:02.352","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:00:11.940","source":"Server","level":"WARN","message":"⚠️  [catalog] Places search failed (Nearby Search HTTP 400) — synthesizing from POIs"}
+{"timestamp":"00:00:12.495","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.2 km, 7 min — departure 2026-09-13T14:02:00.000Z"}
+{"timestamp":"00:00:12.496","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.2 km, 7 min @ 2026-09-13T14:02:00.000Z"}
+{"timestamp":"00:00:12.515","source":"Server","level":"LOG","message":"✅ [googleMaps] 5.6 km, 9 min — departure 2026-09-13T14:02:00.000Z"}
+{"timestamp":"00:00:12.516","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 5.6 km, 9 min @ 2026-09-13T14:02:00.000Z"}
+{"timestamp":"00:00:22.391","source":"Server","level":"LOG","message":"✅ [googleMaps] 0 km, 0 min — departure 2026-09-13T14:12:00.000Z"}
+{"timestamp":"00:00:22.391","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0 km, 0 min @ 2026-09-13T14:12:00.000Z"}
+{"timestamp":"00:00:22.529","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.6 km, 7 min — departure 2026-09-13T14:12:00.000Z"}
+{"timestamp":"00:00:22.529","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.6 km, 7 min @ 2026-09-13T14:12:00.000Z"}
+{"timestamp":"00:00:22.575","source":"Browser","level":"ERROR","message":"Uncaught TypeError: Cannot read properties of undefined (reading 'lat')\n    at interpolateRoute (components/ShiftMap.tsx:50:43)\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\n  \u001b[90m48 |\u001b[0m   \u001b[36mconst\u001b[0m t = segLen > \u001b[35m0\u001b[0m ? (target - dists[seg]) / segLen : \u001b[35m0\u001b[0m;\n  \u001b[90m49 |\u001b[0m   \u001b[36mreturn\u001b[0m {\n\u001b[31m\u001b[1m>\u001b[0m \u001b[90m50 |\u001b[0m     lat: route[seg].lat + (route[seg + \u001b[35m1\u001b[0m].lat - route[seg].lat) * t,\n  \u001b[90m   |\u001b[0m                                           \u001b[31m\u001b[1m^\u001b[0m\n  \u001b[90m51 |\u001b[0m     lng: route[seg].lng + (route[seg + \u001b[35m1\u001b[0m].lng - route[seg].lng) * t,\n  \u001b[90m52 |\u001b[0m   };\n  \u001b[90m53 |\u001b[0m }"}
+{"timestamp":"00:00:22.576","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught TypeError: Cannot read properties of undefined (reading 'lat')\\u001b[39m\\n\\u001b[31m    at interpolateRoute (components/ShiftMap.tsx:50:43)\\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\\u001b[39m\\n  \\u001b[90m48 |\\u001b[0m   \\u001b[36mconst\\u001b[0m t = segLen > \\u001b[35m0\\u001b[0m ? (target - dists[seg]) / segLen : \\u001b[35m0\\u001b[0m;\\n  \\u001b[90m49 |\\u001b[0m   \\u001b[36mreturn\\u001b[0m {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m50 |\\u001b[0m     lat: route[seg].lat + (route[seg + \\u001b[35m1\\u001b[0m].lat - route[seg].lat) * t,\\n  \\u001b[90m   |\\u001b[0m                                           \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m51 |\\u001b[0m     lng: route[seg].lng + (route[seg + \\u001b[35m1\\u001b[0m].lng - route[seg].lng) * t,\\n  \\u001b[90m52 |\\u001b[0m   };\\n  \\u001b[90m53 |\\u001b[0m }\""}
+{"timestamp":"00:00:33.982","source":"Server","level":"LOG","message":"✅ [googleMaps] 0 km, 0 min — departure 2026-09-13T14:23:00.000Z"}
+{"timestamp":"00:00:33.983","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0 km, 0 min @ 2026-09-13T14:23:00.000Z"}
+{"timestamp":"00:00:34.010","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 2 min — departure 2026-09-13T14:24:00.000Z"}
+{"timestamp":"00:00:34.011","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 2 min @ 2026-09-13T14:24:00.000Z"}
+{"timestamp":"00:00:34.075","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.3 km, 4 min — departure 2026-09-13T14:24:00.000Z"}
+{"timestamp":"00:00:34.077","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 4 min @ 2026-09-13T14:24:00.000Z"}
+{"timestamp":"00:00:34.225","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.3 km, 4 min — departure 2026-09-13T14:23:00.000Z"}
+{"timestamp":"00:00:34.226","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 4 min @ 2026-09-13T14:23:00.000Z"}
+{"timestamp":"00:00:34.253","source":"Browser","level":"ERROR","message":"Uncaught TypeError: Cannot read properties of undefined (reading 'lat')\n    at interpolateRoute (components/ShiftMap.tsx:50:43)\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\n  \u001b[90m48 |\u001b[0m   \u001b[36mconst\u001b[0m t = segLen > \u001b[35m0\u001b[0m ? (target - dists[seg]) / segLen : \u001b[35m0\u001b[0m;\n  \u001b[90m49 |\u001b[0m   \u001b[36mreturn\u001b[0m {\n\u001b[31m\u001b[1m>\u001b[0m \u001b[90m50 |\u001b[0m     lat: route[seg].lat + (route[seg + \u001b[35m1\u001b[0m].lat - route[seg].lat) * t,\n  \u001b[90m   |\u001b[0m                                           \u001b[31m\u001b[1m^\u001b[0m\n  \u001b[90m51 |\u001b[0m     lng: route[seg].lng + (route[seg + \u001b[35m1\u001b[0m].lng - route[seg].lng) * t,\n  \u001b[90m52 |\u001b[0m   };\n  \u001b[90m53 |\u001b[0m }"}
+{"timestamp":"00:00:34.254","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught TypeError: Cannot read properties of undefined (reading 'lat')\\u001b[39m\\n\\u001b[31m    at interpolateRoute (components/ShiftMap.tsx:50:43)\\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\\u001b[39m\\n  \\u001b[90m48 |\\u001b[0m   \\u001b[36mconst\\u001b[0m t = segLen > \\u001b[35m0\\u001b[0m ? (target - dists[seg]) / segLen : \\u001b[35m0\\u001b[0m;\\n  \\u001b[90m49 |\\u001b[0m   \\u001b[36mreturn\\u001b[0m {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m50 |\\u001b[0m     lat: route[seg].lat + (route[seg + \\u001b[35m1\\u001b[0m].lat - route[seg].lat) * t,\\n  \\u001b[90m   |\\u001b[0m                                           \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m51 |\\u001b[0m     lng: route[seg].lng + (route[seg + \\u001b[35m1\\u001b[0m].lng - route[seg].lng) * t,\\n  \\u001b[90m52 |\\u001b[0m   };\\n  \\u001b[90m53 |\\u001b[0m }\""}
+{"timestamp":"00:00:58.040","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.4 km, 7 min — departure 2026-09-13T15:27:00.000Z"}
+{"timestamp":"00:00:58.041","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.4 km, 7 min @ 2026-09-13T15:27:00.000Z"}
+{"timestamp":"00:00:58.102","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.1 km, 5 min — departure 2026-09-13T15:27:00.000Z"}
+{"timestamp":"00:00:58.103","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 5 min @ 2026-09-13T15:27:00.000Z"}
+{"timestamp":"00:01:02.458","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.2 km, 8 min — departure 2026-09-13T15:52:00.000Z"}
+{"timestamp":"00:01:02.459","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.2 km, 8 min @ 2026-09-13T15:52:00.000Z"}
+{"timestamp":"00:01:02.571","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.3 km, 4 min — departure 2026-09-13T15:52:00.000Z"}
+{"timestamp":"00:01:02.572","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.3 km, 4 min @ 2026-09-13T15:52:00.000Z"}
+{"timestamp":"00:01:07.193","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.2 km, 7 min — departure 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.194","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.2 km, 7 min @ 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.220","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.1 km, 6 min — departure 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.221","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 6 min @ 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.319","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.6 km, 5 min — departure 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.319","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.6 km, 5 min @ 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.341","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.9 km, 3 min — departure 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.342","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.9 km, 3 min @ 2026-09-13T16:17:00.000Z"}
+{"timestamp":"00:01:07.927","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 6 min @ 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.080","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 2 min — departure 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.080","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 2 min @ 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.086","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.2 km, 1 min — departure 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.086","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.093","source":"Server","level":"LOG","message":"✅ [googleMaps] 1 km, 4 min — departure 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:08.094","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1 km, 4 min @ 2026-09-13T16:22:00.000Z"}
+{"timestamp":"00:01:09.307","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 6 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.313","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.345","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 2 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.388","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.4 km, 8 min — departure 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.389","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.4 km, 8 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.412","source":"Server","level":"LOG","message":"✅ [googleMaps] 0 km, 0 min — departure 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.412","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0 km, 0 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.441","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 3 min — departure 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.441","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 3 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.478","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 2 min — departure 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.478","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 2 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.497","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 3 min — departure 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:09.497","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 3 min @ 2026-09-13T16:27:00.000Z"}
+{"timestamp":"00:01:11.185","source":"Browser","level":"ERROR","message":"Uncaught TypeError: Cannot read properties of undefined (reading 'lat')\n    at interpolateRoute (components/ShiftMap.tsx:50:43)\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\n  \u001b[90m48 |\u001b[0m   \u001b[36mconst\u001b[0m t = segLen > \u001b[35m0\u001b[0m ? (target - dists[seg]) / segLen : \u001b[35m0\u001b[0m;\n  \u001b[90m49 |\u001b[0m   \u001b[36mreturn\u001b[0m {\n\u001b[31m\u001b[1m>\u001b[0m \u001b[90m50 |\u001b[0m     lat: route[seg].lat + (route[seg + \u001b[35m1\u001b[0m].lat - route[seg].lat) * t,\n  \u001b[90m   |\u001b[0m                                           \u001b[31m\u001b[1m^\u001b[0m\n  \u001b[90m51 |\u001b[0m     lng: route[seg].lng + (route[seg + \u001b[35m1\u001b[0m].lng - route[seg].lng) * t,\n  \u001b[90m52 |\u001b[0m   };\n  \u001b[90m53 |\u001b[0m }"}
+{"timestamp":"00:01:11.186","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught TypeError: Cannot read properties of undefined (reading 'lat')\\u001b[39m\\n\\u001b[31m    at interpolateRoute (components/ShiftMap.tsx:50:43)\\n    at ShiftMap.useEffect.tick (components/ShiftMap.tsx:225:21)\\u001b[39m\\n  \\u001b[90m48 |\\u001b[0m   \\u001b[36mconst\\u001b[0m t = segLen > \\u001b[35m0\\u001b[0m ? (target - dists[seg]) / segLen : \\u001b[35m0\\u001b[0m;\\n  \\u001b[90m49 |\\u001b[0m   \\u001b[36mreturn\\u001b[0m {\\n\\u001b[31m\\u001b[1m>\\u001b[0m \\u001b[90m50 |\\u001b[0m     lat: route[seg].lat + (route[seg + \\u001b[35m1\\u001b[0m].lat - route[seg].lat) * t,\\n  \\u001b[90m   |\\u001b[0m                                           \\u001b[31m\\u001b[1m^\\u001b[0m\\n  \\u001b[90m51 |\\u001b[0m     lng: route[seg].lng + (route[seg + \\u001b[35m1\\u001b[0m].lng - route[seg].lng) * t,\\n  \\u001b[90m52 |\\u001b[0m   };\\n  \\u001b[90m53 |\\u001b[0m }\""}
+{"timestamp":"00:01:11.911","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.7 km, 5 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.911","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.7 km, 5 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.924","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.4 km, 7 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.925","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.4 km, 7 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.932","source":"Server","level":"LOG","message":"✅ [googleMaps] 5 km, 9 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.933","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 5 km, 9 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.951","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.9 km, 6 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.952","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.9 km, 6 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.966","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.4 km, 8 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.966","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.4 km, 8 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.999","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.2 km, 4 min — departure 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:11.999","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T16:37:00.000Z"}
+{"timestamp":"00:01:12.664","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 2 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.743","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 3 min — departure 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.744","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 3 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.750","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.2 km, 1 min — departure 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.750","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.806","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.5 km, 5 min — departure 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.806","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.5 km, 5 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.814","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 2 min — departure 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.815","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 2 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.889","source":"Server","level":"LOG","message":"✅ [googleMaps] 3.7 km, 8 min — departure 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:12.889","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 3.7 km, 8 min @ 2026-09-13T16:42:00.000Z"}
+{"timestamp":"00:01:16.192","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.4 km, 5 min — departure 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.192","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.4 km, 5 min @ 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.202","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.3 km, 7 min — departure 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.202","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 7 min @ 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.221","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.6 km, 4 min — departure 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.222","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.6 km, 4 min @ 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.226","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.3 km, 6 min — departure 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:16.227","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 6 min @ 2026-09-13T17:02:00.000Z"}
+{"timestamp":"00:01:17.179","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.9 km, 6 min — departure 2026-09-13T17:07:00.000Z"}
+{"timestamp":"00:01:17.180","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.9 km, 6 min @ 2026-09-13T17:07:00.000Z"}
+{"timestamp":"00:01:17.217","source":"Server","level":"LOG","message":"✅ [googleMaps] 1 km, 3 min — departure 2026-09-13T17:07:00.000Z"}
+{"timestamp":"00:01:17.217","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1 km, 3 min @ 2026-09-13T17:07:00.000Z"}
+{"timestamp":"00:01:18.072","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1 km, 3 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.108","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 6 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.161","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.1 km, 7 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.161","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 7 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.167","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 3 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.167","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 3 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.226","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.2 km, 7 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.226","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.2 km, 7 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.317","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.1 km, 6 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.317","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.1 km, 6 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.354","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.2 km, 1 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.355","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.725","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.2 km, 4 min — departure 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:18.725","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:12:00.000Z"}
+{"timestamp":"00:01:19.344","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 6 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.350","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.373","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.444","source":"Server","level":"LOG","message":"✅ [googleMaps] 0 km, 0 min — departure 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.445","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0 km, 0 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.504","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.5 km, 4 min — departure 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.504","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.5 km, 4 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.507","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 2 min — departure 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:19.507","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 2 min @ 2026-09-13T17:13:00.000Z"}
+{"timestamp":"00:01:20.666","source":"Server","level":"LOG","message":"✓ Compiled in 75ms"}
+{"timestamp":"00:01:24.931","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.1 km, 4 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.932","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.1 km, 4 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.936","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.5 km, 2 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.936","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.5 km, 2 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.942","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.8 km, 6 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.942","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.8 km, 6 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.947","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.5 km, 6 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:24.947","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.5 km, 6 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:25.021","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.1 km, 4 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:25.021","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.1 km, 4 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:25.095","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.1 km, 5 min — departure 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:25.096","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.1 km, 5 min @ 2026-09-13T17:15:30.000Z"}
+{"timestamp":"00:01:42.257","source":"Server","level":"LOG","message":"✅ [googleMaps] 3.3 km, 8 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.258","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 3.3 km, 8 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.266","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.8 km, 6 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.267","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.8 km, 6 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.277","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 3.3 km, 8 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.287","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.300","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0 km, 0 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.323","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.9 km, 5 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.324","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.9 km, 5 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.406","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.2 km, 1 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.407","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.2 km, 1 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.411","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.6 km, 2 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.411","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 2 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.420","source":"Server","level":"LOG","message":"✅ [googleMaps] 2.5 km, 9 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.421","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.5 km, 9 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.435","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.2 km, 4 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.436","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.464","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.2 km, 4 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.465","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.483","source":"Server","level":"LOG","message":"✅ [googleMaps] 2 km, 6 min — departure 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:42.484","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2 km, 6 min @ 2026-09-13T17:24:30.000Z"}
+{"timestamp":"00:01:52.826","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.6 km, 2 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:52.987","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 4 min — departure 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:52.988","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 4 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:52.995","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.8 km, 4 min — departure 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:52.996","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.8 km, 4 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.027","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.7 km, 2 min — departure 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.028","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.7 km, 2 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.067","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.6 km, 5 min — departure 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.068","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.6 km, 5 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.139","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.5 km, 2 min — departure 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:01:53.139","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.5 km, 2 min @ 2026-09-13T17:29:30.000Z"}
+{"timestamp":"00:02:01.531","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:34:00.000Z"}
+{"timestamp":"00:02:01.540","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 6 min @ 2026-09-13T17:34:00.000Z"}
+{"timestamp":"00:02:01.548","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:34:00.000Z"}
+{"timestamp":"00:02:01.926","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.4 km, 4 min — departure 2026-09-13T17:34:00.000Z"}
+{"timestamp":"00:02:01.927","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.4 km, 4 min @ 2026-09-13T17:34:00.000Z"}
+{"timestamp":"00:02:13.731","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 2.3 km, 6 min @ 2026-09-13T17:40:00.000Z"}
+{"timestamp":"00:02:13.736","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.2 km, 4 min @ 2026-09-13T17:40:00.000Z"}
+{"timestamp":"00:02:13.998","source":"Server","level":"LOG","message":"✅ [googleMaps] 0.1 km, 0 min — departure 2026-09-13T17:40:00.000Z"}
+{"timestamp":"00:02:13.998","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 0.1 km, 0 min @ 2026-09-13T17:40:00.000Z"}
+{"timestamp":"00:02:14.008","source":"Server","level":"LOG","message":"✅ [googleMaps] 1.3 km, 4 min — departure 2026-09-13T17:40:00.000Z"}
+{"timestamp":"00:02:14.008","source":"Server","level":"LOG","message":"✅ [routing] Google Maps — 1.3 km, 4 min @ 2026-09-13T17:40:00.000Z"}
