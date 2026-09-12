@@ -482,16 +482,14 @@ export function useShift() {
     queueRef.current = { smartAgent: [], baselineAgent: [] };
     setOffers([]);
 
-    commitShift((prev) => {
-      void prev;
-      const fresh = createInitialShiftState(capacity);
-      return {
-        ...fresh,
-        status: "running" as const,
-        startedAt: Date.now(),
-        elapsedSeconds: 0,
-      };
-    });
+    // Build the initial running state and write it to shiftRef *synchronously*
+    // before starting the spawn loop. commitShift queues a setShiftState updater
+    // that runs asynchronously — if we called spawnLoop() after commitShift()
+    // the spawn loop's status guard would still see "idle" and exit immediately.
+    const fresh = createInitialShiftState(capacity);
+    const initialState: ShiftState = { ...fresh, status: "running", startedAt: Date.now(), elapsedSeconds: 0 };
+    shiftRef.current = initialState;
+    setShiftState(initialState);
 
     // Counter-based clock: advance simulated time by `speed` each real second
     tickRef.current = setInterval(() => {
