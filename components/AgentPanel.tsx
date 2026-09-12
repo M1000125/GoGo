@@ -4,13 +4,14 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import type { AgentState, RouteMeta, SurgeZone, RoadClosure } from "@/lib/types";
 import EarningsTicker from "./EarningsTicker";
-import { vehicleLabelForCapacity } from "@/lib/simulation/economics";
+import { vehicleLabelForCapacity, carriedSlots } from "@/lib/simulation/economics";
 
 const ShiftMap = dynamic(() => import("./ShiftMap"), { ssr: false });
 
 // Live progress bar driven by rAF — no React state updates on every frame
-function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }: {
+function DeliveryProgress({ meta, routeLength, pickupLabel, dropoffLabel, accentColor }: {
   meta: RouteMeta;
+  routeLength: number;
   pickupLabel: string;
   dropoffLabel: string;
   accentColor: string;
@@ -29,9 +30,9 @@ function DeliveryProgress({ meta, pickupLabel, dropoffLabel, accentColor }: {
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [meta]);
 
-  const phase = pct < (meta.pickupIndex / Math.max(1, 100)) * 100
-    ? "heading to pickup"
-    : "delivering";
+  // For a pickup leg the pickup sits at the very end of the polyline, so the
+  // whole leg counts as "heading to pickup"; dropoff legs are "delivering".
+  const phase = meta.pickupIndex >= routeLength ? "heading to pickup" : "delivering";
 
   return (
     <div className="border border-white/10 bg-white/5 rounded-xl p-4 text-sm">
@@ -144,7 +145,7 @@ export default function AgentPanel({
               Carried load
             </p>
             <span className="text-xs text-white/40">
-              {agentState.carriedOrders.length}/{agentState.capacity} capacity
+              {carriedSlots(agentState.carriedOrders)}/{agentState.capacity} slots
             </span>
           </div>
           <div className="space-y-1">
@@ -162,7 +163,7 @@ export default function AgentPanel({
                 />
                 <span className="truncate">
                   {c.pickedUp ? "▼" : "▲"} {c.order.dropoffLabel} · $
-                  {c.order.payout}
+                  {c.order.payout} · {c.order.slots} slot{c.order.slots > 1 ? "s" : ""}
                 </span>
               </div>
             ))}
@@ -188,6 +189,7 @@ export default function AgentPanel({
       {agentState.currentRouteMeta && lastDecision?.decision === "accept" && (
         <DeliveryProgress
           meta={agentState.currentRouteMeta}
+          routeLength={agentState.currentRoute.length}
           pickupLabel={lastDecision.pickupLabel}
           dropoffLabel={lastDecision.dropoffLabel}
           accentColor={accentColor}

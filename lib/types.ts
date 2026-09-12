@@ -18,6 +18,14 @@ export interface Order {
   isSurge: boolean;
   prepMinutes: number; // pickup prep time, sim minutes
   tip: number; // MXN realized at dropoff, 0 if no tip
+  orderSizeMxn: number; // consumer spend before fees (≈ 1 slot ≈ 100 MXN)
+  slots: number; // capacity slots the order occupies = ceil(orderSize / SLOT_VALUE)
+}
+
+/** An incoming order offer with its own independent countdown. */
+export interface ActiveOffer {
+  order: Order;
+  expiresAt: number;
 }
 
 export interface RouteStop {
@@ -75,7 +83,7 @@ export interface AgentState {
   stops: RouteStop[];
   currentRoute: Coords[];
   currentRouteMeta: RouteMeta | null;
-  capacity: number;
+  capacity: number; // slot budget: sum(order.slots) <= capacity
   runOrderCount: number; // orders in current multi-stop run (bonus basis)
   batchBonusEarned: number;
   tipsEarned: number;

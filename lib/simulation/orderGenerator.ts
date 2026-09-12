@@ -1,67 +1,88 @@
 import type { Order, SurgeZone } from "@/lib/types";
-import { MONTERREY_POIS } from "./monterreyPois";
 import { isInSurgeZone } from "./surgeZones";
-import {
-  estimateKm,
-  PREP_MIN_MIN,
-  PREP_MIN_MAX,
-  TIP_CHANCE,
-  TIP_MIN,
-  TIP_MAX,
-} from "./economics";
-
-export function generateTip(): number {
-  return Math.random() < TIP_CHANCE
-    ? Math.round(TIP_MIN + Math.random() * (TIP_MAX - TIP_MIN))
-    : 0;
-}
-
-export function generatePrepMinutes(): number {
-  return Math.round(PREP_MIN_MIN + Math.random() * (PREP_MIN_MAX - PREP_MIN_MIN));
-}
+import { estimateKm, orderSlots, quotePayout, quoteTip } from "./economics";
+import { orderSizeForTier } from "@/lib/places/priceTiers";
+import type { PlacesCatalog } from "@/lib/places/types";
 
 let orderCounter = 0;
 
-function randomPOI(exclude?: string) {
-  const pool = exclude
-    ? MONTERREY_POIS.filter((p) => p.label !== exclude)
-    : MONTERREY_POIS;
+function randomFrom<T>(pool: T[]): T {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-function basePayout(km: number): number {
-  // Base: 25 MXN + 8 MXN/km, ±20% randomness
-  const base = 25 + km * 8;
-  const jitter = 0.8 + Math.random() * 0.4;
-  return Math.round(base * jitter);
+function coordsCloseKm(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+  minKm = 0.08
+): boolean {
+  return Math.abs(a.lat - b.lat) <= minKm / 111 && Math.abs(a.lng - b.lng) <= minKm / 111;
 }
 
-export function generateOrder(activeSurgeZones: SurgeZone[] = []): Order {
+/**
+ * Pick a producer. When a surge zone is active, bias toward producers whose
+ * pickup sits inside the zone (up to 8 attempts) so surged demand is visible
+ * geographically, not just as a payout bump.
+ */
+function pickProducer(
+  producers: PlacesCatalog["producers"],
+  activeSurgeZones: SurgeZone[]
+) {
+  if (activeSurgeZones.length === 0) return randomFrom(producers);
+  for (let i = 0; i < 8; i++) {
+    const p = randomFrom(producers);
+    const inZone = Boolean(isInSurgeZone(p.coords, activeSurgeZones));
+    if (inZone && Math.random() < 0.65) return p;
+    if (!inZone && i >= 6) return p; // avoid spin when few surged producers exist
+  }
+  return randomFrom(producers);
+}
+
+/**
+ * Generate a single realistic order from a producer + consumer sourced from the
+ * Places catalog. Payout/tip/slots follow the price->capacity economy:
+ * orderSize ~ tier range × consumer multiplier; 1 slot ≈ $100 MXN.
+ */
+export function generateOrder(
+  activeSurgeZones: SurgeZone[] = [],
+  catalog: PlacesCatalog
+): Order {
   orderCounter += 1;
-  const pickup = randomPOI();
-  const dropoff = randomPOI(pickup.label);
 
-  const estimatedKm = estimateKm(pickup.coords, dropoff.coords);
-  const estimatedMinutes = Math.round((estimatedKm / 25) * 60); // assume 25 km/h avg
+  const producer = pickProducer(catalog.producers, activeSurgeZones);
 
-  const surgeZone = isInSurgeZone(pickup.coords, activeSurgeZones);
+  let consumer = randomFrom(catalog.consumers);
+  for (let i = 0; i < 20; i++) {
+    if (!coordsCloseKm(consumer.coords, producer.coords)) break;
+    consumer = randomFrom(catalog.consumers);
+  }
+
+  const orderSizeMxn = orderSizeForTier(producer.priceTier, consumer.sizeMultiplier);
+  const slots = orderSlots(orderSizeMxn);
+
+  const estimatedKm = estimateKm(producer.coords, consumer.coords);
+  const estimatedMinutes = Math.max(2, Math.round((estimatedKm / 25) * 60)); // 25 km/h avg
+
+  const surgeZone = isInSurgeZone(producer.coords, activeSurgeZones);
   const multiplier = surgeZone?.multiplier ?? 1;
   const isSurge = multiplier > 1;
 
-  const payout = Math.round(basePayout(estimatedKm) * multiplier);
+  const basePayout = quotePayout(orderSizeMxn, estimatedKm);
+  const payout = Math.round(basePayout * multiplier);
 
   return {
     id: `order-${Date.now()}-${orderCounter}`,
-    pickupCoords: pickup.coords,
-    dropoffCoords: dropoff.coords,
-    pickupLabel: pickup.label,
-    dropoffLabel: dropoff.label,
+    pickupCoords: producer.coords,
+    dropoffCoords: consumer.coords,
+    pickupLabel: producer.name,
+    dropoffLabel: consumer.name,
     payout,
     estimatedKm,
     estimatedMinutes,
     expiresAt: Date.now() + 15_000,
     isSurge,
-    prepMinutes: generatePrepMinutes(),
-    tip: generateTip(),
+    prepMinutes: producer.avgPrepMinutes + Math.floor(Math.random() * 3),
+    tip: quoteTip(orderSizeMxn),
+    orderSizeMxn,
+    slots,
   };
 }

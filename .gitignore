@@ -30,3 +30,6 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 *.swp
+
+# runtime caches
+data/places_cache.json

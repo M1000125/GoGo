@@ -12,7 +12,7 @@ import {
 } from "@/lib/simulation/economics";
 
 export default function Home() {
-  const { shift, currentOrder, orderExpiry, isSmartDeciding, speed, setSpeed, simulatedNow, startShift, resetShift } = useShift();
+  const { shift, offers, isSmartDeciding, speed, setSpeed, simulatedNow, startShift, resetShift } = useShift();
   const [capacity, setCapacity] = useState(DEFAULT_CAPACITY);
 
   if (shift.status === "ended") {
@@ -45,7 +45,7 @@ export default function Home() {
           )}
           {shift.status === "idle" && (
             <button
-              onClick={() => startShift()}
+              onClick={() => startShift(capacity)}
               className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl transition-colors"
             >
               Start Shift
@@ -57,15 +57,14 @@ export default function Home() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         {shift.status === "idle" ? (
           <IdleScreen
-            onStart={() => startShift()}
+            onStart={() => startShift(capacity)}
             capacity={capacity}
             onCapacityChange={setCapacity}
           />
         ) : (
           <DualAgentView
             shift={shift}
-            currentOrder={currentOrder}
-            orderExpiry={orderExpiry}
+            offers={offers}
             isSmartDeciding={isSmartDeciding}
             speed={speed}
             setSpeed={setSpeed}
@@ -108,17 +107,19 @@ function IdleScreen({
           <span className="text-blue-400">Monterrey courier?</span>
         </h1>
         <p className="land-item land-d2 text-white/50 text-lg max-w-[44ch] mx-auto leading-relaxed">
-          Two agents. One 4-hour shift. Real Distrito Tec streets.
-          Crisis hits at mid-shift — watch who adapts and who doesn't.
+          Two agents. One 4-hour shift. Real Distrito Tec streets from the
+          Google Places API. Orders are quoted on a &ldquo;1 slot ≈ $100 MXN meal&rdquo;
+          economy — crisis hits at mid-shift, watch who adapts.
         </p>
       </div>
 
       {/* Feature pills */}
       <div className="land-item land-d3 flex flex-wrap justify-center gap-3">
         {[
-          { icon: "⚡", label: "Surge zones at mid-shift (T+2h)" },
+          { icon: "⚡", label: "Surge bursts at mid-shift (T+2h)" },
           { icon: "🚧", label: "Road closure at T+2h 10min" },
-          { icon: "📦", label: "500 real Distrito Tec orders" },
+          { icon: "📍", label: "Live Places API generators" },
+          { icon: "📦", label: "Stack orders up to 8 slots" },
           { icon: "🎛️", label: "Adjustable speed: up to 300×" },
         ].map((item) => (
           <span
@@ -134,7 +135,7 @@ function IdleScreen({
       {/* Vehicle capacity selector */}
       <div className="land-item land-d4 bg-white/5 border border-white/10 rounded-2xl p-5 max-w-md w-full">
         <p className="text-xs text-white/40 uppercase tracking-wider mb-3">
-          Vehicle capacity — {vehicleLabelForCapacity(capacity)} ({capacity} packages)
+          Vehicle capacity — {vehicleLabelForCapacity(capacity)} ({capacity} slots)
         </p>
         <div className="flex justify-between gap-2">
           {caps.map((c) => (
@@ -152,7 +153,8 @@ function IdleScreen({
           ))}
         </div>
         <p className="text-[11px] text-white/30 mt-3">
-          Higher capacity = more orders per run, higher fuel costs. Default: {DEFAULT_CAPACITY}.
+          Higher capacity = more orders per run, higher fuel costs. 1 slot ≈ $100 MXN
+          consumer order. Default: {DEFAULT_CAPACITY}.
         </p>
       </div>
 

@@ -55,12 +55,44 @@ export function vehicleLabelForCapacity(capacity: number): string {
 
 // --- Dispatch economics ---
 export const BATCH_BONUS_PER_EXTRA = 8; // MXN per extra order in a run (>= 2 orders)
-export const EFFICIENCY_GATE_MXN_MIN = 0.5; // min net MXN/min gain to justify an add-on
+export const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
+
+// --- Price pattern → capacity slot model ---
+// Anchor: one capacity slot ≈ one medium meal ≈ $100 MXN consumer spend.
+export const SLOT_VALUE_MXN = 100;
+export const MIN_PAYOUT_FLOOR = 25; // MXN formula floor
+export const BASE_FEE = 18; // MXN flat delivery fee
+export const PER_KM_FEE = 6; // MXN per estimated km
+export const COMMISSION_RATE = 0.07; // share of consumer order spend paid to courier
+export const MAX_PAYOUT_BASE = 120; // clamp on distance+base component (pre-surge)
+export const TIP_PCT_MIN = 0.06; // tip as share of order spend
+export const TIP_PCT_MAX = 0.12;
+export const TIP_MIN = 5; // MXN realised tip floor
+export const TIP_MAX = 40; // MXN realised tip cap
+
+// Quote payout + tip for an order's orderSize, distance, and slots.
+export function quotePayout(orderSizeMxn: number, km: number): number {
+  const sizeComponent = Math.round(orderSizeMxn * COMMISSION_RATE);
+  const distComponent = Math.round(BASE_FEE + PER_KM_FEE * km);
+  const raw = Math.min(sizeComponent + distComponent, MAX_PAYOUT_BASE);
+  return Math.max(MIN_PAYOUT_FLOOR, raw);
+}
+
+export function quoteTip(orderSizeMxn: number): number {
+  const pct = TIP_PCT_MIN + Math.random() * (TIP_PCT_MAX - TIP_PCT_MIN);
+  return Math.min(TIP_MAX, Math.max(TIP_MIN, Math.round(orderSizeMxn * pct)));
+}
+
+export function orderSlots(orderSizeMxn: number): number {
+  return Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN));
+}
+
+/** Total capacity slots used by a carried load. */
+export function carriedSlots(orders: { order: { slots: number } }[]): number {
+  return orders.reduce((s, c) => s + c.order.slots, 0);
+}
 
 // --- Order params ---
-export const TIP_CHANCE = 0.4;
-export const TIP_MIN = 5;
-export const TIP_MAX = 15;
 export const PREP_MIN_MIN = 0;
 export const PREP_MIN_MAX = 6;
 

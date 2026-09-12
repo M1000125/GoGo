@@ -1,14 +1,14 @@
 "use client";
 
-import type { ShiftState, Order } from "@/lib/types";
+import type { ShiftState, ActiveOffer } from "@/lib/types";
+import { carriedSlots } from "@/lib/simulation/economics";
 import AgentPanel from "./AgentPanel";
 import OrderPing from "./OrderPing";
 import EventAlert from "./EventAlert";
 
 interface DualAgentViewProps {
   shift: ShiftState;
-  currentOrder: Order | null;
-  orderExpiry: number | null;
+  offers: ActiveOffer[];
   isSmartDeciding?: boolean;
   speed: number;
   setSpeed: (n: number) => void;
@@ -38,8 +38,7 @@ function formatSimClock(ms: number): string {
 
 export default function DualAgentView({
   shift,
-  currentOrder,
-  orderExpiry,
+  offers,
   isSmartDeciding = false,
   speed,
   setSpeed,
@@ -129,14 +128,19 @@ export default function DualAgentView({
         )}
       </div>
 
-      {/* Current order ping */}
-      {currentOrder && orderExpiry && (
-        <OrderPing
-          order={currentOrder}
-          expiresAt={orderExpiry}
-          carriedCount={shift.smartAgent.carriedOrders.length}
-          capacity={shift.capacity}
-        />
+      {/* Current order pings — may arrive in bursts during surge */}
+      {offers.length > 0 && (
+        <div className="space-y-2">
+          {offers.map((o) => (
+            <OrderPing
+              key={o.order.id}
+              order={o.order}
+              expiresAt={o.expiresAt}
+              carriedSlots={carriedSlots(shift.smartAgent.carriedOrders)}
+              capacity={shift.capacity}
+            />
+          ))}
+        </div>
       )}
 
       {/* Event alerts */}

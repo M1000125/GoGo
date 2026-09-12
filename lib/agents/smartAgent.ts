@@ -16,7 +16,7 @@ export interface SmartDecideInput {
   recentDecisions: AgentDecision[];
   capacity: number;
   isAddon: boolean; // true = offered to be folded into the current route
-  carriedCount: number;
+  carriedSlots: number; // capacity slots currently used by the carried load
   currentEfficiencyMxnMin: number; // current route's net MXN/min
   candidateEfficiencyMxnMin: number; // route + this order
   fuelCostMxn: number; // estimated fuel for candidate route
@@ -43,7 +43,7 @@ export function buildGeminiPrompt(input: SmartDecideInput): string {
     recentDecisions,
     capacity,
     isAddon,
-    carriedCount,
+    carriedSlots,
     currentEfficiencyMxnMin,
     candidateEfficiencyMxnMin,
     fuelCostMxn,
@@ -69,17 +69,18 @@ export function buildGeminiPrompt(input: SmartDecideInput): string {
   const vehicle = vehicleLabelForCapacity(capacity);
 
   const loadSection = isAddon
-    ? `An add-on offer: the courier carries ${carriedCount}/${capacity} orders and the dispatcher asks if it should STACK this delivery into the current route.
+    ? `An add-on offer: the courier carries ${carriedSlots}/${capacity} capacity slots and the dispatcher asks if it should STACK this ${order.slots}-slot delivery into the current route.
 CURRENT ROUTE:
 ${describeLoad(agentState)}
 - Current route efficiency: $${currentEfficiencyMxnMin.toFixed(1)} MXN/min (net after fuel & maintenance)
 - Candidate route efficiency with this add-on: $${candidateEfficiencyMxnMin.toFixed(1)} MXN/min
 - Estimated fuel cost for candidate route: $${fuelCostMxn.toFixed(1)} MXN
 - Batch bonus if stacked: $${batchBonusMxn} MXN`
-    : `A fresh offer: the courier is empty (0/${capacity}) and can start a new run.`;
+    : `A fresh offer: the courier is empty (0/${capacity} slots) and can start a new run.`;
 
   return `You are an AI agent optimizing NET earnings (after fuel & maintenance) for a delivery courier in Monterrey, Mexico.
-Vehicle: ${vehicle} — capacity ${capacity} package(s); orders can be stacked into one multi-stop route.
+Vehicle: ${vehicle} — capacity ${capacity} capacity slot(s); each order consumes 1-3 slots and orders can be stacked into one multi-stop route.
+NEVER accept an order if the stacked carried load would exceed ${capacity} slots.
 Fuel economy is lower for higher-capacity vehicles, so stacking only pays when it lifts net MXN/min.
 
 CURRENT SHIFT STATE:
@@ -99,6 +100,7 @@ ${loadSection}
 NEW ORDER OFFER (expires in 15 seconds):
 - Pickup: ${order.pickupLabel} (prep time ~${order.prepMinutes} min)
 - Dropoff: ${order.dropoffLabel}
+- Orders: ${order.orderSizeMxn} MXN food / ${order.slots} slot(s)
 - Payout: $${order.payout} MXN${order.isSurge ? " (SURGE ⚡)" : ""}
 - Tip potential: $${order.tip} MXN
 - Estimated distance: ${order.estimatedKm} km

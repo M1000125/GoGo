@@ -6,14 +6,14 @@ import type { Order } from "@/lib/types";
 interface OrderPingProps {
   order: Order;
   expiresAt: number;
-  carriedCount?: number;
+  carriedSlots?: number;
   capacity?: number;
 }
 
 export default function OrderPing({
   order,
   expiresAt,
-  carriedCount = 0,
+  carriedSlots = 0,
   capacity = 4,
 }: OrderPingProps) {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -37,9 +37,9 @@ export default function OrderPing({
         <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider">
           📦 New Order Ping
         </span>
-        {carriedCount > 0 && (
+        {carriedSlots > 0 && (
           <span className="text-[10px] bg-white/10 text-white/60 px-2 py-0.5 rounded-full">
-            stackable · {carriedCount}/{capacity} carried
+            stackable · {carriedSlots}/{capacity} slots carried
           </span>
         )}
         <span
@@ -74,6 +74,12 @@ export default function OrderPing({
         <span className="text-white/50 text-xs">
           {order.estimatedKm} km · {order.estimatedMinutes} min
         </span>
+      </div>
+
+      <div className="mt-2 flex items-center gap-3 text-xs text-white/40">
+        <span>🍱 {order.orderSizeMxn} MXN order</span>
+        <span>· {order.slots} slot{order.slots > 1 ? "s" : ""}</span>
+        <span>· 💵 tip ~${order.tip} MXN</span>
       </div>
 
       <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">

@@ -147,7 +147,7 @@ export default function ShiftMap({
         ]);
       }
       // Clear route lines
-      import("leaflet").then((L) => {
+      import("leaflet").then(() => {
         const map = mapRef.current as import("leaflet").Map;
         if (!map) return;
         if (traveledLayerRef.current) {
@@ -197,8 +197,9 @@ export default function ShiftMap({
         dashArray: "4 4",
       }).addTo(map);
 
-      // Pickup marker (green dot)
-      const pickupCoord = route[meta.pickupIndex] ?? route[0];
+      // Pickup marker (green dot) — for stacked runs pickupIndex = end of a
+      // pickup leg, so clamp to the last point.
+      const pickupCoord = route[Math.min(meta.pickupIndex, route.length - 1)] ?? route[0];
       pickupMarkerRef.current = L.circleMarker(
         [pickupCoord.lat, pickupCoord.lng],
         { radius: 9, color: "#22c55e", fillColor: "#22c55e", fillOpacity: 1, weight: 2 }
