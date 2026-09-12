@@ -92,13 +92,18 @@ export function useShift() {
   const simulatedNow = shift.simShiftStart + shift.elapsedSeconds * 1000;
 
   // ── Fetch helpers ──────────────────────────────────────────────────────
+  // Orders expire after 15 simulated minutes — converted to real ms at current speed.
+  // Clamped: min 2s (readable at 300×), max 15s (sane at 1×).
+  const ORDER_EXPIRY_SIM_S = 15 * 60;
   const fetchOrder = useCallback(async (activeSurgeZones: SurgeZone[]) => {
     const res = await fetch("/api/simulation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ activeSurgeZones }),
     });
-    return res.json() as Promise<Order>;
+    const order = await res.json() as Order;
+    const expiryMs = Math.max(2_000, Math.min(15_000, (ORDER_EXPIRY_SIM_S / speedRef.current) * 1000));
+    return { ...order, expiresAt: Date.now() + expiryMs };
   }, []);
 
   const fetchRoute = useCallback(
