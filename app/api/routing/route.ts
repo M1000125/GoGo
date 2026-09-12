@@ -3,6 +3,8 @@ import { fetchRoute } from "@/lib/routing/osrm";
 import { fetchRouteWithTraffic } from "@/lib/routing/googleMaps";
 import type { Coords } from "@/lib/types";
 
+let _routingModeLogged = false;
+
 export async function POST(req: NextRequest) {
   const { from, to, departureTime }: { from: Coords; to: Coords; departureTime?: number } = await req.json();
 
@@ -12,20 +14,23 @@ export async function POST(req: NextRequest) {
 
   const mapsKey = process.env.GOOGLE_MAPS_API_KEY;
 
+  if (!_routingModeLogged) {
+    _routingModeLogged = true;
+    if (mapsKey) {
+      console.log("🗺️  [routing] Google Maps API key detected — using traffic-aware routing");
+    } else {
+      console.log("🗺️  [routing] No GOOGLE_MAPS_API_KEY — using OSRM (no live traffic)");
+    }
+  }
+
   // Use Google Maps (with simulated-time traffic) when the key is configured
   if (mapsKey) {
     try {
       const route = await fetchRouteWithTraffic(from, to, mapsKey, departureTime);
-      const timeLabel = departureTime
-        ? new Date(departureTime * 1000).toISOString()
-        : "now";
-      console.log(`✅ [routing] Google Maps — ${route.km} km, ${route.minutes} min @ ${timeLabel}`);
       return NextResponse.json({ ...route, source: "google" });
     } catch (err) {
       console.warn(`⚠️  [routing] Google Maps failed (${(err as Error).message}) — falling back to OSRM`);
     }
-  } else {
-    console.log("ℹ️  [routing] No GOOGLE_MAPS_API_KEY set — using OSRM");
   }
 
   // Fallback: OSRM (no traffic, always free)
