@@ -8,10 +8,12 @@ import type {
   AgentState,
   SurgeZone,
   RoadClosure,
+  Coords,
 } from "@/lib/types";
 import { createInitialShiftState, getEventsForElapsed, SHIFT_DURATION_SECONDS } from "@/lib/simulation/shiftEngine";
 import { baselineDecide } from "@/lib/agents/baselineAgent";
 import { SURGE_ZONES, ROAD_CLOSURES } from "@/lib/simulation/surgeZones";
+import { fuelLitersForKm, fuelCostMxn, maintenanceCostMxn } from "@/lib/simulation/economics";
 
 /** One order every ~10 simulated minutes (600 sim-seconds). */
 const ORDER_INTERVAL_SIM_S = 10 * 60;
@@ -33,6 +35,13 @@ export function useShift() {
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const orderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevElapsedRef = useRef(0);
+
+  // Ref that always holds the latest shift state — lets us read state outside
+  // setShift updaters without triggering the setState-inside-setState anti-pattern.
+  const shiftRef = useRef<ShiftState>(shift);
+  useEffect(() => {
+    shiftRef.current = shift;
+  }, [shift]);
 
   // ── Derived simulated time ─────────────────────────────────────────────
   // Unix ms: what "now" is in the simulated world
@@ -121,23 +130,20 @@ export function useShift() {
   );
 
   // ── Apply a decision: fetch routes, animate courier, settle earnings ───
+  // Called OUTSIDE any setShift updater — takes a position snapshot so we
+  // never nest setState calls.
   const applyDecision = useCallback(
     async (
       agentKey: "smartAgent" | "baselineAgent",
       decision: AgentDecision,
       order: Order,
-      currentShift: ShiftState
+      agentFromCoords: Coords,
+      departureTime: number
     ) => {
       if (decision.decision !== "accept") return;
 
-      // Simulated departure timestamp (unix seconds) for traffic-aware routing
-      const departureTime = Math.floor(
-        (currentShift.simShiftStart + currentShift.elapsedSeconds * 1000) / 1000
-      );
-
-      const agent = currentShift[agentKey];
       const [routeToPickup, routeToDropoff] = await Promise.all([
-        fetchRoute(agent.position, order.pickupCoords, departureTime),
+        fetchRoute(agentFromCoords, order.pickupCoords, departureTime),
         fetchRoute(order.pickupCoords, order.dropoffCoords, departureTime),
       ]);
 
@@ -151,21 +157,39 @@ export function useShift() {
         20_000
       );
 
-      setShift((prev) => ({
-        ...prev,
-        [agentKey]: {
-          ...prev[agentKey],
-          earnings: prev[agentKey].earnings + order.payout,
-          ordersCompleted: prev[agentKey].ordersCompleted + 1,
-          kmDriven: Math.round((prev[agentKey].kmDriven + totalKm) * 10) / 10,
-          currentRoute: fullRoute,
-          currentRouteMeta: { startedAt: Date.now(), durationMs: travelMs, pickupIndex },
-          currentOrder: order,
-          isMoving: true,
-          lastDecision: decision,
-          decisionHistory: [...prev[agentKey].decisionHistory, decision],
-        },
-      }));
+      setShift((prev) => {
+        const agent = prev[agentKey];
+
+        // Compute incremental expenses for this delivery
+        const addedFuelLiters = fuelLitersForKm(totalKm, agent.capacity);
+        const addedFuelMxn = fuelCostMxn(totalKm, agent.capacity);
+        const addedMaintenanceMxn = maintenanceCostMxn(totalKm);
+
+        const newFuelLiters = agent.expenses.fuelLiters + addedFuelLiters;
+        const newFuelMxn = agent.expenses.fuelMxn + addedFuelMxn;
+        const newMaintenanceMxn = agent.expenses.maintenanceMxn + addedMaintenanceMxn;
+
+        const newTipsEarned = agent.tipsEarned + order.tip;
+        const newEarnings = agent.earnings + order.payout + order.tip;
+        const newNetEarnings = newEarnings - newFuelMxn - newMaintenanceMxn;
+
+        return {
+          ...prev,
+          [agentKey]: {
+            ...agent,
+            earnings: newEarnings,
+            netEarnings: newNetEarnings,
+            tipsEarned: newTipsEarned,
+            ordersCompleted: agent.ordersCompleted + 1,
+            kmDriven: Math.round((agent.kmDriven + totalKm) * 10) / 10,
+            expenses: { fuelLiters: newFuelLiters, fuelMxn: newFuelMxn, maintenanceMxn: newMaintenanceMxn },
+            currentRoute: fullRoute,
+            currentRouteMeta: { startedAt: Date.now(), durationMs: travelMs, pickupIndex },
+            currentOrder: order,
+            isMoving: true,
+          },
+        };
+      });
 
       // Snap position to dropoff when delivery animation completes
       setTimeout(() => {
@@ -192,6 +216,13 @@ export function useShift() {
       setOrderExpiry(order.expiresAt);
 
       const remainingSeconds = SHIFT_DURATION_SECONDS - currentShift.elapsedSeconds;
+      const departureTime = Math.floor(
+        (currentShift.simShiftStart + currentShift.elapsedSeconds * 1000) / 1000
+      );
+
+      // Capture agent positions at decision time for route calculation
+      const smartAgentPos = currentShift.smartAgent.position;
+      const baselineAgentPos = currentShift.baselineAgent.position;
 
       // Smart agent — async
       setIsSmartDeciding(true);
@@ -205,50 +236,66 @@ export function useShift() {
       ).then((rawDecision) => {
         setIsSmartDeciding(false);
         const decision = enrichDecision(rawDecision, order);
-        setShift((prev) => {
-          applyDecision("smartAgent", decision, order, prev);
-          return {
-            ...prev,
-            smartAgent: {
-              ...prev.smartAgent,
-              lastDecision: decision,
-              decisionHistory: [...prev.smartAgent.decisionHistory, decision],
-            },
-            eventLog: [
-              {
-                type: "order",
-                label: `Smart: ${decision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
-                timestamp: Date.now(),
-                agentType: "smart",
-              },
-              ...prev.eventLog.slice(0, 29),
-            ],
-          };
-        });
-      });
 
-      // Baseline agent — sync
-      const baseDecision = enrichDecision(baselineDecide(order, currentShift.baselineAgent), order);
-      setShift((prev) => {
-        applyDecision("baselineAgent", baseDecision, order, prev);
-        return {
+        // Update decision display state (pure update — no side effects)
+        setShift((prev) => ({
           ...prev,
-          baselineAgent: {
-            ...prev.baselineAgent,
-            lastDecision: baseDecision,
-            decisionHistory: [...prev.baselineAgent.decisionHistory, baseDecision],
+          smartAgent: {
+            ...prev.smartAgent,
+            lastDecision: decision,
+            decisionHistory: [...prev.smartAgent.decisionHistory, decision],
+            acceptCount: decision.decision === "accept"
+              ? prev.smartAgent.acceptCount + 1
+              : prev.smartAgent.acceptCount,
+            skipCount: decision.decision === "skip"
+              ? prev.smartAgent.skipCount + 1
+              : prev.smartAgent.skipCount,
           },
           eventLog: [
             {
               type: "order",
-              label: `Baseline: ${baseDecision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
+              label: `Smart: ${decision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
               timestamp: Date.now(),
-              agentType: "baseline",
+              agentType: "smart",
             },
             ...prev.eventLog.slice(0, 29),
           ],
-        };
+        }));
+
+        // Apply delivery OUTSIDE the setShift updater — no nested setState
+        applyDecision("smartAgent", decision, order, smartAgentPos, departureTime);
       });
+
+      // Baseline agent — sync decision, async delivery
+      const baseDecision = enrichDecision(baselineDecide(order, currentShift.baselineAgent), order);
+
+      // Update decision display state (pure update — no side effects)
+      setShift((prev) => ({
+        ...prev,
+        baselineAgent: {
+          ...prev.baselineAgent,
+          lastDecision: baseDecision,
+          decisionHistory: [...prev.baselineAgent.decisionHistory, baseDecision],
+          acceptCount: baseDecision.decision === "accept"
+            ? prev.baselineAgent.acceptCount + 1
+            : prev.baselineAgent.acceptCount,
+          skipCount: baseDecision.decision === "skip"
+            ? prev.baselineAgent.skipCount + 1
+            : prev.baselineAgent.skipCount,
+        },
+        eventLog: [
+          {
+            type: "order",
+            label: `Baseline: ${baseDecision.decision.toUpperCase()} — ${order.pickupLabel} → ${order.dropoffLabel}`,
+            timestamp: Date.now(),
+            agentType: "baseline",
+          },
+          ...prev.eventLog.slice(0, 29),
+        ],
+      }));
+
+      // Apply delivery OUTSIDE the setShift updater — no nested setState
+      applyDecision("baselineAgent", baseDecision, order, baselineAgentPos, departureTime);
 
       // Clear order ping
       setTimeout(() => setCurrentOrder(null), 15_000);
@@ -346,16 +393,15 @@ export function useShift() {
       firstOrder = false;
 
       orderTimerRef.current = setTimeout(() => {
-        setShift((prev) => {
-          if (prev.status !== "running") return prev;
-          fetchOrder(prev.activeSurgeZones).then((order) => {
-            setShift((s) => {
-              if (s.status === "running") presentOrder(order, s);
-              return s;
-            });
-          });
-          return prev;
+        // Use shiftRef to read current state without a nested setState updater
+        const s = shiftRef.current;
+        if (s.status !== "running") return;
+
+        fetchOrder(s.activeSurgeZones).then((order) => {
+          const latest = shiftRef.current;
+          if (latest.status === "running") presentOrder(order, latest);
         });
+
         scheduleNextOrder();
       }, realDelayMs);
     };
