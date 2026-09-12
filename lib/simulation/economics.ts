@@ -54,21 +54,23 @@ export function vehicleLabelForCapacity(capacity: number): string {
 }
 
 // --- Dispatch economics ---
-export const BATCH_BONUS_PER_EXTRA = 8; // MXN per extra order in a run (>= 2 orders)
+// Calibrated to real Mexican app-delivery courier pay (Rappi / DiDi Food, 2025).
+// A typical 4-hour shift in Distrito Tec earns $400–700 MXN net after fuel.
+export const BATCH_BONUS_PER_EXTRA = 15; // MXN per extra stacked order (>= 2 orders)
 export const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
 
 // --- Price pattern → capacity slot model ---
 // Anchor: one capacity slot ≈ one medium meal ≈ $100 MXN consumer spend.
 export const SLOT_VALUE_MXN = 100;
-export const MIN_PAYOUT_FLOOR = 25; // MXN formula floor
-export const BASE_FEE = 18; // MXN flat delivery fee
-export const PER_KM_FEE = 6; // MXN per estimated km
-export const COMMISSION_RATE = 0.07; // share of consumer order spend paid to courier
-export const MAX_PAYOUT_BASE = 120; // clamp on distance+base component (pre-surge)
-export const TIP_PCT_MIN = 0.06; // tip as share of order spend
+export const MIN_PAYOUT_FLOOR = 40;  // MXN formula floor — minimum any order pays
+export const BASE_FEE = 35;          // MXN flat per-delivery fee (was 18)
+export const PER_KM_FEE = 10;        // MXN per estimated km (was 6)
+export const COMMISSION_RATE = 0.08; // 8% of consumer spend paid to courier (was 7%)
+export const MAX_PAYOUT_BASE = 220;  // cap before surge (was 120)
+export const TIP_PCT_MIN = 0.05;     // tip as share of order spend
 export const TIP_PCT_MAX = 0.12;
-export const TIP_MIN = 5; // MXN realised tip floor
-export const TIP_MAX = 40; // MXN realised tip cap
+export const TIP_MIN = 8;            // MXN realised tip floor (was 5)
+export const TIP_MAX = 60;           // MXN realised tip cap (was 40)
 
 // Quote payout + tip for an order's orderSize, distance, and slots.
 export function quotePayout(orderSizeMxn: number, km: number): number {

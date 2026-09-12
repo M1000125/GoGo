@@ -43,12 +43,14 @@ export async function POST(req: NextRequest) {
     order.estimatedMinutes + order.prepMinutes + (deadKm / 25) * 60;
   const efficiency = order.payout / Math.max(totalMinutes, 1);
 
-  // Accept if efficient enough AND enough shift time remains
-  const accept = efficiency > 4 && remainingSeconds > order.estimatedMinutes * 60;
+  // Accept if efficient enough AND enough shift time remains.
+  // Threshold calibrated to real MXN courier pay: ~$2.5–4 MXN/min is a good
+  // shift; anything above 3 MXN/min is worth taking.
+  const accept = efficiency > 3 && remainingSeconds > order.estimatedMinutes * 60;
 
-  // Surge orders get a lower efficiency threshold
+  // Surge orders: lower bar to 2 MXN/min — extra volume beats selectivity.
   const acceptSurge =
-    order.isSurge && efficiency > 3 && remainingSeconds > order.estimatedMinutes * 60;
+    order.isSurge && efficiency > 2 && remainingSeconds > order.estimatedMinutes * 60;
 
   return NextResponse.json(
     baseDecision(

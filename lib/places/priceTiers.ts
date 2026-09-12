@@ -38,13 +38,16 @@ export function priceTierForTypes(types: string[]): PriceTier {
 }
 
 // ── Order-size range per tier ────────────────────────────────────────────────
-// These represent the consumer spend (pre-fee) in MXN.
-// One capacity slot ≈ $100 MXN; tiers 1 and 3 sit on either side.
+// Consumer spend in MXN — calibrated to real Monterrey / Distrito Tec prices.
+// Tier 1: fast food / tacos / café  → $120–200 MXN (e.g. combo or 5 tacos)
+// Tier 2: sit-down restaurant / bar → $220–420 MXN (e.g. entrée + drinks)
+// Tier 3: steak / seafood / fine    → $450–900 MXN (e.g. 2-person dinner)
+// One capacity slot ≈ $100 MXN consumer spend.
 
 const ORDER_SIZE_RANGES: Record<PriceTier, [min: number, max: number]> = {
-  1: [55, 85],
-  2: [95, 115],
-  3: [140, 220],
+  1: [120, 200],
+  2: [220, 420],
+  3: [450, 900],
 };
 
 /** Sample a random order-size MXN within the tier range, optionally scaled by a consumer multiplier. */
