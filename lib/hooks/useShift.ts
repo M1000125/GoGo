@@ -62,9 +62,16 @@ export function useShift() {
   // Speed: simulated-seconds that advance per real second
   const [speed, _setSpeed] = useState(60); // default 60× → 4h shift in 4 real minutes
   const speedRef = useRef(60);
+  // Holds the inner schedule() fn from spawnLoop so setSpeed can reschedule
+  // the order timer immediately when the user changes speed mid-shift.
+  const rescheduleSpawnRef = useRef<() => void>(() => {});
   const setSpeed = useCallback((n: number) => {
     speedRef.current = n;
     _setSpeed(n);
+    // Re-arm the spawn timer at the new rate if a shift is running.
+    if (shiftRef.current?.status === "running") {
+      rescheduleSpawnRef.current();
+    }
   }, []);
 
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -437,6 +444,8 @@ export function useShift() {
   const spawnLoop = useCallback(() => {
     const schedule = () => {
       if (spawnTimerRef.current) clearTimeout(spawnTimerRef.current);
+      // Always expose the latest schedule fn so setSpeed can re-arm the timer.
+      rescheduleSpawnRef.current = schedule;
 
       const s = shiftRef.current;
       if (!s || s.status !== "running") return;

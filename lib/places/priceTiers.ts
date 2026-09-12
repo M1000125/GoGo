@@ -45,9 +45,9 @@ export function priceTierForTypes(types: string[]): PriceTier {
 // One capacity slot ≈ $100 MXN consumer spend.
 
 const ORDER_SIZE_RANGES: Record<PriceTier, [min: number, max: number]> = {
-  1: [120, 200],
-  2: [220, 420],
-  3: [450, 900],
+  1: [150, 280],   // fast food / tacos / café: e.g. $150 combo, $250 family tacos
+  2: [280, 550],   // sit-down restaurant / bar: entrée + drinks
+  3: [550, 1200],  // steak / seafood / fine dining: 2-person dinner
 };
 
 /** Sample a random order-size MXN within the tier range, optionally scaled by a consumer multiplier. */
