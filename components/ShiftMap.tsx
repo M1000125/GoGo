@@ -29,7 +29,8 @@ function distKm(a: Coords, b: Coords): number {
 
 // Interpolate a point at `progress` (0–1) along a route array
 function interpolateRoute(route: Coords[], progress: number): Coords {
-  if (!route.length) return { lat: 0, lng: 0 };
+  if (route.length === 0) return { lat: 0, lng: 0 };
+  if (route.length === 1) return route[0]; // single-point leg — no interpolation possible
   if (progress <= 0) return route[0];
   if (progress >= 1) return route[route.length - 1];
 
@@ -39,10 +40,15 @@ function interpolateRoute(route: Coords[], progress: number): Coords {
     dists.push(dists[i - 1] + distKm(route[i - 1], route[i]));
   }
   const total = dists[dists.length - 1];
+  if (total === 0) return route[0]; // all points coincident — avoid division by zero
+
   const target = total * progress;
 
   let seg = 0;
-  while (seg < dists.length - 2 && dists[seg + 1] < target) seg++;
+  while (seg < route.length - 2 && dists[seg + 1] < target) seg++;
+
+  // Safety: seg+1 must be a valid index
+  if (seg + 1 >= route.length) return route[route.length - 1];
 
   const segLen = dists[seg + 1] - dists[seg];
   const t = segLen > 0 ? (target - dists[seg]) / segLen : 0;
