@@ -1,16 +1,67 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { SurgeZone } from "@/lib/types";
-import { loadPlacesCatalog } from "@/lib/places/catalog";
-import { generateOrder } from "@/lib/simulation/orderGenerator";
+import mockOrdersData from "@/data/mock_orders.json";
+import type { Order, SurgeZone } from "@/lib/types";
+import { isInSurgeZone } from "@/lib/simulation/surgeZones";
+import { quotePayout, quoteTip, orderSlots } from "@/lib/simulation/economics";
 
-// Memoized once per server start (also file-cached across restarts).
-const catalogPromise = loadPlacesCatalog();
+interface MockOrder {
+  id: string;
+  restaurant: { id: string; name: string; latitude: number; longitude: number };
+  customer: { latitude: number; longitude: number };
+  deliveryDistanceKm: number;
+  orderTotal: number; // consumer spend in MXN — used for slots + payout formula
+  driverPay: number;  // kept for reference but not used directly (too low)
+}
+
+const pool = mockOrdersData as MockOrder[];
+let poolIndex = Math.floor(Math.random() * pool.length);
+
+function nextMockOrder(): MockOrder {
+  const order = pool[poolIndex % pool.length];
+  poolIndex++;
+  return order;
+}
 
 export async function POST(req: NextRequest) {
   const { activeSurgeZones }: { activeSurgeZones?: SurgeZone[] } = await req.json();
 
-  const catalog = await catalogPromise;
-  const order = generateOrder(activeSurgeZones ?? [], catalog);
+  const raw = nextMockOrder();
+
+  const pickupCoords = { lat: raw.restaurant.latitude, lng: raw.restaurant.longitude };
+  const dropoffCoords = { lat: raw.customer.latitude, lng: raw.customer.longitude };
+
+  const surgeZone = isInSurgeZone(pickupCoords, activeSurgeZones ?? []);
+  const multiplier = surgeZone?.multiplier ?? 1;
+  const isSurge = multiplier > 1;
+
+  // Use orderTotal as the consumer spend — already in MXN.
+  const orderSizeMxn = Math.round(raw.orderTotal);
+  const slots = orderSlots(orderSizeMxn);
+
+  const estimatedKm = raw.deliveryDistanceKm;
+  const estimatedMinutes = Math.max(2, Math.round((estimatedKm / 25) * 60));
+
+  // Compute payout via the calibrated economics formula (not raw driverPay).
+  const basePayout = quotePayout(orderSizeMxn, estimatedKm);
+  const payout = Math.round(basePayout * multiplier);
+  const tip = quoteTip(orderSizeMxn);
+
+  const order: Order = {
+    id: `${raw.id}-${Date.now()}`,
+    pickupCoords,
+    dropoffCoords,
+    pickupLabel: raw.restaurant.name,
+    dropoffLabel: `Cliente · ${estimatedKm.toFixed(1)} km`,
+    payout,
+    estimatedKm,
+    estimatedMinutes,
+    expiresAt: Date.now() + 15_000,
+    isSurge,
+    prepMinutes: Math.floor(Math.random() * 6),
+    tip,
+    orderSizeMxn,
+    slots,
+  };
 
   return NextResponse.json(order);
 }
