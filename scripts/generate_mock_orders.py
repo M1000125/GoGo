@@ -3,23 +3,41 @@ import math
 import os
 import random
 
-NUMBER_OF_ORDERS = 500
+# ── Config ───────────────────────────────────────────────────────────────────
+NUMBER_OF_ORDERS = 1000
 RANDOM_SEED = 42
 EARTH_RADIUS_KM = 6371.0
-MIN_ORDER_TOTAL = 100
-MAX_ORDER_TOTAL = 800
-BASE_DRIVER_PAY = 25
-PAY_PER_KM = 9
-PAY_VARIATION_MIN = -12
-PAY_VARIATION_MAX = 18
-MIN_DRIVER_PAY = 25
 OUTPUT_PATH = os.path.join("data", "mock_orders.json")
 
+# Distance distribution: (probability, min_km, max_km)
+# Distrito Tec is dense — most deliveries are under 3 km.
 DISTANCE_BUCKETS = [
-    (0.60, 0.3, 2.0),
-    (0.30, 2.0, 5.0),
-    (0.10, 5.0, 8.0),
+    (0.55, 0.5, 2.5),   # short: 55% of orders
+    (0.35, 2.5, 5.5),   # medium: 35%
+    (0.10, 5.5, 9.0),   # long: 10%
 ]
+
+# Order total tiers (consumer spend in MXN).
+# Bimodal: most orders are cheap (baseline grabs them eagerly);
+# a meaningful minority are premium (smart agent waits for these).
+#
+#   Tier A — cheap/fast food: $100–280 MXN  (60% of pool)
+#   Tier B — mid restaurant:  $300–520 MXN  (25% of pool)
+#   Tier C — premium/fine:    $550–900 MXN  (15% of pool)
+ORDER_TIERS = [
+    (0.60, 100,  280),
+    (0.25, 300,  520),
+    (0.15, 550,  900),
+]
+
+# Driver pay is only used as a reference in the JSON.
+# The actual payout shown in-game is computed by quotePayout() in economics.ts
+# using orderTotal as the consumer spend.
+BASE_DRIVER_PAY = 35
+PAY_PER_KM = 11
+PAY_VARIATION_MIN = -8
+PAY_VARIATION_MAX = 20
+MIN_DRIVER_PAY = 30
 
 RESTAURANTS = [
     {
@@ -120,8 +138,20 @@ def choose_delivery_distance():
         cumulative += probability
         if roll <= cumulative:
             return random.uniform(min_km, max_km)
-    min_km, max_km = DISTANCE_BUCKETS[-1][1], DISTANCE_BUCKETS[-1][2]
+    _, min_km, max_km = DISTANCE_BUCKETS[-1]
     return random.uniform(min_km, max_km)
+
+
+def choose_order_total():
+    """Bimodal distribution: mostly cheap, some premium."""
+    roll = random.random()
+    cumulative = 0.0
+    for probability, min_mxn, max_mxn in ORDER_TIERS:
+        cumulative += probability
+        if roll <= cumulative:
+            return round(random.uniform(min_mxn, max_mxn), 2)
+    _, min_mxn, max_mxn = ORDER_TIERS[-1]
+    return round(random.uniform(min_mxn, max_mxn), 2)
 
 
 def generate_customer_location(restaurant_latitude, restaurant_longitude, distance_km):
@@ -145,10 +175,6 @@ def generate_customer_location(restaurant_latitude, restaurant_longitude, distan
     }
 
 
-def generate_order_total():
-    return round(random.uniform(MIN_ORDER_TOTAL, MAX_ORDER_TOTAL), 2)
-
-
 def generate_driver_pay(distance_km):
     variation = random.uniform(PAY_VARIATION_MIN, PAY_VARIATION_MAX)
     pay = BASE_DRIVER_PAY + (distance_km * PAY_PER_KM) + variation
@@ -163,6 +189,7 @@ def generate_order(order_number):
         restaurant["longitude"],
         distance_km,
     )
+    order_total = choose_order_total()
     order = {
         "id": f"ORD-{order_number:04d}",
         "restaurant": {
@@ -173,7 +200,7 @@ def generate_order(order_number):
         },
         "customer": customer,
         "deliveryDistanceKm": round(distance_km, 2),
-        "orderTotal": generate_order_total(),
+        "orderTotal": order_total,
         "driverPay": generate_driver_pay(distance_km),
     }
     _validate_order(order)
@@ -198,13 +225,19 @@ def _validate_distance_buckets():
         raise ValueError(f"DISTANCE_BUCKETS probabilities must sum to 1.0, got {total}")
 
 
+def _validate_order_tiers():
+    total = sum(t[0] for t in ORDER_TIERS)
+    if abs(total - 1.0) > 1e-6:
+        raise ValueError(f"ORDER_TIERS probabilities must sum to 1.0, got {total}")
+
+
 def _validate_order(order):
     lat = order["customer"]["latitude"]
     lon = order["customer"]["longitude"]
     if not isinstance(lat, (int, float)) or not isinstance(lon, (int, float)):
         raise ValueError("Customer coordinates must be numeric")
-    if not (0.3 <= order["deliveryDistanceKm"] <= 8.0):
-        raise ValueError("deliveryDistanceKm must be between 0.3 and 8 km")
+    if not (0.3 <= order["deliveryDistanceKm"] <= 10.0):
+        raise ValueError("deliveryDistanceKm must be between 0.3 and 10 km")
     if order["orderTotal"] <= 0:
         raise ValueError("orderTotal must be positive")
     if order["driverPay"] < MIN_DRIVER_PAY:
@@ -214,7 +247,16 @@ def _validate_order(order):
 if __name__ == "__main__":
     random.seed(RANDOM_SEED)
     _validate_distance_buckets()
+    _validate_order_tiers()
     orders = generate_orders(NUMBER_OF_ORDERS)
     save_orders_to_json(orders, OUTPUT_PATH)
-    print("Generated 500 mock orders.")
-    print("Saved to data/mock_orders.json")
+
+    totals = [o["orderTotal"] for o in orders]
+    tier_a = sum(1 for t in totals if t < 300)
+    tier_b = sum(1 for t in totals if 300 <= t < 550)
+    tier_c = sum(1 for t in totals if t >= 550)
+    print(f"Generated {NUMBER_OF_ORDERS} mock orders → {OUTPUT_PATH}")
+    print(f"  Tier A (cheap,   $100–280):  {tier_a} orders ({tier_a/NUMBER_OF_ORDERS*100:.0f}%)")
+    print(f"  Tier B (mid,     $300–520):  {tier_b} orders ({tier_b/NUMBER_OF_ORDERS*100:.0f}%)")
+    print(f"  Tier C (premium, $550–900):  {tier_c} orders ({tier_c/NUMBER_OF_ORDERS*100:.0f}%)")
+    print(f"  orderTotal: min=${min(totals):.0f}  max=${max(totals):.0f}  avg=${sum(totals)/len(totals):.0f} MXN")

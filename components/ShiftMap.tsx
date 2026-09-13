@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { AgentState, Coords, SurgeZone, RoadClosure } from "@/lib/types";
-import { DISTRITO_TEC_BOUNDS, DISTRITO_TEC_CENTER } from "@/lib/simulation/mapBounds";
+import { DISPLAY_BOUNDS, DISTRITO_TEC_CENTER } from "@/lib/simulation/mapBounds";
 
 interface ShiftMapProps {
   agentState: AgentState;
@@ -91,17 +91,17 @@ export default function ShiftMap({
       });
 
       const bounds = L.latLngBounds(
-        [DISTRITO_TEC_BOUNDS.south, DISTRITO_TEC_BOUNDS.west],
-        [DISTRITO_TEC_BOUNDS.north, DISTRITO_TEC_BOUNDS.east]
+        [DISPLAY_BOUNDS.south, DISPLAY_BOUNDS.west],
+        [DISPLAY_BOUNDS.north, DISPLAY_BOUNDS.east]
       );
 
       const map = L.map(mapId, {
         center: [DISTRITO_TEC_CENTER.lat, DISTRITO_TEC_CENTER.lng],
         zoom: 15,
-        minZoom: 14,
+        minZoom: 13,
         maxZoom: 18,
         maxBounds: bounds,
-        maxBoundsViscosity: 1.0,
+        maxBoundsViscosity: 0.7,
         zoomControl: true,
         attributionControl: false,
       });
