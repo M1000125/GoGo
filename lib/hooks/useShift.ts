@@ -31,6 +31,12 @@ import {
   smartDecision,
   type DecisionInput,
 } from "@/lib/agents/decisionCore";
+import { baselineDecide } from "@/lib/agents/baselineAgent";
+import {
+  decideSmartBurst,
+  DEFAULT_SMART_KNOBS,
+  type OfferTimes,
+} from "@/lib/agents/smartPolicy";
 import {
   COMPETE_MODE,
   SLOW_WINDOW_PROBABILITY,
@@ -160,6 +166,8 @@ export function useShift() {
     competeModeRef.current = n;
     _setCompeteMode(n);
   }, []);
+
+  const [isSmartDeciding, setIsSmartDeciding] = useState(false);
 
   /** Single write path: updates React state AND keeps shiftRef in sync so
    *  async delivery loops always read the freshest carried/position state. */
@@ -634,47 +642,66 @@ export function useShift() {
           .slice(-MAX_SIMULTANEOUS_OFFERS)
       );
 
-      const remaining = SHIFT_DURATION_SECONDS - s.elapsedSeconds;
-      const elapsed = s.elapsedSeconds;
-
-      const smartCarried = queueRef.current.smartAgent;
+      // ── Baseline: synchronous capacity-only greedy fill ──────────────
       const baseCarried = queueRef.current.baselineAgent;
+      let baseSimCarried = [...baseCarried];
+      const baselineResults: AgentDecision[] = incoming.map((order) => {
+        const agent: AgentState = {
+          ...s.baselineAgent,
+          carriedOrders: baseSimCarried,
+        };
+        const res = baselineDecide(order, agent);
+        if (res.decision === "accept") {
+          baseSimCarried = [...baseSimCarried, { order, pickedUp: false }];
+        }
+        return res;
+      });
 
-      const baseInput: Pick<
-        DecisionInput,
-        | "elapsedSeconds"
-        | "remainingSeconds"
-        | "activeSurgeZones"
-        | "activeClosures"
-        | "capacity"
-      > = {
-        elapsedSeconds: elapsed,
-        remainingSeconds: remaining,
-        activeSurgeZones: s.activeSurgeZones,
-        activeClosures: s.activeClosures,
-        capacity: s.capacity,
+      // ── Smart: fetch real routes then rank/burst ──────────────────────
+      setIsSmartDeciding(true);
+      const departureTime = Math.floor(
+        (s.simShiftStart + s.elapsedSeconds * 1000) / 1000
+      );
+      const startPos = shiftRef.current.smartAgent.position;
+      const timed = await Promise.all(
+        incoming.map(async (order) => {
+          const [dead, trip] = await Promise.all([
+            fetchRoute(startPos, order.pickupCoords, departureTime),
+            fetchRoute(order.pickupCoords, order.dropoffCoords, departureTime),
+          ]);
+          const times: OfferTimes = {
+            deadheadMinutes: Math.max(0.4, dead.minutes),
+            tripMinutes: Math.max(1, trip.minutes),
+          };
+          return [order.id, times] as const;
+        })
+      );
+
+      if (shiftRef.current.status !== "running") {
+        setIsSmartDeciding(false);
+        return;
+      }
+
+      const smartAgent: AgentState = {
+        ...shiftRef.current.smartAgent,
+        carriedOrders: queueRef.current.smartAgent,
       };
+      const remainingSeconds =
+        SHIFT_DURATION_SECONDS - shiftRef.current.elapsedSeconds;
+      const timesById = new Map<string, OfferTimes>(timed);
+      const smartResults = decideSmartBurst(
+        incoming,
+        smartAgent,
+        remainingSeconds,
+        DEFAULT_SMART_KNOBS,
+        timesById
+      );
+      setIsSmartDeciding(false);
 
-      // ── In-process smart decisions (synchronous burst evaluation) ─────
-      const smartResults = smartBurstDecisions(incoming, {
-        ...baseInput,
-        carried: smartCarried,
-        position: s.smartAgent.position,
-        agentType: "smart",
-        recentDecisions: s.smartAgent.decisionHistory,
-        offerSources: incoming.map((o) => o.pickupCoords),
-      });
+      const elapsed = shiftRef.current.elapsedSeconds;
 
-      const baselineResults = baselineBurstDecisions(incoming, {
-        ...baseInput,
-        carried: baseCarried,
-        position: s.baselineAgent.position,
-        agentType: "baseline",
-        recentDecisions: s.baselineAgent.decisionHistory,
-      });
-
-      // ── Claim resolution (compete mode) or shared ─────────────────────
-      if (competeModeRef.current && smartResults.length > 0) {
+      // ── Compete vs compare mode claiming ─────────────────────────────
+      if (competeModeRef.current) {
         let claimIdx = 0;
         for (let i = 0; i < incoming.length; i++) {
           const order = incoming[i];
@@ -700,29 +727,14 @@ export function useShift() {
           claimIdx++;
 
           if (!owner) {
-            recordDecision(
-              "smartAgent",
-              enrichDecision(smartRes, order),
-              order,
-              { elapsedSeconds: elapsed, claimResult: "neutral" }
-            );
-            recordDecision(
-              "baselineAgent",
-              enrichDecision(baseRes, order),
-              order,
-              { elapsedSeconds: elapsed, claimResult: "neutral" }
-            );
+            recordDecision("smartAgent", enrichDecision(smartRes, order), order, { elapsedSeconds: elapsed, claimResult: "neutral" });
+            recordDecision("baselineAgent", enrichDecision(baseRes, order), order, { elapsedSeconds: elapsed, claimResult: "neutral" });
             continue;
           }
 
-          const loser =
-            owner === "smartAgent"
-              ? "baselineAgent"
-              : "smartAgent";
-          const winnerRes =
-            owner === "smartAgent" ? smartRes : baseRes;
-          const loserLost =
-            owner === "smartAgent" ? baseWants : smartWants;
+          const loser = owner === "smartAgent" ? "baselineAgent" : "smartAgent";
+          const winnerRes = owner === "smartAgent" ? smartRes : baseRes;
+          const loserLost = owner === "smartAgent" ? baseWants : smartWants;
           const loserRes: AgentDecision = {
             orderId: order.id,
             decision: "skip",
@@ -734,46 +746,19 @@ export function useShift() {
             payout: order.payout,
             estimatedMinutes: order.estimatedMinutes,
           };
-
-          recordDecision(
-            owner,
-            enrichDecision(winnerRes, order),
-            order,
-            {
-              elapsedSeconds: elapsed,
-              claimResult: "won",
-            }
-          );
-          recordDecision(
-            loser,
-            loserLost ? loserRes : enrichDecision(owner === "smartAgent" ? baseRes : smartRes, order),
-            order,
-            {
-              elapsedSeconds: elapsed,
-              claimResult: loserLost ? "lost" : "neutral",
-            }
-          );
+          recordDecision(owner, enrichDecision(winnerRes, order), order, { elapsedSeconds: elapsed, claimResult: "won" });
+          recordDecision(loser, loserLost ? loserRes : enrichDecision(owner === "smartAgent" ? baseRes : smartRes, order), order, { elapsedSeconds: elapsed, claimResult: loserLost ? "lost" : "neutral" });
         }
-      } else if (smartResults.length > 0) {
-        // Shared mode — both agents evaluate every order independently
+      } else {
+        // Compare mode — both agents evaluate independently
         for (let i = 0; i < incoming.length; i++) {
           const order = incoming[i];
-          recordDecision(
-            "smartAgent",
-            enrichDecision(smartResults[i], order),
-            order,
-            { elapsedSeconds: elapsed }
-          );
-          recordDecision(
-            "baselineAgent",
-            enrichDecision(baselineResults[i], order),
-            order,
-            { elapsedSeconds: elapsed }
-          );
+          recordDecision("smartAgent", enrichDecision(smartResults[i], order), order, { elapsedSeconds: elapsed });
+          recordDecision("baselineAgent", enrichDecision(baselineResults[i], order), order, { elapsedSeconds: elapsed });
         }
       }
     },
-    [enrichDecision, recordDecision]
+    [enrichDecision, recordDecision, fetchRoute]
   );
 
   // ── Spawn loop: surge-aware cadence + bursts ──────────────────────────
