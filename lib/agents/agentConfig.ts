@@ -1,13 +1,13 @@
 // ── Agent competition configuration ─────────────────────────────────────────
-// Build-time flags live on the server env; these constants keep the client in
-// sync for the toggle chip and shift logic. Set NEXT_PUBLIC_COMPETE_MODE=false
-// to disable.
+// Build-time default lives on the server env; the runtime value is held in
+// useShift state (initialized here) and toggleable in-app before a shift.
+// Compete is opt-in: unset/any value except "true" runs shared "compare" mode.
 
 /** Offer exclusivity. When ON, each order is claimed by exactly one agent and
  *  the two couriers genuinely compete (a "smart-only" charity button is not
  *  needed — the better policy wins on the margin). When OFF, both agents see
- *  every order and may both carry it (pre-compete behaviour). */
-export const COMPETE_MODE = process.env.NEXT_PUBLIC_COMPETE_MODE !== "false";
+ *  every order and may both carry it (pre-compete / compare behaviour). */
+export const COMPETE_MODE = process.env.NEXT_PUBLIC_COMPETE_MODE === "true";
 
 // ── Smart policy gates (net MXN/min after fuel + maintenance) ──────────────
 /** Minimum net MXN/min for a standalone (first-impact) order. The economy pays

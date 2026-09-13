@@ -32,7 +32,7 @@ Open [http://localhost:3000](http://localhost:3000), select a vehicle capacity, 
 | Key | Required | Why |
 |-----|----------|-----|
 | `GOOGLE_MAPS_API_KEY` | No | `Places API` pricing model + traffic-aware Google Directions routing. Without it, routing falls back to the free OSRM public server and the bundled mock order dataset is used. |
-| `NEXT_PUBLIC_COMPETE_MODE` | No | Set to `false` to let both agents evaluate every order instead of competing for exclusive claims (default: compete mode ON). |
+| `NEXT_PUBLIC_COMPETE_MODE` | No | Set to `true` to make agents compete for exclusive order claims (`⚔️ compete`). Unset/`false` runs shared `compare` mode where both agents evaluate every order (default). Also toggleable in-app on the start screen. |
 
 No Firebase, no other keys. The whole demo runs from a bundled order dataset.
 

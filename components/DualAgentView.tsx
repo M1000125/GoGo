@@ -12,6 +12,7 @@ interface DualAgentViewProps {
   speed: number;
   setSpeed: (n: number) => void;
   simulatedNow: number;
+  competeMode: boolean;
 }
 
 const SPEED_OPTIONS = [1, 10, 30, 60, 120, 300] as const;
@@ -41,6 +42,7 @@ export default function DualAgentView({
   speed,
   setSpeed,
   simulatedNow,
+  competeMode,
 }: DualAgentViewProps) {
   const elapsed = shift.elapsedSeconds;
   const remaining = shift.durationSeconds - elapsed;
@@ -64,7 +66,7 @@ export default function DualAgentView({
               🕐 {formatSimClock(simulatedNow)}
             </span>
             <span className="text-[10px] text-white/40 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full hidden md:inline">
-              ⚔️ compete
+              {competeMode ? "⚔️ compete" : "🔀 compare"}
             </span>
           </div>
 

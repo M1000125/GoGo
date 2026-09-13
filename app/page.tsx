@@ -12,13 +12,13 @@ import {
 } from "@/lib/simulation/economics";
 
 export default function Home() {
-  const { shift, offers, speed, setSpeed, simulatedNow, startShift, resetShift } = useShift();
+  const { shift, offers, speed, setSpeed, simulatedNow, startShift, resetShift, competeMode, setCompeteMode } = useShift();
   const [capacity, setCapacity] = useState(DEFAULT_CAPACITY);
 
   if (shift.status === "ended") {
     return (
       <main className="min-h-screen bg-[#0a0a14]">
-        <ShiftSummary shift={shift} onReset={resetShift} />
+        <ShiftSummary shift={shift} onReset={resetShift} competeMode={competeMode} />
       </main>
     );
   }
@@ -60,6 +60,8 @@ export default function Home() {
             onStart={() => startShift(capacity)}
             capacity={capacity}
             onCapacityChange={setCapacity}
+            competeMode={competeMode}
+            onCompeteModeChange={setCompeteMode}
           />
         ) : (
           <DualAgentView
@@ -68,6 +70,7 @@ export default function Home() {
             speed={speed}
             setSpeed={setSpeed}
             simulatedNow={simulatedNow}
+            competeMode={competeMode}
           />
         )}
       </div>
@@ -79,10 +82,14 @@ function IdleScreen({
   onStart,
   capacity,
   onCapacityChange,
+  competeMode,
+  onCompeteModeChange,
 }: {
   onStart: () => void;
   capacity: number;
   onCapacityChange: (n: number) => void;
+  competeMode: boolean;
+  onCompeteModeChange: (n: boolean) => void;
 }) {
   const caps = Array.from(
     { length: CAPACITY_MAX - CAPACITY_MIN + 1 },
@@ -155,6 +162,45 @@ function IdleScreen({
           Higher capacity = more orders per run, higher fuel costs. 1 slot ≈ $400 MXN
           consumer order. Default: {DEFAULT_CAPACITY}.
         </p>
+      </div>
+
+      {/* Agent mode selector */}
+      <div className="land-item land-d4 bg-white/5 border border-white/10 rounded-2xl p-5 max-w-md w-full">
+        <p className="text-xs text-white/40 uppercase tracking-wider mb-3">
+          Agent mode — {competeMode ? "compete" : "compare"}
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => onCompeteModeChange(false)}
+            className={`rounded-xl px-3 py-3 text-sm font-bold transition-colors text-left ${
+              !competeMode
+                ? "bg-blue-600 text-white"
+                : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
+            }`}
+          >
+            🔀 Compare
+            <span className={`block text-[11px] font-normal mt-1 ${
+              !competeMode ? "text-white/80" : "text-white/30"
+            }`}>
+              Both agents take every order
+            </span>
+          </button>
+          <button
+            onClick={() => onCompeteModeChange(true)}
+            className={`rounded-xl px-3 py-3 text-sm font-bold transition-colors text-left ${
+              competeMode
+                ? "bg-blue-600 text-white"
+                : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
+            }`}
+          >
+            ⚔️ Compete
+            <span className={`block text-[11px] font-normal mt-1 ${
+              competeMode ? "text-white/80" : "text-white/30"
+            }`}>
+              Orders claimed by one agent
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* CTA */}

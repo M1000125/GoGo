@@ -153,6 +153,13 @@ export function useShift() {
   );
   const shiftRef = useRef<ShiftState>(shift);
 
+  const [competeMode, _setCompeteMode] = useState(COMPETE_MODE);
+  const competeModeRef = useRef(COMPETE_MODE);
+  const setCompeteMode = useCallback((n: boolean) => {
+    competeModeRef.current = n;
+    _setCompeteMode(n);
+  }, []);
+
   /** Single write path: updates React state AND keeps shiftRef in sync so
    *  async delivery loops always read the freshest carried/position state. */
   const commitShift = useCallback(
@@ -589,7 +596,7 @@ export function useShift() {
       });
 
       // ── Claim resolution (compete mode) or shared ─────────────────────
-      if (COMPETE_MODE && smartResults.length > 0) {
+      if (competeModeRef.current && smartResults.length > 0) {
         let claimIdx = 0;
         for (let i = 0; i < incoming.length; i++) {
           const order = incoming[i];
@@ -876,5 +883,7 @@ export function useShift() {
     simulatedNow,
     startShift,
     resetShift,
+    competeMode,
+    setCompeteMode,
   };
 }
