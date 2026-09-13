@@ -18,6 +18,7 @@ import {
 import { planEfficiency } from "@/lib/routing/routeSolver";
 import { repositionCost } from "./positioning";
 import { scoreAddon } from "./scoring";
+import { perceivedCostFactor } from "@/lib/simulation/restaurantCentroid";
 import {
   SMART_STANDALONE_GATE,
   SMART_SURGE_GATE,
@@ -230,19 +231,29 @@ export function smartDecision(input: DecisionInput): AgentDecision {
     const eff = candEff;
     const adjNet = eff.netMxn - extraMxn;
     const adjMin = eff.totalMinutes + extraMinutes;
-    const adjRate = adjMin > 0 ? adjNet / adjMin : 0;
+    // Penalise orders whose dropoff pulls the courier away from the restaurant
+    // cluster — identical to the perceivedCostFactor from da67f0ce (smartPolicy).
+    const dropFactor = perceivedCostFactor(order.dropoffCoords);
+    const posFactor = perceivedCostFactor(position);
+    const adjRate = adjMin > 0
+      ? (adjNet / adjMin) / dropFactor / Math.sqrt(posFactor)
+      : 0;
 
     const accept = adjRate >= gate;
     const posNote =
       reposition.extraKm > 0
         ? ` · ${reposition.extraKm} km repositioning`
         : "";
+    const clusterFarNote =
+      perceivedCostFactor(order.dropoffCoords) > 1.15
+        ? ` · cluster bias ×${perceivedCostFactor(order.dropoffCoords).toFixed(2)}`
+        : "";
     return decision(
       order,
       accept ? "accept" : "skip",
       accept
-        ? `Net ${adjRate.toFixed(1)} MXN/min after $${eff.fuelMxn.toFixed(0)} fuel + ${adjMin.toFixed(0)} min${surge.nearSurge ? ` · surge positioning (gate ${gate.toFixed(1)})` : ""}${posNote} — profitable run.`
-        : `Net ${adjRate.toFixed(1)} MXN/min below ${gate.toFixed(1)} gate${surge.nearSurge ? " (surge bias)" : ""}${posNote} — not worth the ride.`,
+        ? `Net ${adjRate.toFixed(1)} MXN/min after $${eff.fuelMxn.toFixed(0)} fuel + ${adjMin.toFixed(0)} min${surge.nearSurge ? ` · surge positioning (gate ${gate.toFixed(1)})` : ""}${posNote}${clusterFarNote} — profitable run.`
+        : `Net ${adjRate.toFixed(1)} MXN/min below ${gate.toFixed(1)} gate${surge.nearSurge ? " (surge bias)" : ""}${posNote}${clusterFarNote} — not worth the ride.`,
       accept ? 0.72 : 0.8
     );
   }

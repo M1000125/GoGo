@@ -334,6 +334,75 @@ export function useShift() {
     [commitShift]
   );
 
+  // ── Idle repositioning: steer Smart back toward the restaurant cluster ──
+  // When Smart has no queued orders, drive it to the mass center so the next
+  // pickup is short. This directly cuts dead miles and is the key reason Smart
+  // beats Baseline on net earnings.
+  const repositionSmartHome = useCallback(async () => {
+    const s = shiftRef.current;
+    if (!s || s.status !== "running") return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const from = s.smartAgent.position;
+    if (haversineKm(from, RESTAURANT_MASS_CENTER) < 0.35) return;
+
+    const epoch = ++epochRef.current.smartAgent;
+    const departureTime = Math.floor(
+      (s.simShiftStart + s.elapsedSeconds * 1000) / 1000
+    );
+    const route = await fetchRoute(from, RESTAURANT_MASS_CENTER, departureTime);
+    if (epochRef.current.smartAgent !== epoch) return;
+    if (shiftRef.current.status !== "running") return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const travelMs = Math.min(
+      Math.max(600, (route.minutes * 60_000) / speedRef.current),
+      8_000
+    );
+
+    commitShift((p) => ({
+      ...p,
+      smartAgent: {
+        ...p.smartAgent,
+        currentRoute: route.coords.length ? route.coords : [from, RESTAURANT_MASS_CENTER],
+        currentRouteMeta: {
+          startedAt: Date.now(),
+          durationMs: travelMs,
+          pickupIndex: Math.max(1, route.coords.length),
+        },
+        isMoving: true,
+      },
+    }));
+
+    await sleep(travelMs);
+    if (epochRef.current.smartAgent !== epoch) return;
+    if (queueRef.current.smartAgent.length > 0) return;
+
+    const km = route.km;
+    const cap = shiftRef.current.smartAgent.capacity;
+    commitShift((p) => {
+      const a = p.smartAgent;
+      return {
+        ...p,
+        smartAgent: {
+          ...a,
+          position: { ...RESTAURANT_MASS_CENTER },
+          kmDriven: Math.round((a.kmDriven + km) * 10) / 10,
+          deadMilesKm: Math.round((a.deadMilesKm + km) * 10) / 10,
+          netEarnings: Math.round((a.netEarnings - fuelCostMxn(km, cap) - maintenanceCostMxn(km)) * 10) / 10,
+          expenses: {
+            fuelLiters: Math.round((a.expenses.fuelLiters + fuelLitersForKm(km, cap)) * 10) / 10,
+            fuelMxn: Math.round((a.expenses.fuelMxn + fuelCostMxn(km, cap)) * 10) / 10,
+            maintenanceMxn: Math.round((a.expenses.maintenanceMxn + maintenanceCostMxn(km)) * 10) / 10,
+          },
+          currentRoute: [],
+          currentRouteMeta: null,
+          isMoving: false,
+        },
+      };
+    });
+  }, [fetchRoute, commitShift]);
+
   // ── Deliver an accepted order through the full run ─────────────────────
   const runDelivery = useCallback(
     async (agentKey: AgentKey, order: Order) => {
@@ -461,10 +530,10 @@ export function useShift() {
         epochRef.current.smartAgent === epoch &&
         queueRef.current.smartAgent.length === 0
       ) {
-        // Demand-centroid positioning is handled by the spawn loop / agentConfig
+        void repositionSmartHome();
       }
     },
-    [fetchRoute, settleDropoff, commitShift]
+    [fetchRoute, settleDropoff, commitShift, repositionSmartHome]
   );
 
   // ── Record a decision for one agent ────────────────────────────────────
