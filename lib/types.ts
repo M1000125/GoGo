@@ -26,6 +26,7 @@ export interface Order {
 export interface ActiveOffer {
   order: Order;
   expiresAt: number;
+  createdAt: number; // when the offer was presented (for the expiry progress bar)
 }
 
 export interface RouteStop {
@@ -87,11 +88,14 @@ export interface AgentState {
   runOrderCount: number; // orders in current multi-stop run (bonus basis)
   batchBonusEarned: number;
   tipsEarned: number;
-  waitMinutes: number;
   acceptCount: number;
   skipCount: number;
   deadMilesKm: number;
   surgeOrdersAccepted: number;
+  stacksWon: number; // add-on orders folded into an existing multi-stop run
+  offersWon: number; // orders claimed from the competing agent (compete mode)
+  offersLost: number; // orders the agent wanted but the rival claimed first
+  unfinishedRuns: number; // orders still carried when the shift ended (never paid)
   expenses: ExpenseSnapshot;
   earningsHistory: EarningsPoint[];
   lastDecision: AgentDecision | null;

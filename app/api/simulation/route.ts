@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mockOrdersData from "@/data/mock_orders.json";
 import type { Order, SurgeZone } from "@/lib/types";
 import { isInSurgeZone } from "@/lib/simulation/surgeZones";
+import { isInBounds } from "@/lib/simulation/mapBounds";
 import { quotePayout, quoteTip, orderSlots } from "@/lib/simulation/economics";
 
 interface MockOrder {
@@ -22,10 +23,23 @@ function nextMockOrder(): MockOrder {
   return order;
 }
 
+/** Pull the next mock order whose pickup and dropoff both sit inside the
+ *  delivery zone. The dataset is already bounded; this is defense-in-depth so a
+ *  hand-edited file can never leak an off-zone spawn. */
+function nextInBoundsOrder(): MockOrder {
+  for (let i = 0; i < pool.length; i++) {
+    const raw = nextMockOrder();
+    const pickup = { lat: raw.restaurant.latitude, lng: raw.restaurant.longitude };
+    const dropoff = { lat: raw.customer.latitude, lng: raw.customer.longitude };
+    if (isInBounds(pickup) && isInBounds(dropoff)) return raw;
+  }
+  return pool[0];
+}
+
 export async function POST(req: NextRequest) {
   const { activeSurgeZones }: { activeSurgeZones?: SurgeZone[] } = await req.json();
 
-  const raw = nextMockOrder();
+  const raw = nextInBoundsOrder();
 
   const pickupCoords = { lat: raw.restaurant.latitude, lng: raw.restaurant.longitude };
   const dropoffCoords = { lat: raw.customer.latitude, lng: raw.customer.longitude };

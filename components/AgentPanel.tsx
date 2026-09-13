@@ -60,7 +60,6 @@ interface AgentPanelProps {
   accentColor: string;
   mapId: string;
   elapsedSeconds: number;
-  isDeciding?: boolean;
 }
 
 export default function AgentPanel({
@@ -71,7 +70,6 @@ export default function AgentPanel({
   accentColor,
   mapId,
   elapsedSeconds,
-  isDeciding = false,
 }: AgentPanelProps) {
   const lastDecision = agentState.lastDecision;
   // Full history, newest first
@@ -97,13 +95,7 @@ export default function AgentPanel({
           style={{ backgroundColor: accentColor }}
         />
         <h2 className="font-display text-xl font-black text-white uppercase tracking-wide">{label}</h2>
-        {isDeciding && (
-          <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full flex items-center gap-1">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping" />
-            thinking…
-          </span>
-        )}
-        {!isDeciding && agentState.isMoving && (
+        {agentState.isMoving && (
           <span className="text-xs bg-white/10 text-white/60 px-2 py-0.5 rounded-full animate-pulse">
             on route…
           </span>
@@ -123,17 +115,28 @@ export default function AgentPanel({
           Gross ${agentState.earnings} · {vehicle} ({agentState.capacity} cap) ·{" "}
           {agentState.expenses.fuelLiters.toFixed(1)} L fuel
         </p>
-        <div className="mt-2 flex gap-4 text-sm text-white/60">
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-white/60">
           <span>{agentState.ordersCompleted} orders</span>
           <span>{agentState.kmDriven} km</span>
           <span>${netPerMin.toFixed(1)}/min</span>
           <span>{acceptRate}% accept</span>
         </div>
-        <div className="mt-2 flex gap-4 text-xs text-white/40">
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40">
           <span>Fuel ${agentState.expenses.fuelMxn.toFixed(1)}</span>
           <span>Maint ${agentState.expenses.maintenanceMxn.toFixed(1)}</span>
           <span>Tips ${agentState.tipsEarned}</span>
           <span>Bonus ${agentState.batchBonusEarned}</span>
+        </div>
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-white/30">
+          <span>{agentState.stacksWon} stacks</span>
+          <span>{agentState.surgeOrdersAccepted} surge</span>
+          <span>{agentState.unfinishedRuns} unfinished</span>
+          {agentState.offersWon + agentState.offersLost > 0 && (
+            <>
+              <span>{agentState.offersWon} won</span>
+              <span>{agentState.offersLost} lost</span>
+            </>
+          )}
         </div>
       </div>
 

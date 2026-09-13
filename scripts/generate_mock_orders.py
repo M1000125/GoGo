@@ -14,11 +14,24 @@ PAY_VARIATION_MIN = -12
 PAY_VARIATION_MAX = 18
 MIN_DRIVER_PAY = 25
 OUTPUT_PATH = os.path.join("data", "mock_orders.json")
+MAX_PLACEMENT_ATTEMPTS = 60
 
+# Strict delivery-zone bounds (Distrito Tec, Monterrey) — every customer must
+# land inside this box so no order spawns outside the zone.
+ZONE_BOUNDS = {
+    "north": 25.6650,
+    "south": 25.6380,
+    "east": -100.2730,
+    "west": -100.3020,
+}
+
+# Delivery-distance buckets (km). Ranges sized to fit the zone box (~1.5 km
+# from center), so most placements land in-bounds on the first try.
 DISTANCE_BUCKETS = [
-    (0.60, 0.3, 2.0),
-    (0.30, 2.0, 5.0),
-    (0.10, 5.0, 8.0),
+    (0.45, 0.4, 1.5),
+    (0.35, 1.5, 2.6),
+    (0.15, 2.6, 3.8),
+    (0.05, 3.8, 5.0),
 ]
 
 RESTAURANTS = [
@@ -124,24 +137,54 @@ def choose_delivery_distance():
     return random.uniform(min_km, max_km)
 
 
-def generate_customer_location(restaurant_latitude, restaurant_longitude, distance_km):
-    bearing_rad = math.radians(random.uniform(0, 360))
-    lat1 = math.radians(restaurant_latitude)
-    lon1 = math.radians(restaurant_longitude)
-    angular_distance = distance_km / EARTH_RADIUS_KM
-
-    lat2 = math.asin(
-        math.sin(lat1) * math.cos(angular_distance)
-        + math.cos(lat1) * math.sin(angular_distance) * math.cos(bearing_rad)
-    )
-    lon2 = lon1 + math.atan2(
-        math.sin(bearing_rad) * math.sin(angular_distance) * math.cos(lat1),
-        math.cos(angular_distance) - math.sin(lat1) * math.sin(lat2),
+def _in_zone(latitude, longitude):
+    return (
+        ZONE_BOUNDS["south"] <= latitude <= ZONE_BOUNDS["north"]
+        and ZONE_BOUNDS["west"] <= longitude <= ZONE_BOUNDS["east"]
     )
 
+
+def _clamp_to_zone(latitude, longitude):
     return {
-        "latitude": round(math.degrees(lat2), 6),
-        "longitude": round(math.degrees(lon2), 6),
+        "latitude": min(max(latitude, ZONE_BOUNDS["south"]), ZONE_BOUNDS["north"]),
+        "longitude": min(max(longitude, ZONE_BOUNDS["west"]), ZONE_BOUNDS["east"]),
+    }
+
+
+def generate_customer_location(restaurant_latitude, restaurant_longitude, distance_km):
+    """Sample a customer point inside the delivery zone (rejection sampling).
+
+    Out-of-zone samples are rolled again up to MAX_PLACEMENT_ATTEMPTS; the very
+    rare straggler (long-distance draw) is clamped onto the zone edge so the
+    dataset is strictly bounded.
+    """
+    for _ in range(MAX_PLACEMENT_ATTEMPTS):
+        bearing_rad = math.radians(random.uniform(0, 360))
+        lat1 = math.radians(restaurant_latitude)
+        lon1 = math.radians(restaurant_longitude)
+        angular_distance = distance_km / EARTH_RADIUS_KM
+
+        lat2 = math.asin(
+            math.sin(lat1) * math.cos(angular_distance)
+            + math.cos(lat1) * math.sin(angular_distance) * math.cos(bearing_rad)
+        )
+        lon2 = lon1 + math.atan2(
+            math.sin(bearing_rad) * math.sin(angular_distance) * math.cos(lat1),
+            math.cos(angular_distance) - math.sin(lat1) * math.sin(lat2),
+        )
+
+        latitude = math.degrees(lat2)
+        longitude = math.degrees(lon2)
+        if _in_zone(latitude, longitude):
+            return {
+                "latitude": round(latitude, 6),
+                "longitude": round(longitude, 6),
+            }
+
+    clamped = _clamp_to_zone(latitude, longitude)
+    return {
+        "latitude": round(clamped["latitude"], 6),
+        "longitude": round(clamped["longitude"], 6),
     }
 
 
@@ -203,8 +246,10 @@ def _validate_order(order):
     lon = order["customer"]["longitude"]
     if not isinstance(lat, (int, float)) or not isinstance(lon, (int, float)):
         raise ValueError("Customer coordinates must be numeric")
-    if not (0.3 <= order["deliveryDistanceKm"] <= 8.0):
-        raise ValueError("deliveryDistanceKm must be between 0.3 and 8 km")
+    if not _in_zone(lat, lon):
+        raise ValueError("Customer must be inside the Distrito Tec delivery zone")
+    if not (0.3 <= order["deliveryDistanceKm"] <= 5.0):
+        raise ValueError("deliveryDistanceKm must be between 0.3 and 5 km")
     if order["orderTotal"] <= 0:
         raise ValueError("orderTotal must be positive")
     if order["driverPay"] < MIN_DRIVER_PAY:
@@ -216,5 +261,11 @@ if __name__ == "__main__":
     _validate_distance_buckets()
     orders = generate_orders(NUMBER_OF_ORDERS)
     save_orders_to_json(orders, OUTPUT_PATH)
-    print("Generated 500 mock orders.")
-    print("Saved to data/mock_orders.json")
+
+    in_zone = sum(
+        1
+        for o in orders
+        if _in_zone(o["customer"]["latitude"], o["customer"]["longitude"])
+    )
+    print(f"Generated {len(orders)} mock orders, all within Distrito Tec zone ({in_zone}/{len(orders)}).")
+    print(f"Saved to {OUTPUT_PATH}")

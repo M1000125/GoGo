@@ -9,7 +9,6 @@ import EventAlert from "./EventAlert";
 interface DualAgentViewProps {
   shift: ShiftState;
   offers: ActiveOffer[];
-  isSmartDeciding?: boolean;
   speed: number;
   setSpeed: (n: number) => void;
   simulatedNow: number;
@@ -39,7 +38,6 @@ function formatSimClock(ms: number): string {
 export default function DualAgentView({
   shift,
   offers,
-  isSmartDeciding = false,
   speed,
   setSpeed,
   simulatedNow,
@@ -64,6 +62,9 @@ export default function DualAgentView({
             </div>
             <span className="text-sm font-mono text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-full">
               🕐 {formatSimClock(simulatedNow)}
+            </span>
+            <span className="text-[10px] text-white/40 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full hidden md:inline">
+              ⚔️ compete
             </span>
           </div>
 
@@ -136,6 +137,7 @@ export default function DualAgentView({
               key={o.order.id}
               order={o.order}
               expiresAt={o.expiresAt}
+              createdAt={o.createdAt}
               carriedSlots={carriedSlots(shift.smartAgent.carriedOrders)}
               capacity={shift.capacity}
             />
@@ -157,7 +159,6 @@ export default function DualAgentView({
             accentColor="#3b82f6"
             mapId="map-smart"
             elapsedSeconds={elapsed}
-            isDeciding={isSmartDeciding}
           />
         </div>
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4">

@@ -86,7 +86,10 @@ export function quoteTip(orderSizeMxn: number): number {
 }
 
 export function orderSlots(orderSizeMxn: number): number {
-  return Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN));
+  // One slot ≈ one medium meal — but a single order (bag/carrier) is capped at
+  // 3 slots so a top size / large family order never monopolises an entire
+  // vehicle and stacking stays playable for every capacity (2–8).
+  return Math.max(1, Math.min(3, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN)));
 }
 
 /** Total capacity slots used by a carried load. */

@@ -38,11 +38,14 @@ function initialAgentState(type: "smart" | "baseline", capacity: number): AgentS
     runOrderCount: 0,
     batchBonusEarned: 0,
     tipsEarned: 0,
-    waitMinutes: 0,
     acceptCount: 0,
     skipCount: 0,
     deadMilesKm: 0,
     surgeOrdersAccepted: 0,
+    stacksWon: 0,
+    offersWon: 0,
+    offersLost: 0,
+    unfinishedRuns: 0,
     expenses: { fuelLiters: 0, fuelMxn: 0, maintenanceMxn: 0 },
     earningsHistory: [],
     lastDecision: null,
@@ -80,10 +83,4 @@ export function getEventsForElapsed(
     (c) => c.activeAt > previousElapsed && c.activeAt <= elapsedSeconds
   );
   return { surgeZones: newSurgeZones, closures: newClosures };
-}
-
-export function shouldGenerateOrder(elapsedSeconds: number): boolean {
-  // Generate an order roughly every 8–15 seconds (handled by client timer)
-  // This function is a gate check — always returns true for the generator to decide
-  return elapsedSeconds > 0;
 }

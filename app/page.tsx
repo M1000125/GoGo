@@ -12,7 +12,7 @@ import {
 } from "@/lib/simulation/economics";
 
 export default function Home() {
-  const { shift, offers, isSmartDeciding, speed, setSpeed, simulatedNow, startShift, resetShift } = useShift();
+  const { shift, offers, speed, setSpeed, simulatedNow, startShift, resetShift } = useShift();
   const [capacity, setCapacity] = useState(DEFAULT_CAPACITY);
 
   if (shift.status === "ended") {
@@ -65,7 +65,6 @@ export default function Home() {
           <DualAgentView
             shift={shift}
             offers={offers}
-            isSmartDeciding={isSmartDeciding}
             speed={speed}
             setSpeed={setSpeed}
             simulatedNow={simulatedNow}

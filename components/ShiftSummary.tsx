@@ -125,6 +125,16 @@ export default function ShiftSummary({ shift, onReset }: ShiftSummaryProps) {
       smart: `$${smart.tipsEarned} / $${smart.batchBonusEarned}`,
       baseline: `$${baseline.tipsEarned} / $${baseline.batchBonusEarned}`,
     },
+    {
+      label: "Stacks / Surge",
+      smart: `${smart.stacksWon} / ${smart.surgeOrdersAccepted}`,
+      baseline: `${baseline.stacksWon} / ${baseline.surgeOrdersAccepted}`,
+    },
+    {
+      label: "Unfinished Runs",
+      smart: smart.unfinishedRuns.toString(),
+      baseline: baseline.unfinishedRuns.toString(),
+    },
   ];
 
   return (
@@ -133,7 +143,7 @@ export default function ShiftSummary({ shift, onReset }: ShiftSummaryProps) {
         <h1 className="text-3xl font-black text-white mb-2">Shift Complete</h1>
         <p className="text-white/50">
           {Math.round(shift.durationSeconds / 60)}-minute shift · capacity{" "}
-          {shift.capacity}
+          {shift.capacity} · ⚔️ compete mode
         </p>
       </div>
 
