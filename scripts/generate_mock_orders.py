@@ -7,37 +7,41 @@ import random
 NUMBER_OF_ORDERS = 1000
 RANDOM_SEED = 42
 EARTH_RADIUS_KM = 6371.0
+# ── Tier-based order sizes (mirrors lib/places/priceTiers.ts) ────────────
+# Tier 1: fast food / tacos / café  → 150–280 MXN
+# Tier 2: sit-down restaurant / bar → 280–550 MXN
+# Tier 3: steak / seafood / fine    → 550–1200 MXN
+# With SLOT_VALUE_MXN=400 this gives slots 1–3.
+ORDER_TIERS = {
+    "tier1": {"min": 150, "max": 280, "prob": 0.50},
+    "tier2": {"min": 280, "max": 550, "prob": 0.35},
+    "tier3": {"min": 550, "max": 1200, "prob": 0.15},
+}
+BASE_DRIVER_PAY = 25
+PAY_PER_KM = 9
+PAY_VARIATION_MIN = -12
+PAY_VARIATION_MAX = 18
+MIN_DRIVER_PAY = 25
 OUTPUT_PATH = os.path.join("data", "mock_orders.json")
+MAX_PLACEMENT_ATTEMPTS = 60
 
-# Distance distribution: (probability, min_km, max_km)
-# Distrito Tec is dense — most deliveries are under 3 km.
+# Strict delivery-zone bounds (Distrito Tec, Monterrey) — every customer must
+# land inside this box so no order spawns outside the zone.
+ZONE_BOUNDS = {
+    "north": 25.6650,
+    "south": 25.6380,
+    "east": -100.2730,
+    "west": -100.3020,
+}
+
+# Delivery-distance buckets (km). Ranges sized to fit the zone box (~1.5 km
+# from center), so most placements land in-bounds on the first try.
 DISTANCE_BUCKETS = [
-    (0.55, 0.5, 2.5),   # short: 55% of orders
-    (0.35, 2.5, 5.5),   # medium: 35%
-    (0.10, 5.5, 9.0),   # long: 10%
+    (0.45, 0.4, 1.5),
+    (0.35, 1.5, 2.6),
+    (0.15, 2.6, 3.8),
+    (0.05, 3.8, 5.0),
 ]
-
-# Order total tiers (consumer spend in MXN).
-# Bimodal: most orders are cheap (baseline grabs them eagerly);
-# a meaningful minority are premium (smart agent waits for these).
-#
-#   Tier A — cheap/fast food: $100–280 MXN  (60% of pool)
-#   Tier B — mid restaurant:  $300–520 MXN  (25% of pool)
-#   Tier C — premium/fine:    $550–900 MXN  (15% of pool)
-ORDER_TIERS = [
-    (0.60, 100,  280),
-    (0.25, 300,  520),
-    (0.15, 550,  900),
-]
-
-# Driver pay is only used as a reference in the JSON.
-# The actual payout shown in-game is computed by quotePayout() in economics.ts
-# using orderTotal as the consumer spend.
-BASE_DRIVER_PAY = 35
-PAY_PER_KM = 11
-PAY_VARIATION_MIN = -8
-PAY_VARIATION_MAX = 20
-MIN_DRIVER_PAY = 30
 
 RESTAURANTS = [
     {
@@ -142,39 +146,71 @@ def choose_delivery_distance():
     return random.uniform(min_km, max_km)
 
 
-def choose_order_total():
-    """Bimodal distribution: mostly cheap, some premium."""
-    roll = random.random()
-    cumulative = 0.0
-    for probability, min_mxn, max_mxn in ORDER_TIERS:
-        cumulative += probability
-        if roll <= cumulative:
-            return round(random.uniform(min_mxn, max_mxn), 2)
-    _, min_mxn, max_mxn = ORDER_TIERS[-1]
-    return round(random.uniform(min_mxn, max_mxn), 2)
-
-
-def generate_customer_location(restaurant_latitude, restaurant_longitude, distance_km):
-    bearing_rad = math.radians(random.uniform(0, 360))
-    lat1 = math.radians(restaurant_latitude)
-    lon1 = math.radians(restaurant_longitude)
-    angular_distance = distance_km / EARTH_RADIUS_KM
-
-    lat2 = math.asin(
-        math.sin(lat1) * math.cos(angular_distance)
-        + math.cos(lat1) * math.sin(angular_distance) * math.cos(bearing_rad)
-    )
-    lon2 = lon1 + math.atan2(
-        math.sin(bearing_rad) * math.sin(angular_distance) * math.cos(lat1),
-        math.cos(angular_distance) - math.sin(lat1) * math.sin(lat2),
+def _in_zone(latitude, longitude):
+    return (
+        ZONE_BOUNDS["south"] <= latitude <= ZONE_BOUNDS["north"]
+        and ZONE_BOUNDS["west"] <= longitude <= ZONE_BOUNDS["east"]
     )
 
+
+def _clamp_to_zone(latitude, longitude):
     return {
-        "latitude": round(math.degrees(lat2), 6),
-        "longitude": round(math.degrees(lon2), 6),
+        "latitude": min(max(latitude, ZONE_BOUNDS["south"]), ZONE_BOUNDS["north"]),
+        "longitude": min(max(longitude, ZONE_BOUNDS["west"]), ZONE_BOUNDS["east"]),
     }
 
 
+def generate_customer_location(restaurant_latitude, restaurant_longitude, distance_km):
+    """Sample a customer point inside the delivery zone (rejection sampling).
+
+    Out-of-zone samples are rolled again up to MAX_PLACEMENT_ATTEMPTS; the very
+    rare straggler (long-distance draw) is clamped onto the zone edge so the
+    dataset is strictly bounded.
+    """
+    for _ in range(MAX_PLACEMENT_ATTEMPTS):
+        bearing_rad = math.radians(random.uniform(0, 360))
+        lat1 = math.radians(restaurant_latitude)
+        lon1 = math.radians(restaurant_longitude)
+        angular_distance = distance_km / EARTH_RADIUS_KM
+
+        lat2 = math.asin(
+            math.sin(lat1) * math.cos(angular_distance)
+            + math.cos(lat1) * math.sin(angular_distance) * math.cos(bearing_rad)
+        )
+        lon2 = lon1 + math.atan2(
+            math.sin(bearing_rad) * math.sin(angular_distance) * math.cos(lat1),
+            math.cos(angular_distance) - math.sin(lat1) * math.sin(lat2),
+        )
+
+        latitude = math.degrees(lat2)
+        longitude = math.degrees(lon2)
+        if _in_zone(latitude, longitude):
+            return {
+                "latitude": round(latitude, 6),
+                "longitude": round(longitude, 6),
+            }
+
+    clamped = _clamp_to_zone(latitude, longitude)
+    return {
+        "latitude": round(clamped["latitude"], 6),
+        "longitude": round(clamped["longitude"], 6),
+    }
+
+
+def _choose_order_tier():
+    roll = random.random()
+    cumulative = 0.0
+    for name, tier in ORDER_TIERS.items():
+        cumulative += tier["prob"]
+        if roll <= cumulative:
+            return name, tier["min"], tier["max"]
+    last = list(ORDER_TIERS.values())[-1]
+    return list(ORDER_TIERS.keys())[-1], last["min"], last["max"]
+
+
+def generate_order_total():
+    _, lo, hi = _choose_order_tier()
+    return round(random.uniform(lo, hi), 2)
 def generate_driver_pay(distance_km):
     variation = random.uniform(PAY_VARIATION_MIN, PAY_VARIATION_MAX)
     pay = BASE_DRIVER_PAY + (distance_km * PAY_PER_KM) + variation
@@ -189,7 +225,7 @@ def generate_order(order_number):
         restaurant["longitude"],
         distance_km,
     )
-    order_total = choose_order_total()
+    order_total = generate_order_total()
     order = {
         "id": f"ORD-{order_number:04d}",
         "restaurant": {
@@ -226,7 +262,7 @@ def _validate_distance_buckets():
 
 
 def _validate_order_tiers():
-    total = sum(t[0] for t in ORDER_TIERS)
+    total = sum(tier["prob"] for tier in ORDER_TIERS.values())
     if abs(total - 1.0) > 1e-6:
         raise ValueError(f"ORDER_TIERS probabilities must sum to 1.0, got {total}")
 
@@ -236,8 +272,12 @@ def _validate_order(order):
     lon = order["customer"]["longitude"]
     if not isinstance(lat, (int, float)) or not isinstance(lon, (int, float)):
         raise ValueError("Customer coordinates must be numeric")
-    if not (0.3 <= order["deliveryDistanceKm"] <= 10.0):
-        raise ValueError("deliveryDistanceKm must be between 0.3 and 10 km")
+    if not _in_zone(lat, lon):
+        raise ValueError("Customer must be inside the Distrito Tec delivery zone")
+    if not (0.3 <= order["deliveryDistanceKm"] <= 5.0):
+        raise ValueError("deliveryDistanceKm must be between 0.3 and 5 km")
+    if not (150 <= order["orderTotal"] <= 1200):
+        raise ValueError("orderTotal must be between 150 and 1200 (tier ranges)")
     if order["orderTotal"] <= 0:
         raise ValueError("orderTotal must be positive")
     if order["driverPay"] < MIN_DRIVER_PAY:
@@ -251,12 +291,15 @@ if __name__ == "__main__":
     orders = generate_orders(NUMBER_OF_ORDERS)
     save_orders_to_json(orders, OUTPUT_PATH)
 
-    totals = [o["orderTotal"] for o in orders]
-    tier_a = sum(1 for t in totals if t < 300)
-    tier_b = sum(1 for t in totals if 300 <= t < 550)
-    tier_c = sum(1 for t in totals if t >= 550)
-    print(f"Generated {NUMBER_OF_ORDERS} mock orders → {OUTPUT_PATH}")
-    print(f"  Tier A (cheap,   $100–280):  {tier_a} orders ({tier_a/NUMBER_OF_ORDERS*100:.0f}%)")
-    print(f"  Tier B (mid,     $300–520):  {tier_b} orders ({tier_b/NUMBER_OF_ORDERS*100:.0f}%)")
-    print(f"  Tier C (premium, $550–900):  {tier_c} orders ({tier_c/NUMBER_OF_ORDERS*100:.0f}%)")
-    print(f"  orderTotal: min=${min(totals):.0f}  max=${max(totals):.0f}  avg=${sum(totals)/len(totals):.0f} MXN")
+    in_zone = sum(
+        1
+        for o in orders
+        if _in_zone(o["customer"]["latitude"], o["customer"]["longitude"])
+    )
+    total_vals = [o["orderTotal"] for o in orders]
+    print(
+        f"Generated {len(orders)} mock orders ({in_zone}/{len(orders)} in zone).\n"
+        f"Order totals: min ${min(total_vals):.0f} · max ${max(total_vals):.0f} "
+        f"· avg ${sum(total_vals)/len(total_vals):.0f} MXN"
+    )
+    print(f"Saved to {OUTPUT_PATH}")

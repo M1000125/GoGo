@@ -10,16 +10,10 @@
     "sweep": "npx tsx scripts/sweep_policies.ts"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
-    "clsx": "^2.1.1",
-    "firebase": "^12.19.0",
-    "framer-motion": "^13.2.0",
     "leaflet": "^1.9.4",
-    "lucide-react": "^1.45.0",
     "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-leaflet": "^5.0.0",
     "recharts": "^3.10.1"
   },
   "devDependencies": {
@@ -32,5 +26,8 @@
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
   }
 }

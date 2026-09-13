@@ -24,13 +24,6 @@ export const DISTRITO_TEC_CENTER: Coords = {
   lng: (DISTRITO_TEC_BOUNDS.east + DISTRITO_TEC_BOUNDS.west) / 2,   // -100.2875
 };
 
-// Opciones para Autocomplete de direcciones
-export const autocompleteOptions = {
-  bounds: DISTRITO_TEC_BOUNDS,
-  locationRestriction: DISTRITO_TEC_BOUNDS,
-  componentRestrictions: { country: "mx" },
-};
-
 /** Returns true if coords fall inside the Distrito Tec bounding box */
 export function isInBounds(coords: Coords): boolean {
   return (

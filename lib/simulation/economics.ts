@@ -60,11 +60,11 @@ export const BATCH_BONUS_PER_EXTRA = 15; // MXN per extra stacked order (>= 2 or
 export const EFFICIENCY_GATE_MXN_MIN = 1.5; // min net MXN/min gain to justify an add-on
 
 // --- Price pattern → capacity slot model ---
-// Anchor: one capacity slot ≈ a large meal / stackable bag (~$250 MXN).
-// One slot ≈ a large meal / small stackable bag — cap so a 4-slot vehicle
-// can still carry 1–2 premium (Tier C) orders.
-export const SLOT_VALUE_MXN = 250;
-export const MAX_ORDER_SLOTS = 3;
+// Anchor: one capacity slot ≈ one bundle of meals ≈ $400 MXN consumer spend.
+// With the tier ranges below that yields a real 1–3 slot spread per order, so a
+// capacity-2 motorcycle can still stack cheap orders and 8-slot vans hold big
+// multi-order runs ($100-anchor made every order ≥ 2 slots and killed stacking).
+export const SLOT_VALUE_MXN = 400;
 export const MIN_PAYOUT_FLOOR = 40;  // MXN formula floor — minimum any order pays
 export const BASE_FEE = 35;          // MXN flat per-delivery fee (was 18)
 export const PER_KM_FEE = 10;        // MXN per estimated km (was 6)
@@ -89,10 +89,10 @@ export function quoteTip(orderSizeMxn: number): number {
 }
 
 export function orderSlots(orderSizeMxn: number): number {
-  return Math.min(
-    MAX_ORDER_SLOTS,
-    Math.max(1, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN))
-  );
+  // A single order (bag/carrier) is capped at
+  // 3 slots so a top-size/large family order never monopolises an entire
+  // vehicle and stacking stays playable for every capacity (2–8).
+  return Math.max(1, Math.min(3, Math.ceil(orderSizeMxn / SLOT_VALUE_MXN)));
 }
 
 /** Total capacity slots used by a carried load. */

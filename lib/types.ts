@@ -18,14 +18,15 @@ export interface Order {
   isSurge: boolean;
   prepMinutes: number; // pickup prep time, sim minutes
   tip: number; // MXN realized at dropoff, 0 if no tip
-  orderSizeMxn: number; // consumer spend before fees
-  slots: number; // 1–3 bags; ceil(orderSize / SLOT_VALUE) capped
+  orderSizeMxn: number; // consumer spend before fees (slots = size / 400, capped 1–3)
+  slots: number; // capacity slots the order occupies = ceil(orderSize / SLOT_VALUE)
 }
 
 /** An incoming order offer with its own independent countdown. */
 export interface ActiveOffer {
   order: Order;
   expiresAt: number;
+  createdAt: number; // when the offer was presented (for the expiry progress bar)
 }
 
 export interface RouteStop {
@@ -87,11 +88,14 @@ export interface AgentState {
   runOrderCount: number; // orders in current multi-stop run (bonus basis)
   batchBonusEarned: number;
   tipsEarned: number;
-  waitMinutes: number;
   acceptCount: number;
   skipCount: number;
   deadMilesKm: number;
   surgeOrdersAccepted: number;
+  stacksWon: number; // add-on orders folded into an existing multi-stop run
+  offersWon: number; // orders claimed from the competing agent (compete mode)
+  offersLost: number; // orders the agent wanted but the rival claimed first
+  unfinishedRuns: number; // orders still carried when the shift ended (never paid)
   expenses: ExpenseSnapshot;
   earningsHistory: EarningsPoint[];
   lastDecision: AgentDecision | null;

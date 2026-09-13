@@ -42,7 +42,7 @@ export function priceTierForTypes(types: string[]): PriceTier {
 // Tier 1: fast food / tacos / café  → $120–200 MXN (e.g. combo or 5 tacos)
 // Tier 2: sit-down restaurant / bar → $220–420 MXN (e.g. entrée + drinks)
 // Tier 3: steak / seafood / fine    → $450–900 MXN (e.g. 2-person dinner)
-// One capacity slot ≈ ~$250 MXN consumer spend.
+// One capacity slot ≈ $400 MXN consumer spend.
 
 const ORDER_SIZE_RANGES: Record<PriceTier, [min: number, max: number]> = {
   1: [150, 280],   // fast food / tacos / café: e.g. $150 combo, $250 family tacos

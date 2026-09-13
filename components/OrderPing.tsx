@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Order } from "@/lib/types";
 
 interface OrderPingProps {
   order: Order;
   expiresAt: number;
+  createdAt?: number;
   carriedSlots?: number;
   capacity?: number;
 }
@@ -13,13 +14,17 @@ interface OrderPingProps {
 export default function OrderPing({
   order,
   expiresAt,
+  createdAt,
   carriedSlots = 0,
   capacity = 4,
 }: OrderPingProps) {
   const [timeLeft, setTimeLeft] = useState(0);
-  // Capture total window at mount so the progress bar scales correctly
-  // regardless of how long the expiry is (speed-scaled from 2s to 15s).
-  const totalSecondsRef = useRef(Math.max(1, (expiresAt - Date.now()) / 1000));
+  // Total window derived purely from props — the progress bar scales across
+  // the full speed-scaled expiry (2s–15s) instead of snapping at each tick.
+  const totalSeconds =
+    createdAt && expiresAt > createdAt
+      ? (expiresAt - createdAt) / 1000
+      : Math.max(1, capacity * 3.75);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -88,7 +93,7 @@ export default function OrderPing({
       <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
         <div
           className="h-full bg-amber-400 rounded-full transition-all duration-250"
-          style={{ width: `${(timeLeft / totalSecondsRef.current) * 100}%` }}
+          style={{ width: `${(timeLeft / totalSeconds) * 100}%` }}
         />
       </div>
     </div>

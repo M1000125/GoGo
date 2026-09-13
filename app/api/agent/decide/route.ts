@@ -6,10 +6,12 @@ import type {
   SurgeZone,
   RoadClosure,
 } from "@/lib/types";
-import { evaluateSmartOffer } from "@/lib/agents/smartPolicy";
+import { SHIFT_DURATION_SECONDS } from "@/lib/simulation/shiftEngine";
+import { smartDecision } from "@/lib/agents/decisionCore";
 
-// Gemini remains paused — local heuristic in smartPolicy.ts (burst ranking
-// + scoreAddon stacking). This endpoint is the single-order fallback.
+// This route is the "reasoning surface": useShift runs the smart policy
+// in-process (synchronous), and this endpoint exposes the exact same policy
+// over HTTP — useful as a standalone decision API and for parity checks.
 
 interface DecideInput {
   order: Order;
@@ -21,7 +23,28 @@ interface DecideInput {
 }
 
 export async function POST(req: NextRequest) {
-  const { order, agentState, remainingSeconds }: DecideInput = await req.json();
-  const { decision } = evaluateSmartOffer(order, agentState, remainingSeconds);
+  const {
+    order,
+    agentState,
+    remainingSeconds,
+    activeSurgeZones,
+    activeClosures,
+    recentDecisions,
+  }: DecideInput = await req.json();
+
+  const decision = smartDecision({
+    order,
+    carried: agentState.carriedOrders,
+    position: agentState.position,
+    capacity: agentState.capacity,
+    elapsedSeconds:
+      SHIFT_DURATION_SECONDS - Math.max(0, remainingSeconds),
+    remainingSeconds: Math.max(0, remainingSeconds),
+    activeSurgeZones,
+    activeClosures,
+    recentDecisions,
+    agentType: "smart",
+  });
+
   return NextResponse.json(decision);
 }
