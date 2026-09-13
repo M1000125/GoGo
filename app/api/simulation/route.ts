@@ -3,6 +3,7 @@ import mockOrdersData from "@/data/mock_orders.json";
 import type { Order, SurgeZone } from "@/lib/types";
 import { isInSurgeZone } from "@/lib/simulation/surgeZones";
 import { quotePayout, quoteTip, orderSlots } from "@/lib/simulation/economics";
+import { isInBounds } from "@/lib/simulation/mapBounds";
 
 interface MockOrder {
   id: string;
@@ -13,7 +14,13 @@ interface MockOrder {
   driverPay: number;  // kept for reference but not used directly (too low)
 }
 
-const pool = mockOrdersData as MockOrder[];
+// Only orders whose pickup AND dropoff both sit inside the Distrito Tec
+// bounding box — the raw dataset spans a much wider area of Monterrey.
+const pool = (mockOrdersData as MockOrder[]).filter(
+  (o) =>
+    isInBounds({ lat: o.restaurant.latitude, lng: o.restaurant.longitude }) &&
+    isInBounds({ lat: o.customer.latitude, lng: o.customer.longitude })
+);
 let poolIndex = Math.floor(Math.random() * pool.length);
 
 function nextMockOrder(): MockOrder {
