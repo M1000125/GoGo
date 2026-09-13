@@ -66,65 +66,69 @@ function smartBurstDecisions(
   orders: Order[],
   base: Omit<DecisionInput, "order">
 ): AgentDecision[] {
-  // First pass: evaluate every order against the current carry snapshot.
-  const evaluated = orders.map((order) => {
-    const input: DecisionInput = { ...base, order };
-    const res = smartDecision(input);
-    const candidate = [...base.carried, { order, pickedUp: false }];
-    const eff =
-      res.decision === "accept"
-        ? solveRoutePlan(candidate, base.position).totalMinutes
-        : null;
-    return { order, res, eff };
-  });
+  const idle = base.carried.length === 0;
 
-  const accepts = evaluated.filter((e) => e.res.decision === "accept");
-  const skips = evaluated
-    .filter((e) => e.res.decision === "skip")
-    .map((e) => ({ order: e.order, decision: e.res }));
-
-  // Sort by net MXN/min descending — take the best-paying routes first.
-  const netMxnMinFor = (order: Order) => {
-    const candidate = [...base.carried, { order, pickedUp: false }];
+  // Score every order (feasibility + gate check).
+  const netMxnMinFor = (order: Order, carried: CarriedOrder[]) => {
+    const candidate = [...carried, { order, pickedUp: false }];
     const eff = planEfficiency(candidate, base.position, base.capacity);
     return eff.totalMinutes > 0 ? eff.netMxnMin : 0;
   };
 
-  accepts.sort((a, b) => netMxnMinFor(b.order) - netMxnMinFor(a.order));
+  const evaluated = orders.map((order) => {
+    const input: DecisionInput = { ...base, order };
+    const res = smartDecision(input);
+    const score = netMxnMinFor(order, base.carried);
+    const slots = carriedSlots(base.carried) + order.slots;
+    const feasible = slots <= base.capacity;
+    return { order, res, score, feasible };
+  });
 
+  // Sort by net MXN/min descending.
+  const sorted = [...evaluated].sort((a, b) => b.score - a.score);
+
+  const forcedIds = new Set<string>();
   let simCarried = [...base.carried];
-  const simCapacity = base.capacity;
-  const accepted: { order: Order; decision: AgentDecision }[] = [];
 
-  for (const c of accepts) {
-    if (carriedSlots(simCarried) + c.order.slots > simCapacity) {
-      const topLabel = accepted[0]?.order.pickupLabel ?? "—";
-      skips.push({
-        order: c.order,
-        decision: {
-          ...c.res,
-          decision: "skip" as const,
-          reason: `Outranked by ${topLabel} — burst capacity full.`,
-          confidence: 0.6,
-        },
-      });
-      continue;
-    }
-    const updInput: DecisionInput = { ...base, order: c.order, carried: simCarried };
-    const recheck = smartDecision(updInput);
-    if (recheck.decision === "accept") {
-      accepted.push({ order: c.order, decision: c.res });
-      simCarried = [...simCarried, { order: c.order, pickedUp: false }];
-    } else {
-      skips.push({ order: c.order, decision: recheck });
+  // ── Idle rule: always take the best feasible offer even if below the gate.
+  // Without this, Smart sits idle on slow stretches while Baseline fills up.
+  if (idle) {
+    const best = sorted.find((e) => e.feasible);
+    if (best) {
+      forcedIds.add(best.order.id);
+      simCarried = [...simCarried, { order: best.order, pickedUp: false }];
     }
   }
 
-  // Build final array matching input order
-  const out = new Map<string, AgentDecision>();
-  for (const a of accepted) out.set(a.order.id, a.decision);
-  for (const s of skips) out.set(s.order.id, s.decision);
-  return orders.map((o) => out.get(o.id)!);
+  // ── Stack pass: greedily add further orders that pass the gate.
+  for (const e of sorted) {
+    if (forcedIds.has(e.order.id)) continue;
+    if (carriedSlots(simCarried) + e.order.slots > base.capacity) continue;
+    const recheck = smartDecision({ ...base, order: e.order, carried: simCarried });
+    if (recheck.decision === "accept") {
+      simCarried = [...simCarried, { order: e.order, pickedUp: false }];
+      forcedIds.add(e.order.id); // mark as accepted
+    }
+  }
+
+  // Build final decisions matching input order.
+  return orders.map((order) => {
+    const e = evaluated.find((ev) => ev.order.id === order.id)!;
+    if (forcedIds.has(order.id)) {
+      // Return the original decision if it was "accept", else synthesise one.
+      return e.res.decision === "accept"
+        ? e.res
+        : {
+            ...e.res,
+            decision: "accept" as const,
+            reason: `Idle — taking best feasible offer ($${order.payout} MXN, ${e.score.toFixed(1)} net MXN/min).`,
+            confidence: 0.72,
+          };
+    }
+    return e.res.decision === "skip"
+      ? e.res
+      : { ...e.res, decision: "skip" as const, reason: "Better offers in burst took remaining slots.", confidence: 0.7 };
+  });
 }
 
 // ── Baseline burst (greedy fill, one at a time, same as existing) ──────────
