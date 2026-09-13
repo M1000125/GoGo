@@ -461,10 +461,10 @@ export function useShift() {
         epochRef.current.smartAgent === epoch &&
         queueRef.current.smartAgent.length === 0
       ) {
-        void repositionSmartHome();
+        // Demand-centroid positioning is handled by the spawn loop / agentConfig
       }
     },
-    [fetchRoute, settleDropoff, commitShift, repositionSmartHome]
+    [fetchRoute, settleDropoff, commitShift]
   );
 
   // ── Record a decision for one agent ────────────────────────────────────

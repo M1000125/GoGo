@@ -4,7 +4,6 @@ import type { Order, SurgeZone } from "@/lib/types";
 import { isInSurgeZone } from "@/lib/simulation/surgeZones";
 import { isInBounds } from "@/lib/simulation/mapBounds";
 import { quotePayout, quoteTip, orderSlots } from "@/lib/simulation/economics";
-import { isInBounds } from "@/lib/simulation/mapBounds";
 
 interface MockOrder {
   id: string;
