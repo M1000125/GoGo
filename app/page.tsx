@@ -106,9 +106,9 @@ function IdleScreen({
           <span className="text-blue-400">Monterrey courier?</span>
         </h1>
         <p className="land-item land-d2 text-white/50 text-lg max-w-[44ch] mx-auto leading-relaxed">
-          Two agents. One 4-hour shift. Real Distrito Tec streets from the
-          Google Places API. Orders are quoted on a &ldquo;1 slot ≈ $100 MXN meal&rdquo;
-          economy — crisis hits at mid-shift, watch who adapts.
+          Two agents. One 4-hour shift. Real Distrito Tec streets, real MXN
+          prices on a slot-capacity &ldquo;carrier&rdquo; economy — crisis hits at
+          mid-shift, watch who adapts.
         </p>
       </div>
 
@@ -152,7 +152,7 @@ function IdleScreen({
           ))}
         </div>
         <p className="text-[11px] text-white/30 mt-3">
-          Higher capacity = more orders per run, higher fuel costs. 1 slot ≈ $100 MXN
+          Higher capacity = more orders per run, higher fuel costs. 1 slot ≈ $400 MXN
           consumer order. Default: {DEFAULT_CAPACITY}.
         </p>
       </div>

@@ -41,7 +41,7 @@ No Firebase, no other keys. The whole demo runs from a bundled order dataset.
 ## Key Features
 
 ### Vehicle capacity selector
-Choose 2–8 **slots** before starting (1 slot ≈ a $100 MXN medium meal, orders span 1–3 slots). Capacity determines vehicle type (Motorcycle → Van/SUV) and fuel economy — higher capacity stacks more simultaneously but gets worse km/L.
+Choose 2–8 **slots** before starting (1 slot ≈ $400 MXN of cargo, orders span 1–3 slots). Capacity determines vehicle type (Motorcycle → Van/SUV) and fuel economy — higher capacity stacks more simultaneously but gets worse km/L.
 
 ### Order source: a curated, zone-locked dataset
 Orders come from `data/mock_orders.json` — **500 real-priced orders** built around actual restaurants on Av. Eugenio Garza Sada (Taquería Orinoco, Firehouse Subs, El Señor Limón …). Every pickup **and** dropoff is strictly inside the **Distrito Tec bounding box**; the server additionally rejects any out-of-zone order as defense-in-depth. Prices are calibrated from real Monterrey consumer spending (fast food / sit-down / fine dining tiers), so payouts feel like a real Mexican gig shift.
@@ -117,9 +117,9 @@ scripts/
 
 | Constant | Value | Notes |
 |----------|-------|-------|
-| Slot anchor | $100 MXN | 1 capacity slot ≈ one medium meal order |
+| Slot anchor | $400 MXN | 1 capacity slot ≈ one bundle of meals' cargo space |
 | Order size | tier1 150–280 · tier2 280–550 · tier3 550–1200 MXN | From producer price tier (consumer multiplier varies) |
-| Slots / order | 1–3 (capped) | = `Math.ceil(orderSizeMxn / 100)`, max 3 per order |
+| Slots / order | 1–3 (capped) | = `Math.ceil(orderSizeMxn / 400)`, max 3 per order |
 | Base payout | `min(8% × size + 35 + 10×km, 220)` MXN, floor 40 | Commission + base fee + per-km |
 | Surge multiplier | ×2 (ITESM) / ×1.5 (Garza Sada Sur) | Active zones amplify pickup payout |
 | Tip | 5–12% of order size, clipped $8–60 | Realised at dropoff |

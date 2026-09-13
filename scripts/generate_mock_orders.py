@@ -6,8 +6,16 @@ import random
 NUMBER_OF_ORDERS = 500
 RANDOM_SEED = 42
 EARTH_RADIUS_KM = 6371.0
-MIN_ORDER_TOTAL = 100
-MAX_ORDER_TOTAL = 800
+# ── Tier-based order sizes (mirrors lib/places/priceTiers.ts) ────────────
+# Tier 1: fast food / tacos / café  → 150–280 MXN
+# Tier 2: sit-down restaurant / bar → 280–550 MXN
+# Tier 3: steak / seafood / fine    → 550–1200 MXN
+# With SLOT_VALUE_MXN=400 this gives slots 1–3.
+ORDER_TIERS = {
+    "tier1": {"min": 150, "max": 280, "prob": 0.50},
+    "tier2": {"min": 280, "max": 550, "prob": 0.35},
+    "tier3": {"min": 550, "max": 1200, "prob": 0.15},
+}
 BASE_DRIVER_PAY = 25
 PAY_PER_KM = 9
 PAY_VARIATION_MIN = -12
@@ -188,8 +196,20 @@ def generate_customer_location(restaurant_latitude, restaurant_longitude, distan
     }
 
 
+def _choose_order_tier():
+    roll = random.random()
+    cumulative = 0.0
+    for name, tier in ORDER_TIERS.items():
+        cumulative += tier["prob"]
+        if roll <= cumulative:
+            return name, tier["min"], tier["max"]
+    last = list(ORDER_TIERS.values())[-1]
+    return list(ORDER_TIERS.keys())[-1], last["min"], last["max"]
+
+
 def generate_order_total():
-    return round(random.uniform(MIN_ORDER_TOTAL, MAX_ORDER_TOTAL), 2)
+    _, lo, hi = _choose_order_tier()
+    return round(random.uniform(lo, hi), 2)
 
 
 def generate_driver_pay(distance_km):
@@ -250,6 +270,8 @@ def _validate_order(order):
         raise ValueError("Customer must be inside the Distrito Tec delivery zone")
     if not (0.3 <= order["deliveryDistanceKm"] <= 5.0):
         raise ValueError("deliveryDistanceKm must be between 0.3 and 5 km")
+    if not (150 <= order["orderTotal"] <= 1200):
+        raise ValueError("orderTotal must be between 150 and 1200 (tier ranges)")
     if order["orderTotal"] <= 0:
         raise ValueError("orderTotal must be positive")
     if order["driverPay"] < MIN_DRIVER_PAY:
@@ -267,5 +289,10 @@ if __name__ == "__main__":
         for o in orders
         if _in_zone(o["customer"]["latitude"], o["customer"]["longitude"])
     )
-    print(f"Generated {len(orders)} mock orders, all within Distrito Tec zone ({in_zone}/{len(orders)}).")
+    total_vals = [o["orderTotal"] for o in orders]
+    print(
+        f"Generated {len(orders)} mock orders ({in_zone}/{len(orders)} in zone).\n"
+        f"Order totals: min ${min(total_vals):.0f} · max ${max(total_vals):.0f} "
+        f"· avg ${sum(total_vals)/len(total_vals):.0f} MXN"
+    )
     print(f"Saved to {OUTPUT_PATH}")

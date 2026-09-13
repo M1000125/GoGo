@@ -18,7 +18,7 @@ export interface Order {
   isSurge: boolean;
   prepMinutes: number; // pickup prep time, sim minutes
   tip: number; // MXN realized at dropoff, 0 if no tip
-  orderSizeMxn: number; // consumer spend before fees (≈ 1 slot ≈ 100 MXN)
+  orderSizeMxn: number; // consumer spend before fees (slots = size / 400, capped 1–3)
   slots: number; // capacity slots the order occupies = ceil(orderSize / SLOT_VALUE)
 }
 
