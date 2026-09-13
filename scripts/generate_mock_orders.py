@@ -261,6 +261,12 @@ def _validate_distance_buckets():
         raise ValueError(f"DISTANCE_BUCKETS probabilities must sum to 1.0, got {total}")
 
 
+def _validate_order_tiers():
+    total = sum(tier["prob"] for tier in ORDER_TIERS.values())
+    if abs(total - 1.0) > 1e-6:
+        raise ValueError(f"ORDER_TIERS probabilities must sum to 1.0, got {total}")
+
+
 def _validate_order(order):
     lat = order["customer"]["latitude"]
     lon = order["customer"]["longitude"]
@@ -281,6 +287,7 @@ def _validate_order(order):
 if __name__ == "__main__":
     random.seed(RANDOM_SEED)
     _validate_distance_buckets()
+    _validate_order_tiers()
     orders = generate_orders(NUMBER_OF_ORDERS)
     save_orders_to_json(orders, OUTPUT_PATH)
 
