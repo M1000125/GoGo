@@ -17,7 +17,7 @@ import {
 } from "@/lib/simulation/shiftEngine";
 import { SURGE_ZONES, ROAD_CLOSURES } from "@/lib/simulation/surgeZones";
 import { RESTAURANT_MASS_CENTER } from "@/lib/simulation/restaurantCentroid";
-import { solveRoutePlan } from "@/lib/routing/routeSolver";
+import { solveRoutePlan, planEfficiency } from "@/lib/routing/routeSolver";
 import {
   carriedSlots,
   fuelCostMxn,
@@ -83,19 +83,14 @@ function smartBurstDecisions(
     .filter((e) => e.res.decision === "skip")
     .map((e) => ({ order: e.order, decision: e.res }));
 
-  // Sort by net MXN/min descending — take the best ones first.
-  const planSolver = (c: CarriedOrder[]) =>
-    solveRoutePlan(c, base.position).totalMinutes;
-  const effNet = (c: CarriedOrder[]) => {
-    const p = planSolver(c);
-    return p > 0 ? 1 / p : 0;
+  // Sort by net MXN/min descending — take the best-paying routes first.
+  const netMxnMinFor = (order: Order) => {
+    const candidate = [...base.carried, { order, pickedUp: false }];
+    const eff = planEfficiency(candidate, base.position, base.capacity);
+    return eff.totalMinutes > 0 ? eff.netMxnMin : 0;
   };
 
-  accepts.sort((a, b) => {
-    const ca = [...base.carried, { order: a.order, pickedUp: false }];
-    const cb = [...base.carried, { order: b.order, pickedUp: false }];
-    return effNet(cb) - effNet(ca);
-  });
+  accepts.sort((a, b) => netMxnMinFor(b.order) - netMxnMinFor(a.order));
 
   let simCarried = [...base.carried];
   const simCapacity = base.capacity;

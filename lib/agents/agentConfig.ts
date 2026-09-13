@@ -20,16 +20,17 @@ export const SMART_SURGE_GATE = 1.0;
 /** Floor for an add-on route's net MXN/min that stacking must not drop below
  *  the current route. Smart stacks enthusiastically (delta of ~0 accepted)
  *  because the batch bonus + tips make multi-stop runs the real money maker. */
-export const SMART_ADDON_FLOOR = 1.0;
+export const SMART_ADDON_FLOOR = 0.8;
 /** Allow an add-on that marginally dilutes the route (net/min must not fall
- *  below current minus this tolerance). */
-export const SMART_ADDON_TOLERANCE = -0.25;
+ *  below current minus this tolerance). Generous: batch bonus + tips make
+ *  even slightly dilutive stacks net-positive. */
+export const SMART_ADDON_TOLERANCE = -0.5;
 
 // ── Smart endgame / surge positioning ───────────────────────────────────────
 /** Buffer (sim minutes) added on top of estimated completion time; orders that
  *  could not finish within the remaining shift are declined. Without this the
  *  greedy baseline laps up orders it never delivers (unfinished runs pay $0). */
-export const ENDGAME_BUFFER_MIN = 25;
+export const ENDGAME_BUFFER_MIN = 30;
 /** Reserve at least this many capacity slots for an imminent/active surge
  *  before loading up on regular add-ons mid-run. */
 export const SURGE_RESERVE_SLOTS = 1;
