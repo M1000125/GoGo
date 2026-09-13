@@ -11,7 +11,7 @@ import {
   type SmartKnobs,
 } from "../lib/agents/smartPolicy";
 import { planEfficiency } from "../lib/routing/routeSolver";
-import { DISTRITO_TEC_CENTER } from "../lib/simulation/mapBounds";
+import { RESTAURANT_MASS_CENTER } from "../lib/simulation/restaurantCentroid";
 import {
   DEFAULT_CAPACITY,
   estimateKm,
@@ -59,7 +59,7 @@ function toOrder(raw: MockOrder, index: number, tipSeed: number): Order {
 
 function goHomeIfIdle(agent: AgentState): void {
   if (agent.carriedOrders.length > 0) return;
-  const km = estimateKm(agent.position, DISTRITO_TEC_CENTER);
+  const km = estimateKm(agent.position, RESTAURANT_MASS_CENTER);
   if (km < 0.35) return;
   const fuel = fuelCostMxn(km, agent.capacity);
   const maint = maintenanceCostMxn(km);
@@ -71,7 +71,7 @@ function goHomeIfIdle(agent: AgentState): void {
     fuelMxn: agent.expenses.fuelMxn + fuel,
     maintenanceMxn: agent.expenses.maintenanceMxn + maint,
   };
-  agent.position = { ...DISTRITO_TEC_CENTER };
+  agent.position = { ...RESTAURANT_MASS_CENTER };
 }
 
 function settleIfDue(agent: AgentState, elapsed: number, busyUntil: { t: number }): void {
@@ -185,7 +185,10 @@ function main(): void {
   const idleFloors = [2.6, 3.0, 3.2, 3.5];
   const bursts = [2, 3, 4];
 
-  console.log("Headless 4h replay. Smart: take-best-if-idle, return-to-center, 45-min late window.\n");
+  console.log(
+    `Restaurant mass center: ${RESTAURANT_MASS_CENTER.lat.toFixed(5)}, ${RESTAURANT_MASS_CENTER.lng.toFixed(5)}`
+  );
+  console.log("Headless 4h replay. Smart: cluster perception (ranking only), return-to-mass-center.\n");
 
   let bestDelta = -Infinity;
   let bestLabel = "";

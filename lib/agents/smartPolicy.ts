@@ -1,5 +1,6 @@
 import type { AgentDecision, AgentState, CarriedOrder, Order } from "@/lib/types";
 import { carriedSlots, haversineKm } from "@/lib/simulation/economics";
+import { perceivedCostFactor } from "@/lib/simulation/restaurantCentroid";
 import { scoreAddon } from "./scoring";
 
 /** Idle MXN/min floor — modest so cheap short hops still compete with waiting. */
@@ -118,19 +119,22 @@ export function evaluateSmartOffer(
     );
     // Prefer routed extra minutes so stacking is not blind to traffic.
     const routedCandidateMins = Math.max(scored.candidate.totalMinutes, mins);
+    const dropFactor = perceivedCostFactor(order.dropoffCoords);
     const stackedScore =
-      routedCandidateMins > 0
+      (routedCandidateMins > 0
         ? scored.candidate.netMxn / routedCandidateMins
-        : scored.candidate.netMxnMin;
+        : scored.candidate.netMxnMin) / dropFactor;
     const floor = endingSoon ? 0.3 : undefined;
     const accept =
       scored.accept ||
       (floor !== undefined && scored.deltaMxnMin >= floor);
+    const farNote =
+      dropFactor > 1.15 ? ` · perceived ×${dropFactor.toFixed(2)} vs restaurant cluster` : "";
     const reason =
       scored.reason ??
       (accept
-        ? `Stack +${scored.deltaMxnMin.toFixed(1)} MXN/min → ${scored.candidate.netMxnMin.toFixed(1)} net — accepted.`
-        : `Add-on ${scored.deltaMxnMin.toFixed(1)} MXN/min vs current ${scored.current.netMxnMin.toFixed(1)} — skipped.`);
+        ? `Stack +${scored.deltaMxnMin.toFixed(1)} MXN/min → ${scored.candidate.netMxnMin.toFixed(1)} net${farNote} — accepted.`
+        : `Add-on ${scored.deltaMxnMin.toFixed(1)} MXN/min vs current ${scored.current.netMxnMin.toFixed(1)}${farNote} — skipped.`);
     return {
       score: stackedScore,
       feasible: true,
@@ -139,21 +143,26 @@ export function evaluateSmartOffer(
   }
 
   const efficiency = order.payout / mins;
+  const dropFactor = perceivedCostFactor(order.dropoffCoords);
+  const posFactor = perceivedCostFactor(agent.position);
+  const perceivedEfficiency = efficiency / dropFactor / Math.sqrt(posFactor);
   const minEff = order.isSurge
     ? knobs.surgeEfficiency
     : endingSoon
       ? knobs.endingEfficiency
       : knobs.idleEfficiency;
-  const accept = efficiency > minEff;
+  const accept = perceivedEfficiency > minEff;
+  const farNote =
+    dropFactor > 1.15 ? ` · cluster bias ×${dropFactor.toFixed(2)}` : "";
   return {
-    score: efficiency,
+    score: perceivedEfficiency,
     feasible: true,
     decision: decision(
       order,
       accept,
       accept
-        ? `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min routed · ${order.slots} slot${order.slots > 1 ? "s" : ""}${order.isSurge ? " ⚡" : ""} — accepted.`
-        : `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min below ${minEff} MXN/min floor — waiting.`,
+        ? `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min routed${farNote} — accepted.`
+        : `$${order.payout} MXN · ${efficiency.toFixed(1)} MXN/min routed${farNote} below ${minEff} perceived floor — waiting.`,
       0.75
     ),
   };

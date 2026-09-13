@@ -17,7 +17,7 @@ import {
 } from "@/lib/simulation/shiftEngine";
 import { baselineDecide } from "@/lib/agents/baselineAgent";
 import { SURGE_ZONES, ROAD_CLOSURES } from "@/lib/simulation/surgeZones";
-import { DISTRITO_TEC_CENTER } from "@/lib/simulation/mapBounds";
+import { RESTAURANT_MASS_CENTER } from "@/lib/simulation/restaurantCentroid";
 import { solveRoutePlan } from "@/lib/routing/routeSolver";
 import {
   carriedSlots,
@@ -211,13 +211,13 @@ export function useShift() {
     if (queueRef.current.smartAgent.length > 0) return;
 
     const from = s.smartAgent.position;
-    if (haversineKm(from, DISTRITO_TEC_CENTER) < 0.35) return;
+    if (haversineKm(from, RESTAURANT_MASS_CENTER) < 0.35) return;
 
     const epoch = ++epochRef.current.smartAgent;
     const departureTime = Math.floor(
       (s.simShiftStart + s.elapsedSeconds * 1000) / 1000
     );
-    const route = await fetchRoute(from, DISTRITO_TEC_CENTER, departureTime);
+    const route = await fetchRoute(from, RESTAURANT_MASS_CENTER, departureTime);
     if (epochRef.current.smartAgent !== epoch) return;
     if (shiftRef.current.status !== "running") return;
     if (queueRef.current.smartAgent.length > 0) return;
@@ -231,7 +231,7 @@ export function useShift() {
       ...p,
       smartAgent: {
         ...p.smartAgent,
-        currentRoute: route.coords.length ? route.coords : [from, DISTRITO_TEC_CENTER],
+        currentRoute: route.coords.length ? route.coords : [from, RESTAURANT_MASS_CENTER],
         currentRouteMeta: {
           startedAt: Date.now(),
           durationMs: travelMs,
@@ -257,7 +257,7 @@ export function useShift() {
         ...p,
         smartAgent: {
           ...a,
-          position: { ...DISTRITO_TEC_CENTER },
+          position: { ...RESTAURANT_MASS_CENTER },
           kmDriven: Math.round((a.kmDriven + km) * 10) / 10,
           deadMilesKm: Math.round((a.deadMilesKm + km) * 10) / 10,
           netEarnings: Math.round((a.netEarnings - fuelMxn - maint) * 10) / 10,
